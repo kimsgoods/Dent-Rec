@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentRec", "DentRec.csproj", "{89F0C128-17D2-44D3-8388-4AFA2310C6E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{89F0C128-17D2-44D3-8388-4AFA2310C6E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89F0C128-17D2-44D3-8388-4AFA2310C6E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89F0C128-17D2-44D3-8388-4AFA2310C6E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89F0C128-17D2-44D3-8388-4AFA2310C6E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D67588B7-05C9-4928-AFFD-615B3BE1795C}
+	EndGlobalSection
+EndGlobal
