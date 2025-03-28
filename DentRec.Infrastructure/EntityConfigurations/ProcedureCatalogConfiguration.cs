@@ -16,7 +16,7 @@ namespace DentRec.Infrastructure.EntityConfigurations
                 .HasMaxLength(255);
 
             builder.Property(x => x.Cost)
-                .HasColumnType("decimal(10,2")
+                .HasColumnType("decimal(10,2)")
                 .IsRequired();
 
             builder.Property(p => p.EstimatedDuration)

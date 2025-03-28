@@ -35,6 +35,8 @@ namespace DentRec.Infrastructure.EntityConfigurations
                 .HasForeignKey(x => x.ProcedureId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.AddAuditFields();
+
         }
     }
 }
