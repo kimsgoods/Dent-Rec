@@ -29,6 +29,16 @@ namespace DentRec.Application.Services
             }
         }
 
+        public async Task<bool> DeletePatient(int id)
+        {
+            var patient = await repository.GetByIdAsync(id)
+                ?? throw new KeyNotFoundException($"Could not find Patient with Id: {id}");
+
+            repository.Remove(patient);
+
+            return await repository.SaveAsync(patient) > 1;
+        }
+
         public async Task<GetPatientDto> GetPatientById(int id)
         {
             var patient = await repository.GetByIdAsync(id)

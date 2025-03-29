@@ -34,5 +34,12 @@ namespace DentRec.API.Controllers
             var result = await service.GetPatients(gridifyQuery);
             return result;
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeletePatient(int id)
+        {
+            var result = await service.DeletePatient(id);
+            return NoContent();
+        }
     }
 }

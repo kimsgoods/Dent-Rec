@@ -15,17 +15,18 @@ namespace DentRec.Infrastructure.Repositories
 
         public async Task<T?> GetByIdAsync(int id)
         {
-            return await context.Set<T>().FindAsync(id);
+            return await context.Set<T>().Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IReadOnlyList<T>> ListAllAsync()
         {
-            return await context.Set<T>().ToListAsync();
+            return await context.Set<T>().Where(e => !e.IsDeleted).ToListAsync();
         }
 
         public void Remove(T entity)
         {
-            context.Set<T>().Remove(entity);
+            entity.IsDeleted = true;
+            Update(entity);
         }
 
         public void Update(T entity)
@@ -41,7 +42,10 @@ namespace DentRec.Infrastructure.Repositories
 
         public async Task<Paging<T>> GetPaginatedRecords(GridifyQuery gridifyQuery)
         {
-            var pagedResult = await context.Set<T>().GridifyAsync(gridifyQuery);
+            var pagedResult = await context.Set<T>()
+                .Where(e => !e.IsDeleted)
+                .GridifyAsync(gridifyQuery);
+
             return pagedResult;
         }
     }
