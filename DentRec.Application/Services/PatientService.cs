@@ -1,0 +1,64 @@
+﻿using DentRec.Application.DTOs.Patient;
+using DentRec.Application.Extensions;
+using DentRec.Application.Interfaces;
+using DentRec.Domain.Entities;
+
+namespace DentRec.Application.Services
+{
+    public class PatientService(IRepository<Patient> repository) : IPatientService
+    {
+        public async Task<int> CreatePatient(CreatePatientDto dto)
+        {
+            if (String.IsNullOrEmpty(dto.FirstName) || String.IsNullOrEmpty(dto.LastName))
+            {
+                throw new ArgumentException("First Name and Last Name are required.");
+            }
+
+            try
+            {
+                var newPatient = dto.ToEntity();
+                repository.Add(newPatient);
+                var result = await repository.SaveAsync(newPatient);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An error occurred while saving the patient.", ex);
+            }
+        }
+
+        public async Task<GetPatientDto> GetPatientById(int id)
+        {
+            var patient = await repository.GetByIdAsync(id)
+                ?? throw new KeyNotFoundException($"Could not find patient with Id: {id}");
+            return patient.ToDto();
+        }
+
+        public async Task<int> UpdatePatient(UpdatePatientDto dto)
+        {
+            var patient = await repository.GetByIdAsync(dto.Id)
+                    ?? throw new KeyNotFoundException($"Could not find patient with Id: {dto.Id}");
+
+            if (!String.IsNullOrEmpty(dto.FirstName)) patient.FirstName = dto.FirstName;
+            if (!String.IsNullOrEmpty(dto.LastName)) patient.LastName = dto.LastName;
+            if (!String.IsNullOrEmpty(dto.Gender)) patient.Gender = dto.Gender;
+            if (dto.DateOfBirth != null) patient.DateOfBirth = dto.DateOfBirth;
+            if (!String.IsNullOrEmpty(dto.Email)) patient.Email = dto.Email;
+            if (!String.IsNullOrEmpty(dto.Phone)) patient.Phone = dto.Phone;
+            if (!String.IsNullOrEmpty(dto.Address)) patient.Address = dto.Address;
+
+            try
+            {
+                repository.Update(patient);
+                var result = await repository.SaveAsync(patient);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An error occurred while saving the patient.", ex);
+            }
+        }
+    }
+}
