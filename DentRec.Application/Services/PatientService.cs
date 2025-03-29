@@ -2,6 +2,7 @@
 using DentRec.Application.Extensions;
 using DentRec.Application.Interfaces;
 using DentRec.Domain.Entities;
+using Gridify;
 
 namespace DentRec.Application.Services
 {
@@ -33,6 +34,17 @@ namespace DentRec.Application.Services
             var patient = await repository.GetByIdAsync(id)
                 ?? throw new KeyNotFoundException($"Could not find patient with Id: {id}");
             return patient.ToDto();
+        }
+
+        public async Task<Paging<GetPatientDto>> GetPatients(GridifyQuery gridifyQuery)
+        {
+            var patients = await repository.GetPaginatedRecords(gridifyQuery);
+            var result = new Paging<GetPatientDto>
+            {
+                Count = patients.Count,
+                Data = patients.Data.Select(x => x.ToDto())
+            };
+            return result;
         }
 
         public async Task<int> UpdatePatient(UpdatePatientDto dto)

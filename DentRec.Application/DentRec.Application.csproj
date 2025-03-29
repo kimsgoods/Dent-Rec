@@ -10,4 +10,12 @@
     <ProjectReference Include="..\DentRec.Domain\DentRec.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\Dentist\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Gridify.EntityFramework" Version="2.16.3" />
+  </ItemGroup>
+
 </Project>

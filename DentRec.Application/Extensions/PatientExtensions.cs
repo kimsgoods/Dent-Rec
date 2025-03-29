@@ -1,10 +1,5 @@
 ﻿using DentRec.Application.DTOs.Patient;
 using DentRec.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DentRec.Application.Extensions
 {
@@ -25,7 +20,7 @@ namespace DentRec.Application.Extensions
                 CreatedBy = patient.CreatedBy,
                 ModifiedOn = patient.ModifiedOn,
                 CreatedOn = patient.CreatedOn,
-                ModifiedBy = patient.ModifiedBy             
+                ModifiedBy = patient.ModifiedBy
             };
         }
 

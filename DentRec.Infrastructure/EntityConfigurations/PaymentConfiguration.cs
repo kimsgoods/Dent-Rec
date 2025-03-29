@@ -32,7 +32,7 @@ namespace DentRec.Infrastructure.EntityConfigurations
                 .WithMany()
                 .HasForeignKey(i => i.PatientProcedureId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
         }
     }
 }

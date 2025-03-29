@@ -1,7 +1,6 @@
 ﻿using DentRec.Application.DTOs.Patient;
 using DentRec.Application.Interfaces;
-using DentRec.Domain.Entities;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Gridify;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DentRec.API.Controllers
@@ -9,13 +8,13 @@ namespace DentRec.API.Controllers
     public class PatientsController(IPatientService service) : BaseApiController
     {
         [HttpPost]
-        public async Task<ActionResult<int>> CreatePatient(CreatePatientDto dto)
+        public async Task<ActionResult> CreatePatient(CreatePatientDto dto)
         {
             var result = await service.CreatePatient(dto);
-            return CreatedAtAction(nameof(GetPatientById), new { Id = result });
+            return CreatedAtAction(nameof(GetPatientById), new { Id = result }, result);
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<ActionResult<GetPatientDto>> GetPatientById(int id)
         {
             var result = await service.GetPatientById(id);
@@ -27,6 +26,13 @@ namespace DentRec.API.Controllers
         {
             var result = await service.UpdatePatient(dto);
             return NoContent();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<Paging<GetPatientDto>>> GetPatients([FromQuery] GridifyQuery gridifyQuery)
+        {
+            var result = await service.GetPatients(gridifyQuery);
+            return result;
         }
     }
 }

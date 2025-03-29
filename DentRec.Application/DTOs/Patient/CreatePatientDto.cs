@@ -1,7 +1,7 @@
 ﻿namespace DentRec.Application.DTOs.Patient
 {
     public class CreatePatientDto
-    {   
+    {
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public string? Gender { get; set; }

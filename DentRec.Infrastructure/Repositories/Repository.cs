@@ -1,5 +1,7 @@
 ﻿using DentRec.Application.Interfaces;
 using DentRec.Domain.Entities;
+using Gridify;
+using Gridify.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace DentRec.Infrastructure.Repositories
@@ -35,6 +37,12 @@ namespace DentRec.Infrastructure.Repositories
         {
             await context.SaveChangesAsync();
             return entity.Id;
+        }
+
+        public async Task<Paging<T>> GetPaginatedRecords(GridifyQuery gridifyQuery)
+        {
+            var pagedResult = await context.Set<T>().GridifyAsync(gridifyQuery);
+            return pagedResult;
         }
     }
 }

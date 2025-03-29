@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DentRec.Application.DTOs.Patient
+﻿namespace DentRec.Application.DTOs.Patient
 {
     public class UpdatePatientDto
     {

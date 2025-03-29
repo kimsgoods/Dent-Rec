@@ -1,6 +1,4 @@
-﻿using DentRec.Domain.Entities;
-
-namespace DentRec.Application.DTOs.Patient
+﻿namespace DentRec.Application.DTOs.Patient
 {
     public class GetPatientDto : AuditFields
     {

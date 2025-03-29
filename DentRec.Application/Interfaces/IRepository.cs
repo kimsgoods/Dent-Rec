@@ -1,4 +1,5 @@
 ﻿using DentRec.Domain.Entities;
+using Gridify;
 
 namespace DentRec.Application.Interfaces
 {
@@ -6,6 +7,7 @@ namespace DentRec.Application.Interfaces
     {
         Task<T?> GetByIdAsync(int id);
         Task<IReadOnlyList<T>> ListAllAsync();
+        Task<Paging<T>> GetPaginatedRecords(GridifyQuery gridifyQuery);
         void Add(T entity);
         void Update(T entity);
         void Remove(T entity);

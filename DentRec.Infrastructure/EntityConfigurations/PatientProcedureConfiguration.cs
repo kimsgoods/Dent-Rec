@@ -7,7 +7,7 @@ namespace DentRec.Infrastructure.EntityConfigurations
     public class PatientProcedureConfiguration : IEntityTypeConfiguration<PatientProcedure>
     {
         public void Configure(EntityTypeBuilder<PatientProcedure> builder)
-        {            
+        {
 
             builder.Property(x => x.ProcedureDate)
                 .HasColumnType("datetime2(3)")

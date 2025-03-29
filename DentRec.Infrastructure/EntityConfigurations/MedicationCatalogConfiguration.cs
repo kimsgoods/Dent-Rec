@@ -8,7 +8,7 @@ namespace DentRec.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<MedicationCatalog> builder)
         {
-            builder.Property(x => x.Name)                
+            builder.Property(x => x.Name)
                 .HasMaxLength(100)
                 .IsRequired();
 
