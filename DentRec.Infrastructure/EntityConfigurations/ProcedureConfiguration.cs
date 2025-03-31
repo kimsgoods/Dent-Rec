@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DentRec.Infrastructure.EntityConfigurations
 {
-    public class ProcedureCatalogConfiguration : IEntityTypeConfiguration<ProcedureCatalog>
+    public class ProcedureConfiguration : IEntityTypeConfiguration<Procedure>
     {
-        public void Configure(EntityTypeBuilder<ProcedureCatalog> builder)
+        public void Configure(EntityTypeBuilder<Procedure> builder)
         {
             builder.Property(p => p.Name)
                 .HasMaxLength(100)

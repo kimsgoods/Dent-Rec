@@ -1,6 +1,6 @@
 ﻿namespace DentRec.Domain.Entities
 {
-    public class ProcedureCatalog : BaseEntity
+    public class Procedure : BaseEntity
     {
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }

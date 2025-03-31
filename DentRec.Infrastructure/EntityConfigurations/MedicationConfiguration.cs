@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DentRec.Infrastructure.EntityConfigurations
 {
-    public class MedicationCatalogConfiguration : IEntityTypeConfiguration<MedicationCatalog>
+    public class MedicationConfiguration : IEntityTypeConfiguration<Prescription>
     {
-        public void Configure(EntityTypeBuilder<MedicationCatalog> builder)
+        public void Configure(EntityTypeBuilder<Prescription> builder)
         {
             builder.Property(x => x.Name)
                 .HasMaxLength(100)

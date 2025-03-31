@@ -6,12 +6,12 @@ namespace DentRec.Infrastructure
     public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
     {
         public DbSet<Dentist> Dentists { get; set; }
-        public DbSet<MedicationCatalog> MedicationCatalogs { get; set; }
+        public DbSet<Prescription> Prescriptions { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<PatientPrescription> PatientPrescriptions { get; set; }
         public DbSet<PatientProcedure> PatientProcedures { get; set; }
         public DbSet<Payment> Payments { get; set; }
-        public DbSet<ProcedureCatalog> ProcedureCatalogs { get; set; }
+        public DbSet<Procedure> Procedures { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

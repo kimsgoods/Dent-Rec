@@ -11,6 +11,6 @@
 
         public Patient? Patient { get; set; }
         public Dentist? Dentist { get; set; }
-        public ProcedureCatalog? Procedure { get; set; }
+        public Procedure? Procedure { get; set; }
     }
 }

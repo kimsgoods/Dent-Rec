@@ -10,7 +10,7 @@
 
         public Patient? Patient { get; set; }
         public Dentist? Dentist { get; set; }
-        public MedicationCatalog? Medication { get; set; }
+        public Prescription? Medication { get; set; }
     }
 
 }
