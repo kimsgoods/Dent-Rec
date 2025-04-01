@@ -36,7 +36,7 @@ namespace DentRec.Application.Services
 
             repository.Remove(patient);
 
-            return await repository.SaveAsync(patient) > 1;
+            return await repository.SaveAsync(patient) > 0;
         }
 
         public async Task<GetPatientDto> GetPatientById(int id)
@@ -48,7 +48,7 @@ namespace DentRec.Application.Services
 
         public async Task<Paging<GetPatientDto>> GetPatients(GridifyQuery gridifyQuery)
         {
-            var patients = await repository.GetPaginatedRecords(gridifyQuery);
+            var patients = await repository.GetPaginatedRecordsAsync(gridifyQuery);
             var result = new Paging<GetPatientDto>
             {
                 Count = patients.Count,

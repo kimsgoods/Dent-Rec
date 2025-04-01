@@ -3,6 +3,7 @@ using DentRec.Domain.Entities;
 using Gridify;
 using Gridify.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DentRec.Infrastructure.Repositories
 {
@@ -17,10 +18,21 @@ namespace DentRec.Infrastructure.Repositories
         {
             return await context.Set<T>().Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.Id == id);
         }
+        public async Task<T?> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = context.Set<T>().Where(x => !x.IsDeleted);
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.FirstOrDefaultAsync(x => x.Id == id);
+        }
 
         public async Task<IReadOnlyList<T>> ListAllAsync()
         {
-            return await context.Set<T>().Where(e => !e.IsDeleted).ToListAsync();
+            return await context.Set<T>().Where(x => !x.IsDeleted).ToListAsync();
         }
 
         public void Remove(T entity)
@@ -36,11 +48,11 @@ namespace DentRec.Infrastructure.Repositories
         }
         public async Task<int> SaveAsync(T entity)
         {
-            await context.SaveChangesAsync();
-            return entity.Id;
+            var result = await context.SaveChangesAsync();
+            return result > 0 ? entity.Id : 0;  // Return entity Id if the save was successful
         }
 
-        public async Task<Paging<T>> GetPaginatedRecords(GridifyQuery gridifyQuery)
+        public async Task<Paging<T>> GetPaginatedRecordsAsync(GridifyQuery gridifyQuery)
         {
             var pagedResult = await context.Set<T>()
                 .Where(e => !e.IsDeleted)
@@ -48,5 +60,25 @@ namespace DentRec.Infrastructure.Repositories
 
             return pagedResult;
         }
+        public async Task<Paging<T>> GetPaginatedRecordsAsync(GridifyQuery gridifyQuery, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = context.Set<T>().Where(x => !x.IsDeleted);
+
+            // Apply includes dynamically
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            // Apply Gridify for filtering, sorting, and pagination
+            return await query.GridifyAsync(gridifyQuery);
+        }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await context.Set<T>().Where(x => !x.IsDeleted).AnyAsync(x => x.Id == id);
+        }
+
+
     }
 }
