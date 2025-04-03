@@ -9,16 +9,10 @@ namespace DentRec.Infrastructure.EntityConfigurations
         public void Configure(EntityTypeBuilder<Payment> builder)
         {
             builder.Property(i => i.Amount)
-                .HasColumnType("decimal(10,2)");
-
-            builder.Property(i => i.PaymentStatus)
-                .HasMaxLength(50)
-                .HasDefaultValue("Pending")
-                .IsRequired();
+                .HasColumnType("decimal(10,2)");           
 
             builder.Property(i => i.PaymentMethod)
                 .HasMaxLength(50)
-                .HasDefaultValue("Cash")
                 .IsRequired();
 
             builder.AddAuditFields();

@@ -16,6 +16,9 @@ namespace DentRec.Infrastructure.EntityConfigurations
             builder.Property(x => x.Notes)
                 .HasMaxLength(255);
 
+            builder.Property(x => x.PaymentStatus)
+                .HasMaxLength(10);
+
             builder.Property(x => x.Fee)
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();
@@ -30,10 +33,8 @@ namespace DentRec.Infrastructure.EntityConfigurations
                 .HasForeignKey(x => x.DentistId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(x => x.Procedure)
-                .WithMany()
-                .HasForeignKey(x => x.ProcedureId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(x => x.Procedures)
+            .WithMany(p => p.PatientLogs);
 
             builder.AddAuditFields();
 
