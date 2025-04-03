@@ -4,7 +4,7 @@
     {
         public required int PatientId { get; set; }
         public required int DentistId { get; set; }
-        public required int ProcedureId { get; set; }
+        public List<int> ProcedureIds { get; set; } = new List<int>();
         public required DateTime ProcedureDate { get; set; }
         public string? Notes { get; set; }
     }

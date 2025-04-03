@@ -7,7 +7,7 @@ namespace DentRec.Application.Interfaces
     {
         Task<int> CreatePatientLogAsync(CreatePatientLogDto dto);
         Task<int> UpdatePatientLogAsync(UpdatePatientLogDto dto);
-        Task<GetPatientLogDto> GetPatientLogByIdAsync(int id);
+        Task<GetPatientLogDetailsDto> GetPatientLogByIdAsync(int id);
         Task<bool> DeletePatientLogAsync(int id);
         Task<Paging<GetPatientLogDto>> GetPatientLogsAsync(GridifyQuery gridifyQuery);
     }

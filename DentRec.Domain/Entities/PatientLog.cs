@@ -13,5 +13,7 @@
 
         // Many-to-Many Relationship with Procedure
         public ICollection<Procedure> Procedures { get; set; } = new List<Procedure>();
+        // One-to-Many Relationship with Payment
+        public ICollection<Payment> Payments { get; set; } = new List<Payment>();
     }
 }

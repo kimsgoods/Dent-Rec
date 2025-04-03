@@ -11,29 +11,36 @@ namespace DentRec.Application.Services
         IRepository<Patient> patientRepository, IRepository<Dentist> dentistRepository,
         IRepository<Procedure> procedureRepository) : IPatientLogService
     {
-        #pragma warning disable CS8603  // Disable warning for possible null reference return.
+#pragma warning disable CS8603  // Disable warning for possible null reference return.
         private static readonly Expression<Func<PatientLog, object>>[] includes =
         {
             x => x.Patient,
             x => x.Dentist,
-            x => x.Procedure
+            x => x.Procedures
         };
-        #pragma warning restore CS8603
+#pragma warning restore CS8603
 
         public async Task<int> CreatePatientLogAsync(CreatePatientLogDto dto)
         {
+
             var patientExists = await patientRepository.ExistsAsync(dto.PatientId);
             var dentistExists = await dentistRepository.ExistsAsync(dto.DentistId);
 
             if (!patientExists) throw new KeyNotFoundException($"Patient with Id {dto.PatientId} does not exist.");
             if (!dentistExists) throw new KeyNotFoundException($"Dentist with Id {dto.DentistId} does not exist.");
 
-            var procedure = await procedureRepository.GetByIdAsync(dto.ProcedureId) ?? 
-                throw new KeyNotFoundException($"Procedure with Id {dto.ProcedureId} does not exist.");
-
+            var totalProcedureFee = 0.0m;
             var newPatientLog = dto.ToEntity();
-            newPatientLog.Fee = procedure.Fee; //Get current fee for procedure
 
+            foreach (var procedureId in dto.ProcedureIds)
+            {
+                var procedure = await procedureRepository.GetByIdAsync(procedureId) ??
+                    throw new KeyNotFoundException($"Procedure with Id {procedureId} does not exist.");
+
+                newPatientLog.Procedures.Add(procedure);
+                totalProcedureFee += procedure.Fee;
+            }
+            newPatientLog.Fee = totalProcedureFee;
             patientLogRepo.Add(newPatientLog);
 
             return await patientLogRepo.SaveAsync(newPatientLog);
@@ -50,12 +57,12 @@ namespace DentRec.Application.Services
             return await patientLogRepo.SaveAsync(patientLog) > 0;
         }
 
-        public async Task<GetPatientLogDto> GetPatientLogByIdAsync(int id)
+        public async Task<GetPatientLogDetailsDto> GetPatientLogByIdAsync(int id)
         {
             var patientLog = await patientLogRepo.GetByIdAsync(id, includes)
                 ?? throw new KeyNotFoundException($"Could not find PatientLog with Id: {id}");
 
-            return patientLog.ToDto();
+            return patientLog.ToDetailsDto();
         }
 
         public async Task<Paging<GetPatientLogDto>> GetPatientLogsAsync(GridifyQuery gridifyQuery)
@@ -95,15 +102,6 @@ namespace DentRec.Application.Services
                 patientLog.DentistId = dto.DentistId.Value;
             }
 
-            if (dto.ProcedureId.HasValue)
-            {
-                var procedureExists = await procedureRepository.ExistsAsync(dto.ProcedureId.Value);
-                if (!procedureExists)
-                {
-                    throw new KeyNotFoundException($"Procedure with Id {dto.ProcedureId.Value} does not exist.");
-                }
-                patientLog.ProcedureId = dto.ProcedureId.Value;
-            }
             if (!string.IsNullOrEmpty(dto.Notes)) patientLog.Notes = dto.Notes;
             if (dto.ProcedureDate.HasValue) patientLog.ProcedureDate = dto.ProcedureDate.Value;
 

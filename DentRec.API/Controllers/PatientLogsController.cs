@@ -15,7 +15,7 @@ namespace DentRec.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetPatientLogDto>> GetPatientLogById(int id)
+        public async Task<ActionResult<GetPatientLogDetailsDto>> GetPatientLogById(int id)
         {
             var result = await service.GetPatientLogByIdAsync(id);
             return result;
