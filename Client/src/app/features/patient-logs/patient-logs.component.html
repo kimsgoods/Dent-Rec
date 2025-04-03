@@ -1,0 +1,14 @@
+<div class="mx-auto mt-32">  
+    <div class="text-2xl font-semibold mt-4">
+        Patient History
+    </div>
+    
+    <app-custom-table
+      [columns]="columns"
+      [dataSource]="logs"
+      [totalItems]="totalItems"
+      [pageSize]="paginationParams.pageSize"
+      (pageChange)="onPageChange($event)"
+    ></app-custom-table>
+</div>
+
