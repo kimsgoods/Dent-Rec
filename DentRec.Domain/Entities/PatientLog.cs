@@ -1,6 +1,6 @@
 ﻿namespace DentRec.Domain.Entities
 {
-    public class PatientProcedure : BaseEntity
+    public class PatientLog : BaseEntity
     {
         public int PatientId { get; set; }
         public int DentistId { get; set; }

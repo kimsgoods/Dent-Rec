@@ -10,7 +10,7 @@
         public string? Email { get; set; }
         public string? Address { get; set; }
 
-        public ICollection<PatientProcedure>? PatientProcedures { get; set; }
+        public ICollection<PatientLog>? PatientLogs { get; set; }
         public ICollection<PatientPrescription>? PatientPrescriptions { get; set; }
         public ICollection<Payment>? Payments { get; set; }
     }

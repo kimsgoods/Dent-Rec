@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DentRec.Infrastructure.EntityConfigurations
 {
-    public class PatientProcedureConfiguration : IEntityTypeConfiguration<PatientProcedure>
+    public class PatientLogConfiguration : IEntityTypeConfiguration<PatientLog>
     {
-        public void Configure(EntityTypeBuilder<PatientProcedure> builder)
+        public void Configure(EntityTypeBuilder<PatientLog> builder)
         {
 
             builder.Property(x => x.ProcedureDate)
@@ -21,12 +21,12 @@ namespace DentRec.Infrastructure.EntityConfigurations
                 .IsRequired();
 
             builder.HasOne(x => x.Patient)
-                .WithMany(p => p.PatientProcedures)
+                .WithMany(p => p.PatientLogs)
                 .HasForeignKey(x => x.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.Dentist)
-                .WithMany(d => d.PatientProcedures)
+                .WithMany(d => d.PatientLogs)
                 .HasForeignKey(x => x.DentistId)
                 .OnDelete(DeleteBehavior.Restrict);
 

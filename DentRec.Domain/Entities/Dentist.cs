@@ -7,7 +7,7 @@
         public string? Phone { get; set; }
         public string? Email { get; set; }
 
-        public ICollection<PatientProcedure>? PatientProcedures { get; set; }
+        public ICollection<PatientLog>? PatientLogs { get; set; }
         public ICollection<PatientPrescription>? PatientPrescriptions { get; set; }
     }
 }

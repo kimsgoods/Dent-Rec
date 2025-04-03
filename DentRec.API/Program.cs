@@ -21,7 +21,7 @@ builder.Services.AddCors();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IDentistService, DentistService>();
 builder.Services.AddScoped<IProcedureService, ProcedureService>();
-builder.Services.AddScoped<IPatientProcedureService, PatientProcedureService>();
+builder.Services.AddScoped<IPatientLogService, PatientLogService>();
 builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddControllers();

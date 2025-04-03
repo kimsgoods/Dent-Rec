@@ -10,6 +10,6 @@
         public string PaymentMethod { get; set; } = "Cash"; //Cash, Gcash
 
         public Patient? Patient { get; set; }
-        public PatientProcedure? PatientProcedure { get; set; }
+        public PatientLog? PatientLog { get; set; }
     }
 }

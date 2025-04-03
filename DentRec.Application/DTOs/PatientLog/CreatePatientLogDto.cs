@@ -1,6 +1,6 @@
-﻿namespace DentRec.Application.DTOs.PatientProcedure
+﻿namespace DentRec.Application.DTOs.PatientLog
 {
-    public class CreatePatientProcedureDto
+    public class CreatePatientLogDto
     {
         public required int PatientId { get; set; }
         public required int DentistId { get; set; }

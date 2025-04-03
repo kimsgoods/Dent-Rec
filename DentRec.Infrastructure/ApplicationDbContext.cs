@@ -9,7 +9,7 @@ namespace DentRec.Infrastructure
         public DbSet<Prescription> Prescriptions { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<PatientPrescription> PatientPrescriptions { get; set; }
-        public DbSet<PatientProcedure> PatientProcedures { get; set; }
+        public DbSet<PatientLog> PatientLogs { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Procedure> Procedures { get; set; }
 
