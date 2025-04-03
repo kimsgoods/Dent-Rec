@@ -12,7 +12,7 @@ namespace DentRec.Application.Extensions
                 Id = procedure.Id,
                 Name = procedure.Name,
                 Description = procedure.Description,
-                Cost = procedure.Cost,
+                Fee = procedure.Fee,
                 EstimatedDuration = procedure.EstimatedDuration,
                 CreatedBy = procedure.CreatedBy,
                 ModifiedOn = procedure.ModifiedOn,
@@ -36,7 +36,7 @@ namespace DentRec.Application.Extensions
             return new Procedure
             {
                 Name = dto.Name,
-                Cost = dto.Cost,
+                Fee = dto.Fee,
                 Description = dto.Description,
                 EstimatedDuration = duration
             };

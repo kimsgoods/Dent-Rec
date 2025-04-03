@@ -32,7 +32,7 @@ namespace DentRec.Application.Services
                 throw new KeyNotFoundException($"Procedure with Id {dto.ProcedureId} does not exist.");
 
             var newPatientProcedure = dto.ToEntity();
-            newPatientProcedure.Cost = procedure.Cost; //Get current cost for procedure
+            newPatientProcedure.Fee = procedure.Fee; //Get current fee for procedure
 
             patientProcedureRepo.Add(newPatientProcedure);
 

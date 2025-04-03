@@ -68,7 +68,7 @@ namespace DentRec.Application.Services
             }
             if (!String.IsNullOrEmpty(dto.Name)) procedure.Name = dto.Name;
             if (!String.IsNullOrEmpty(dto.Description)) procedure.Description = dto.Description;
-            if (dto.Cost.HasValue) procedure.Cost = (decimal)dto.Cost;
+            if (dto.Fee.HasValue) procedure.Fee = (decimal)dto.Fee;
             if (!String.IsNullOrEmpty(dto.EstimatedDuration)) procedure.EstimatedDuration = duration;
 
             try
