@@ -3,6 +3,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { RouterLink } from '@angular/router';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-custom-table',
@@ -11,7 +13,9 @@ import { RouterLink } from '@angular/router';
     CommonModule,
     MatPaginatorModule,
     RouterLink,
-    MatButton
+    MatButton,
+    MatTooltip,
+    MatIcon
   ],
   templateUrl: './custom-table.component.html',
   styleUrls: ['./custom-table.component.scss']
@@ -19,12 +23,13 @@ import { RouterLink } from '@angular/router';
 export class CustomTableComponent {
   @Input() columns: { field: string, header: string, pipe?: string, pipeArgs?: any }[] = [];
   @Input() dataSource: any[] = [];
+  @Input() actions: { label: string, icon: string, tooltip: string, action: (row: any) => void, disabled?: (row: any) => boolean }[] = [];
   @Input() totalItems: number = 0;
   @Input() pageSize: number = 50;
   @Input() pageIndex: number = 0;
-  @Input() detailLink: string = "";
+  @Input() detailLink: string | null = null;
   @Input() title: string = "";
-  @Input() clickEvent: () => void = () => {}
+  @Input() clickEvent: () => void = () => { }
 
   @Output() pageChange = new EventEmitter<PageEvent>();
 
@@ -32,6 +37,10 @@ export class CustomTableComponent {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.pageChange.emit(event);
+  }
+
+  onAction(action: (row: any) => void, row: any) {
+    action(row);
   }
 
   getCellValue(row: any, column: any) {
