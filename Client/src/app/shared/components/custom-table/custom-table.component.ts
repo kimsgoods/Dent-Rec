@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { RouterLink } from '@angular/router';
 
@@ -9,7 +10,8 @@ import { RouterLink } from '@angular/router';
   imports: [
     CommonModule,
     MatPaginatorModule,
-    RouterLink
+    RouterLink,
+    MatButton
   ],
   templateUrl: './custom-table.component.html',
   styleUrls: ['./custom-table.component.scss']
@@ -17,9 +19,12 @@ import { RouterLink } from '@angular/router';
 export class CustomTableComponent {
   @Input() columns: { field: string, header: string, pipe?: string, pipeArgs?: any }[] = [];
   @Input() dataSource: any[] = [];
-  @Input() totalItems: number = 0; 
-  @Input() pageSize: number = 50; 
-  @Input() pageIndex: number = 0; 
+  @Input() totalItems: number = 0;
+  @Input() pageSize: number = 50;
+  @Input() pageIndex: number = 0;
+  @Input() detailLink: string = "";
+  @Input() title: string = "";
+  @Input() clickEvent: () => void = () => {}
 
   @Output() pageChange = new EventEmitter<PageEvent>();
 

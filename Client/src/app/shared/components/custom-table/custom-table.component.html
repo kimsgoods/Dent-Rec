@@ -1,25 +1,30 @@
-<div class="p-4">
-    <table class="min-w-full divide-y divide-gray-200 cursor-pointer">
-      <thead>
-        <tr class="uppercase border-b bg-gray-50">
-          <th *ngFor="let column of columns" class="py-2 px-4 text-left">{{ column.header }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr routerLink="/patient-logs/{{row.id}}" class="hover:bg-gray-100"*ngFor="let row of dataSource" class="border-b">
-          <td *ngFor="let column of columns" class="py-2 px-4">{{ getCellValue(row, column) }}</td>
-         
-        </tr>
-      </tbody>
-    </table>
-  
-    <mat-paginator 
-      [length]="totalItems"
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex"
-      [pageSizeOptions]="[50, 100]"
-      (page)="onPageChange($event)"
-      class="mt-4 bg-white"
-    >
-    </mat-paginator>
+<div>
+  <div class="p-2">
+    <div class="flex justify-between items-center mt-2">
+      <div class="text-4xl font-semibold mt-4">
+        {{title}}
+      </div>
+      <button mat-flat-button (click)="clickEvent()">
+        Create New
+      </button>
+    </div>
   </div>
+
+  <table class="min-w-full divide-y divide-gray-200 cursor-pointer">
+    <thead>
+      <tr class="uppercase border-b bg-gray-50">
+        <th *ngFor="let column of columns" class="py-2 px-4 text-left">{{ column.header }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr routerLink="/{{detailLink}}/{{row.id}}" class="hover:bg-gray-100" *ngFor="let row of dataSource"
+        class="border-b">
+        <td *ngFor="let column of columns" class="py-2 px-4">{{ getCellValue(row, column) }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[50, 100]"
+    (page)="onPageChange($event)" class="mt-4 bg-white">
+  </mat-paginator>
+</div>
