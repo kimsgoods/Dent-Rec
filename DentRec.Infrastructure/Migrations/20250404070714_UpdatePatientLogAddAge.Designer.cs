@@ -4,6 +4,7 @@ using DentRec.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentRec.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250404070714_UpdatePatientLogAddAge")]
+    partial class UpdatePatientLogAddAge
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,7 +72,7 @@ namespace DentRec.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Dentists", (string)null);
+                    b.ToTable("Dentists");
                 });
 
             modelBuilder.Entity("DentRec.Domain.Entities.Patient", b =>
@@ -131,7 +134,7 @@ namespace DentRec.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Patients", (string)null);
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("DentRec.Domain.Entities.PatientLog", b =>
@@ -191,7 +194,7 @@ namespace DentRec.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("PatientLogs", (string)null);
+                    b.ToTable("PatientLogs");
                 });
 
             modelBuilder.Entity("DentRec.Domain.Entities.PatientPrescription", b =>
@@ -244,7 +247,7 @@ namespace DentRec.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("PatientPrescriptions", (string)null);
+                    b.ToTable("PatientPrescriptions");
                 });
 
             modelBuilder.Entity("DentRec.Domain.Entities.Payment", b =>
@@ -294,7 +297,7 @@ namespace DentRec.Infrastructure.Migrations
 
                     b.HasIndex("PatientLogId");
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("DentRec.Domain.Entities.Prescription", b =>
@@ -345,7 +348,7 @@ namespace DentRec.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Prescriptions", (string)null);
+                    b.ToTable("Prescriptions");
                 });
 
             modelBuilder.Entity("DentRec.Domain.Entities.Procedure", b =>
@@ -389,7 +392,7 @@ namespace DentRec.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Procedures", (string)null);
+                    b.ToTable("Procedures");
                 });
 
             modelBuilder.Entity("PatientLogProcedure", b =>
@@ -404,7 +407,7 @@ namespace DentRec.Infrastructure.Migrations
 
                     b.HasIndex("ProceduresId");
 
-                    b.ToTable("PatientLogProcedure", (string)null);
+                    b.ToTable("PatientLogProcedure");
                 });
 
             modelBuilder.Entity("DentRec.Domain.Entities.PatientLog", b =>

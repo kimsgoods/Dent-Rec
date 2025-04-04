@@ -39,11 +39,11 @@ namespace DentRec.Application.Services
             return await repository.SaveAsync(patient) > 0;
         }
 
-        public async Task<GetPatientDto> GetPatientById(int id)
+        public async Task<GetPatientDetailsDto> GetPatientById(int id)
         {
             var patient = await repository.GetByIdAsync(id)
                 ?? throw new KeyNotFoundException($"Could not find patient with Id: {id}");
-            return patient.ToDto();
+            return patient.ToDetailsDto();
         }
 
         public async Task<Paging<GetPatientDto>> GetPatients(GridifyQuery gridifyQuery)
@@ -65,7 +65,6 @@ namespace DentRec.Application.Services
             if (!String.IsNullOrEmpty(dto.FirstName)) patient.FirstName = dto.FirstName;
             if (!String.IsNullOrEmpty(dto.LastName)) patient.LastName = dto.LastName;
             if (!String.IsNullOrEmpty(dto.Gender)) patient.Gender = dto.Gender;
-            if (dto.DateOfBirth != null) patient.DateOfBirth = dto.DateOfBirth;
             if (!String.IsNullOrEmpty(dto.Email)) patient.Email = dto.Email;
             if (!String.IsNullOrEmpty(dto.Phone)) patient.Phone = dto.Phone;
             if (!String.IsNullOrEmpty(dto.Address)) patient.Address = dto.Address;

@@ -7,7 +7,7 @@ namespace DentRec.Application.Interfaces
     {
         Task<int> CreatePatient(CreatePatientDto dto);
         Task<int> UpdatePatient(UpdatePatientDto dto);
-        Task<GetPatientDto> GetPatientById(int id);
+        Task<GetPatientDetailsDto> GetPatientById(int id);
         Task<bool> DeletePatient(int id);
         Task<Paging<GetPatientDto>> GetPatients(GridifyQuery gridifyQuery);
     }

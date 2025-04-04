@@ -60,16 +60,10 @@ namespace DentRec.Application.Services
         {
             var procedure = await repository.GetByIdAsync(dto.Id)
                     ?? throw new KeyNotFoundException($"Could not find Procedure with Id: {dto.Id}");
-
-            var duration = new TimeSpan();
-            if (dto.EstimatedDuration != null && !TimeSpan.TryParse(dto.EstimatedDuration, out duration))
-            {
-                throw new ArgumentException("Invalid TimeSpan format. Use hh:mm:ss.");
-            }
+            
             if (!String.IsNullOrEmpty(dto.Name)) procedure.Name = dto.Name;
             if (!String.IsNullOrEmpty(dto.Description)) procedure.Description = dto.Description;
             if (dto.Fee.HasValue) procedure.Fee = (decimal)dto.Fee;
-            if (!String.IsNullOrEmpty(dto.EstimatedDuration)) procedure.EstimatedDuration = duration;
 
             try
             {

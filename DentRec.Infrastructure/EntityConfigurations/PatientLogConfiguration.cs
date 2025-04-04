@@ -23,6 +23,9 @@ namespace DentRec.Infrastructure.EntityConfigurations
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();
 
+            builder.Property(x => x.PatientAge)
+                .IsRequired();
+
             builder.HasOne(x => x.Patient)
                 .WithMany(p => p.PatientLogs)
                 .HasForeignKey(x => x.PatientId)

@@ -19,9 +19,6 @@ namespace DentRec.Infrastructure.EntityConfigurations
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();
 
-            builder.Property(p => p.EstimatedDuration)
-                .IsRequired(false);
-
             builder.AddAuditFields();
         }
     }

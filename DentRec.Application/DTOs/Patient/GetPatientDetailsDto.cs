@@ -1,6 +1,6 @@
 ﻿namespace DentRec.Application.DTOs.Patient
 {
-    public class GetPatientDto
+    public class GetPatientDetailsDto : AuditFields
     {
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
@@ -10,5 +10,6 @@
         public string? Phone { get; set; }
         public string? Email { get; set; }
         public string? Address { get; set; }
+
     }
 }

@@ -15,32 +15,27 @@ namespace DentRec.Application.Extensions
                 PatientId = patientLog.PatientId,
                 PatientName = $"{patientLog.Patient?.FirstName} {patientLog.Patient?.LastName}".Trim(),
                 Gender = patientLog.Patient?.Gender ?? string.Empty,
-                Age = patientLog.Patient?.DateOfBirth.HasValue == true
-                    ? GetAgeDuringProcedure(patientLog.Patient.DateOfBirth.Value, patientLog.ProcedureDate)
-                    : 0,
+                Age = patientLog.PatientAge,
                 Address = patientLog.Patient?.Address ?? string.Empty,
                 ProcedureDate = patientLog.ProcedureDate,
                 Fee = patientLog.Fee,
                 PaymentStatus = patientLog.PaymentStatus,
                 Notes = patientLog.Notes,
-                Procedures = patientLog.Procedures.Select(x=>x.ToDto()),
+                Procedures = patientLog.Procedures.Select(x => x.ToDto()),
                 CreatedBy = patientLog.CreatedBy,
                 ModifiedOn = patientLog.ModifiedOn,
                 CreatedOn = patientLog.CreatedOn,
                 ModifiedBy = patientLog.ModifiedBy
             };
         }
-
         public static GetPatientLogDto ToDto(this PatientLog patientLog)
         {
             return new GetPatientLogDto
             {
-                Id = patientLog.Id,               
-                PatientName = $"{patientLog.Patient?.FirstName} {patientLog.Patient?.LastName}".Trim(),          
-                Gender = patientLog.Patient?.Gender ?? string.Empty,                
-                Age = patientLog.Patient?.DateOfBirth.HasValue == true
-                    ? GetAgeDuringProcedure(patientLog.Patient.DateOfBirth.Value, patientLog.ProcedureDate)
-                    : 0,
+                Id = patientLog.Id,
+                PatientName = $"{patientLog.Patient?.FirstName} {patientLog.Patient?.LastName}".Trim(),
+                Gender = patientLog.Patient?.Gender ?? string.Empty,
+                Age = patientLog.PatientAge,
                 Address = patientLog.Patient?.Address ?? string.Empty,
                 ProcedureDate = patientLog.ProcedureDate,
                 Fee = patientLog.Fee,
@@ -49,7 +44,6 @@ namespace DentRec.Application.Extensions
                 PaymentStatus = patientLog.PaymentStatus
             };
         }
-
 
         public static PatientLog ToEntity(this CreatePatientLogDto patientDto)
         {
@@ -61,19 +55,6 @@ namespace DentRec.Application.Extensions
                 Notes = patientDto.Notes,
                 PaymentStatus = "Pending"
             };
-        }
-
-        private static int GetAgeDuringProcedure(DateTime dateOfBirth, DateTime dateOfProcedure)
-        {            
-            var age = dateOfProcedure.Year - dateOfBirth.Year;
-
-            // Adjust if the birthday hasn't occurred yet this year
-            if (dateOfBirth.Date > dateOfProcedure.AddYears(-age))
-            {
-                age--;
-            }
-
-            return age;
         }
     }
 }

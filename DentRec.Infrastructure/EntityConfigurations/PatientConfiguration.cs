@@ -19,9 +19,8 @@ namespace DentRec.Infrastructure.EntityConfigurations
             builder.Property(p => p.Gender)
                 .HasMaxLength(10);
 
-            builder.Property(p => p.DateOfBirth)
-                .HasColumnType("datetime2");
-
+            builder.Property(x => x.Age)
+                .IsRequired();
             builder.Property(p => p.Email)
                 .HasMaxLength(100);
 

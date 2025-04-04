@@ -5,6 +5,25 @@ namespace DentRec.Application.Extensions
 {
     public static class PatientExtensions
     {
+        public static GetPatientDetailsDto ToDetailsDto(this Patient patient)
+        {
+            return new GetPatientDetailsDto
+            {
+                Id = patient.Id,
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
+                Address = patient.Address,
+                Email = patient.Email,
+                Gender = patient.Gender,
+                Age = patient.Age,
+                Phone = patient.Phone,
+                CreatedBy = patient.CreatedBy,
+                ModifiedOn = patient.ModifiedOn,
+                CreatedOn = patient.CreatedOn,
+                ModifiedBy = patient.ModifiedBy
+            };
+        }
+
         public static GetPatientDto ToDto(this Patient patient)
         {
             return new GetPatientDto
@@ -13,14 +32,10 @@ namespace DentRec.Application.Extensions
                 FirstName = patient.FirstName,
                 LastName = patient.LastName,
                 Address = patient.Address,
-                DateOfBirth = patient.DateOfBirth,
+                Age = patient.Age,
                 Email = patient.Email,
                 Gender = patient.Gender,
-                Phone = patient.Phone,
-                CreatedBy = patient.CreatedBy,
-                ModifiedOn = patient.ModifiedOn,
-                CreatedOn = patient.CreatedOn,
-                ModifiedBy = patient.ModifiedBy
+                Phone = patient.Phone
             };
         }
 
@@ -31,13 +46,11 @@ namespace DentRec.Application.Extensions
                 FirstName = patientDto.FirstName,
                 LastName = patientDto.LastName,
                 Address = patientDto.Address,
-                DateOfBirth = patientDto.DateOfBirth,
+                Age = patientDto.Age,
                 Email = patientDto.Email,
                 Gender = patientDto.Gender,
                 Phone = patientDto.Phone
             };
         }
     }
-
-
 }

@@ -23,10 +23,10 @@ namespace DentRec.Application.Services
         public async Task<int> CreatePatientLogAsync(CreatePatientLogDto dto)
         {
 
-            var patientExists = await patientRepository.ExistsAsync(dto.PatientId);
-            var dentistExists = await dentistRepository.ExistsAsync(dto.DentistId);
+            var patient = await patientRepository.GetByIdAsync(dto.PatientId) ??
+                throw new KeyNotFoundException($"Patient with Id {dto.PatientId} does not exist."); 
 
-            if (!patientExists) throw new KeyNotFoundException($"Patient with Id {dto.PatientId} does not exist.");
+            var dentistExists = await dentistRepository.ExistsAsync(dto.DentistId);            
             if (!dentistExists) throw new KeyNotFoundException($"Dentist with Id {dto.DentistId} does not exist.");
 
             var totalProcedureFee = 0.0m;
@@ -41,6 +41,7 @@ namespace DentRec.Application.Services
                 totalProcedureFee += procedure.Fee;
             }
             newPatientLog.Fee = totalProcedureFee;
+            newPatientLog.PatientAge = patient.Age;
             patientLogRepo.Add(newPatientLog);
 
             return await patientLogRepo.SaveAsync(newPatientLog);

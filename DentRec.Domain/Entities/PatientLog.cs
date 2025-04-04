@@ -5,6 +5,7 @@
         public int PatientId { get; set; }
         public int DentistId { get; set; }
         public DateTime ProcedureDate { get; set; }
+        public int PatientAge { get; set; } //Age of patient during procedure
         public string? Notes { get; set; }
         public decimal Fee { get; set; }
         public string PaymentStatus { get; set; } = "Pending";

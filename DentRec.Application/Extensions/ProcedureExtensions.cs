@@ -13,7 +13,6 @@ namespace DentRec.Application.Extensions
                 Name = procedure.Name,
                 Description = procedure.Description,
                 Fee = procedure.Fee,
-                EstimatedDuration = procedure.EstimatedDuration,
                 CreatedBy = procedure.CreatedBy,
                 ModifiedOn = procedure.ModifiedOn,
                 CreatedOn = procedure.CreatedOn,
@@ -22,23 +21,12 @@ namespace DentRec.Application.Extensions
         }
 
         public static Procedure ToEntity(this CreateProcedureDto dto)
-        {
-            TimeSpan? duration = null;
-            if (!string.IsNullOrWhiteSpace(dto.EstimatedDuration))
-            {
-                if (!TimeSpan.TryParse(dto.EstimatedDuration, out var parsedDuration))
-                {
-                    throw new ArgumentException("Invalid TimeSpan format. Use hh:mm:ss.");
-                }
-                duration = parsedDuration;
-            }
-
+        {          
             return new Procedure
             {
                 Name = dto.Name,
                 Fee = dto.Fee,
-                Description = dto.Description,
-                EstimatedDuration = duration
+                Description = dto.Description
             };
         }
     }
