@@ -1,1 +1,14 @@
-<p>procedures works!</p>
+<div class="mx-auto">      
+    <app-custom-table
+      [columns]="columns"
+      [dataSource]="procedures"
+      [totalItems]="totalItems"
+      [pageSize]="paginationParams.pageSize"
+      (pageChange)="onPageChange($event)"
+      [title]="title"
+      [clickEvent]="openCreateDialog.bind(this)"
+      [actions]="actions"
+      >
+    </app-custom-table>
+  </div>
+  

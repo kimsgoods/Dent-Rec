@@ -5,3 +5,45 @@
 .container {
     @apply mx-auto max-w-screen-2xl;
 }
+
+.mat-mdc-button, 
+.mat-mdc-raised-button, 
+.mat-mdc-outlined-button, 
+.mat-mdc-unelevated-button {
+  background-color: #007bff !important;  // Change background color
+  color: white !important;              // Change text color
+  font-weight: bold;
+  border-radius: 0.375rem !important;     // Rounded corners
+  padding: 10px 20px;                     // Adjust padding
+}
+
+// Override FAB button
+.mat-mdc-fab {
+  background-color: #ff5722 !important;  // Custom color for FAB
+  color: white !important;
+}
+
+// Override button on hover
+.mat-mdc-button:hover {
+  background-color: darkblue !important;
+}
+
+button.match-input-height {
+    height: var(--mat-form-field-container-height) !important;
+}
+
+.mdc-notched-outline__notch {
+    border-right-style: none !important;
+}
+
+.mat-mdc-snack-bar-container.snack-error {
+    --mdc-snackbar-container-color: red;
+    --mat-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+}
+
+.mat-mdc-snack-bar-container.snack-success {
+    --mdc-snackbar-container-color: green;
+    --mat-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+}

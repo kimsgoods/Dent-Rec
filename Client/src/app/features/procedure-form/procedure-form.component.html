@@ -1,0 +1,15 @@
+<h2 mat-dialog-title class="text-center">{{data.title}}</h2>
+<mat-dialog-content class="p-2">
+    <form [formGroup]="procedureForm" class="p-4 w-full" (ngSubmit)="onSubmit()">
+        <app-text-input label="Name" formControlName="name" />
+        <app-text-area label="Description" formControlName="description" />
+        <app-text-input label="Fee" formControlName="fee" />
+        <div class="flex justify-end gap-3">
+            <button mat-button color="warn" type="button" mat-dialog-close>Cancel</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="procedureForm.invalid">
+                Submit
+            </button>
+        </div>
+
+    </form>
+</mat-dialog-content>
