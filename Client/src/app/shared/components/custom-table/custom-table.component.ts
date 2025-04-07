@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { RouterLink } from '@angular/router';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIcon } from '@angular/material/icon';
 
@@ -12,7 +11,6 @@ import { MatIcon } from '@angular/material/icon';
   imports: [
     CommonModule,
     MatPaginatorModule,
-    RouterLink,
     MatButton,
     MatTooltip,
     MatIcon
@@ -27,7 +25,6 @@ export class CustomTableComponent {
   @Input() totalItems: number = 0;
   @Input() pageSize: number = 50;
   @Input() pageIndex: number = 0;
-  @Input() detailLink: string | null = null;
   @Input() title: string = "";
   @Input() clickEvent: () => void = () => { }
 
