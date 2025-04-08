@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { PatientLogService } from '../../core/services/patient-procedure.service';
+import { PatientLogService } from '../../core/services/patient-log.service';
 import { PaginationParams } from '../../shared/models/paginationParams';
 import { Paging } from '../../shared/models/paging';
 import { PatientLog } from '../../shared/models/patientLog';

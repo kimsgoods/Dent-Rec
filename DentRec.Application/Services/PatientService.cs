@@ -68,6 +68,7 @@ namespace DentRec.Application.Services
             if (!String.IsNullOrEmpty(dto.Email)) patient.Email = dto.Email;
             if (!String.IsNullOrEmpty(dto.Phone)) patient.Phone = dto.Phone;
             if (!String.IsNullOrEmpty(dto.Address)) patient.Address = dto.Address;
+            if (dto.Age != null) patient.Age = dto.Age.Value;
 
             try
             {

@@ -6,7 +6,7 @@ import { PatientsComponent } from './features/patients/patients.component';
 import { DentistsComponent } from './features/dentists/dentists.component';
 import { PaymentsComponent } from './features/payments/payments.component';
 import { ProceduresComponent } from './features/procedures/procedures.component';
-import { PatientDetailsComponent } from './core/features/patient-details/patient-details.component';
+import { PatientDetailsComponent } from './features/patient-details/patient-details.component';
 
 export const routes: Routes = [
     { path: "", component: HomeComponent },

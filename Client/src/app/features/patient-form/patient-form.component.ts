@@ -45,7 +45,7 @@ export class PatientFormComponent implements OnInit {
       age: [0, [Validators.required, Validators.min(0)]],
       gender: ['', [Validators.required]],
       address: [''],
-      phone: [''],
+      phone: ['', [Validators.pattern(/^[0-9-]*$/)]],
       email: [''],
     });
 
@@ -60,4 +60,12 @@ export class PatientFormComponent implements OnInit {
       })
     }
   }  
+
+  allowOnlyNumbersAndDash(event: KeyboardEvent) {
+    const allowedChars = /[0-9\-]/;
+    const key = event.key;
+    if (!allowedChars.test(key)) {
+      event.preventDefault();
+    }
+  }
 }

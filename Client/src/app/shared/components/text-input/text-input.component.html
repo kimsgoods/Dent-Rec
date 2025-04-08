@@ -4,4 +4,7 @@
     @if (control.hasError("required")) {
         <mat-error>{{label}} is required</mat-error>
     }
+    @if (control.hasError("pattern")) {
+        <mat-error>Phone number can only contain numbers and dashes</mat-error>
+    }
 </mat-form-field>
