@@ -1,1 +1,15 @@
-<p>dentists works!</p>
+<div class="mx-auto">      
+    <app-custom-table
+      [columns]="columns"
+      [dataSource]="dentists"
+      [totalItems]="totalItems"
+      [pageSize]="paginationParams.pageSize"
+      (pageChange)="onPageChange($event)"
+      [title]="title"
+      [clickEvent]="openCreateDialog.bind(this)"
+      [actions]="actions"
+      (sortChange)="onSortChange($event)"
+      >
+    </app-custom-table>
+  </div>
+  

@@ -1,0 +1,20 @@
+<h2 mat-dialog-title class="text-center">{{data.title}}</h2>
+<mat-dialog-content class="p-2">
+    <form [formGroup]="dentistForm" class="p-4" (ngSubmit)="onSubmit()">
+        <div class="flex justify-between w-full gap-3">
+            <app-text-input label="First Name" formControlName="firstName" />
+            <app-text-input label="Last Name" formControlName="lastName" />
+        </div>
+        <div class="flex justify-between w-full gap-3">
+            <app-text-input class="w-1/3" label="Phone (optional)" formControlName="phone" />
+            <app-text-input class="w-2/3" label="Email (optional)" formControlName="email" />
+        </div>
+
+        <div class="flex justify-end gap-3">
+            <button mat-button color="warn" type="button" mat-dialog-close>Cancel</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="dentistForm.invalid">
+                Submit
+            </button>
+        </div>
+    </form>
+</mat-dialog-content>
