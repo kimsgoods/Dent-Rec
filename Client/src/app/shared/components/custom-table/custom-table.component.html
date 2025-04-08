@@ -10,10 +10,15 @@
     </div>
   </div>
 
-  <table class="min-w-full divide-y divide-gray-200 cursor-pointer">
+  <table class="min-w-full divide-y divide-gray-200">
     <thead>
       <tr class="uppercase border-b bg-gray-50">
-        <th *ngFor="let column of columns" class="py-2 px-4 text-left">{{ column.header }}</th>
+        <th *ngFor="let column of columns" class="py-2 px-4 text-left select-none cursor-pointer" (click)="onHeaderClick(column)">
+          {{ column.header }}
+          <span *ngIf="sortField === column.field">
+            {{ sortDirection === 'asc' ? '↑' : '↓' }}
+          </span>
+        </th>
         <th class="py-2 px-4 text-left" *ngIf="actions.length">Actions</th>
       </tr>
     </thead>

@@ -49,6 +49,11 @@ export class ProceduresComponent {
     this.getProcedures();
   }
 
+  onSortChange(event: { field: string, direction: 'asc' | 'desc' }) {
+    this.paginationParams.orderBy = `${event.field} ${event.direction}`;
+    this.getProcedures();
+  }
+
   columns = [
     { field: 'name', header: 'Procedure Name' },
     { field: 'description', header: 'description' },

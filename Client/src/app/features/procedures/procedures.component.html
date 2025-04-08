@@ -8,6 +8,7 @@
       [title]="title"
       [clickEvent]="openCreateDialog.bind(this)"
       [actions]="actions"
+      (sortChange)="onSortChange($event)"
       >
     </app-custom-table>
   </div>

@@ -29,7 +29,23 @@ export class CustomTableComponent {
   @Input() clickEvent: () => void = () => { }
 
   @Output() pageChange = new EventEmitter<PageEvent>();
+  @Output() sortChange = new EventEmitter<{ field: string, direction: 'asc' | 'desc' }>();
 
+  sortField: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  onHeaderClick(column: any) {
+    if (this.sortField === column.field) {
+      // Toggle sort direction
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      // New column, start with ascending
+      this.sortField = column.field;
+      this.sortDirection = 'asc';
+    }
+
+    this.sortChange.emit({ field: this.sortField, direction: this.sortDirection });
+  }
   onPageChange(event: PageEvent) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
