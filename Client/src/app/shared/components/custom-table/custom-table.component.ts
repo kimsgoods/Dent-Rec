@@ -4,6 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIcon } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-custom-table',
@@ -13,26 +14,41 @@ import { MatIcon } from '@angular/material/icon';
     MatPaginatorModule,
     MatButton,
     MatTooltip,
-    MatIcon
+    MatIcon,
+    FormsModule
   ],
   templateUrl: './custom-table.component.html',
   styleUrls: ['./custom-table.component.scss']
 })
 export class CustomTableComponent {
-  @Input() columns: { field: string, header: string, pipe?: string, pipeArgs?: any }[] = [];
+  @Input() columns: { field: string, header: string, pipe?: string, pipeArgs?: any, sortable?: boolean }[] = [];
   @Input() dataSource: any[] = [];
   @Input() actions: { label: string, icon: string, tooltip: string, action: (row: any) => void, disabled?: (row: any) => boolean }[] = [];
   @Input() totalItems: number = 0;
   @Input() pageSize: number = 50;
   @Input() pageIndex: number = 0;
+  @Input() filter: string = "";
   @Input() title: string = "";
   @Input() clickEvent: () => void = () => { }
+  @Input() defaultSortField: string = '';
+  @Input() defaultSortDirection: 'asc' | 'desc' = 'asc';
 
   @Output() pageChange = new EventEmitter<PageEvent>();
   @Output() sortChange = new EventEmitter<{ field: string, direction: 'asc' | 'desc' }>();
+  @Output() filterChange = new EventEmitter<string>();
 
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+
+  ngOnInit() {
+    this.sortField = this.defaultSortField;
+    this.sortDirection = this.defaultSortDirection;
+
+    this.columns = this.columns.map(column => ({
+      ...column,
+      sortable: column.sortable !== false
+    }));
+  }
 
   onHeaderClick(column: any) {
     if (this.sortField === column.field) {
@@ -50,6 +66,11 @@ export class CustomTableComponent {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.pageChange.emit(event);
+  }
+
+  onSearchChange() {
+    this.pageIndex = 1;
+    this.filterChange.emit(this.filter);
   }
 
   onAction(action: (row: any) => void, row: any) {

@@ -27,6 +27,8 @@ export class PatientsComponent {
   totalItems = 0;
   patients: Patient[] = [];
   title = "Patient Records"
+  defaultSortField = "firstName"
+  defaultSortDirection: "asc" | "desc" = "asc"
 
   getPatients() {
     this.patientService.getPatients(this.paginationParams).subscribe({
@@ -39,7 +41,7 @@ export class PatientsComponent {
   }
 
   ngOnInit(): void {
-    this.paginationParams.orderBy = "firstName asc"
+    this.paginationParams.orderBy = `${this.defaultSortField} ${this.defaultSortDirection}`
     this.getPatients();
   }
 
@@ -55,7 +57,7 @@ export class PatientsComponent {
   }
 
   columns = [
-    { field: 'firstName', header: 'First Name' },
+    { field: 'firstName', header: 'First Name', sortable: true },
     { field: 'lastName', header: 'Last Name' },
     { field: 'age', header: 'Age' },
     { field: 'gender', header: 'Sex' },

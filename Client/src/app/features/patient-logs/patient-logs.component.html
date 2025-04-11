@@ -1,14 +1,17 @@
-<div class="mx-auto mt-32">  
-    <div class="text-2xl font-semibold mt-4">
-        Patient History
-    </div>
-    
-    <app-custom-table
-      [columns]="columns"
-      [dataSource]="logs"
-      [totalItems]="totalItems"
-      [pageSize]="paginationParams.pageSize"
-      (pageChange)="onPageChange($event)"
-    ></app-custom-table>
+<div class="mx-auto">
+  <app-custom-table 
+  [columns]="columns" 
+  [dataSource]="logs" 
+  [totalItems]="totalItems"
+  [pageSize]="paginationParams.pageSize" 
+  (pageChange)="onPageChange($event)" 
+  [actions]="actions" 
+  [title]="title"
+  (sortChange)="onSortChange($event)"
+  [defaultSortField]="defaultSortField"
+  [defaultSortDirection]="defaultSortDirection"
+  [filter]="paginationParams.filter"
+  (filterChange)="onFilterChange($event)"
+  
+  ></app-custom-table>
 </div>
-

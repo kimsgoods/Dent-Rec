@@ -1,45 +1,72 @@
 <div>
+  <form 
+  #searchForm="ngForm" 
+  (ngSubmit)="onSearchChange()" 
+  class="relative flex items-center w-full max-w-md mx-4">
+  <input 
+  type="search" 
+  class="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg"
+  placeholder="Search" 
+  name="search" 
+  [(ngModel)]="filter" />
+  <button 
+     mat-icon-button 
+     type="submit" 
+     class="absolute inset-y-0 right-8 top-2 flex items-center pl-3">
+     <mat-icon>search</mat-icon>
+  </button>
+  </form>
   <div class="p-2">
-    <div class="flex justify-between items-center mt-2">
-      <div class="text-4xl font-semibold mt-4">
-        {{title}}
-      </div>
-      <button mat-flat-button (click)="clickEvent()">
+     <div class="flex justify-between items-center mt-2">
+        <div class="text-4xl font-semibold mt-4">
+           {{title}}
+        </div>
+        <button mat-flat-button (click)="clickEvent()">
         Create New
-      </button>
-    </div>
+        </button>
+     </div>
   </div>
-
   <table class="min-w-full divide-y divide-gray-200">
-    <thead>
-      <tr class="uppercase border-b bg-gray-50">
-        <th *ngFor="let column of columns" class="py-2 px-4 text-left select-none cursor-pointer" (click)="onHeaderClick(column)">
-          {{ column.header }}
-          <span *ngIf="sortField === column.field">
-            {{ sortDirection === 'asc' ? '↑' : '↓' }}
-          </span>
-        </th>
-        <th class="py-2 px-4 text-left" *ngIf="actions.length">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of dataSource" class="hover:bg-gray-100 border-b">
-        <td *ngFor="let column of columns" class="py-2 px-4">{{ getCellValue(row, column) }}</td>
-        <td class="py-2 px-4" *ngIf="actions.length">
-          <div class="flex gap-2">
-            <ng-container *ngFor="let action of actions">
-              <button mat-icon-button matTooltip="{{ action.tooltip }}"
-                [disabled]="action.disabled ? action.disabled(row) : false" (click)="onAction(action.action, row)">
-                <mat-icon>{{ action.icon }}</mat-icon>
-              </button>
-            </ng-container>
-          </div>
-        </td>
-      </tr>
-    </tbody>
+     <thead>
+        <tr class="uppercase border-b bg-gray-50">
+           <th *ngFor="let column of columns" 
+           [ngClass]="{
+           'py-2 px-4 text-left': true,
+           'cursor-pointer hover:bg-gray-100 select-none': column.sortable,
+           'text-gray-500': !column.sortable
+           }"
+           (click)="column.sortable && onHeaderClick(column)"
+           >
+           {{ column.header }}
+           <span *ngIf="sortField === column.field">
+           {{ sortDirection === 'asc' ? '↑' : '↓' }}
+           </span>
+           </th>
+           <th class="py-2 px-4 text-left" *ngIf="actions.length">Actions</th>
+        </tr>
+     </thead>
+     <tbody>
+        <tr *ngFor="let row of dataSource" class="hover:bg-gray-100 border-b">
+           <td *ngFor="let column of columns" class="py-2 px-4">{{ getCellValue(row, column) }}</td>
+           <td class="py-2 px-4" *ngIf="actions.length">
+              <div class="flex gap-2">
+                 <ng-container *ngFor="let action of actions">
+                    <button mat-icon-button matTooltip="{{ action.tooltip }}"
+                    [disabled]="action.disabled ? action.disabled(row) : false" (click)="onAction(action.action, row)">
+                    <mat-icon>{{ action.icon }}</mat-icon>
+                    </button>
+                 </ng-container>
+              </div>
+           </td>
+        </tr>
+     </tbody>
   </table>
-
-  <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[50, 100]"
-    (page)="onPageChange($event)" class="mt-4 bg-white">
+  <mat-paginator 
+  [length]="totalItems" 
+  [pageSize]="pageSize" 
+  [pageIndex]="pageIndex" 
+  [pageSizeOptions]="[50, 100]"
+  (page)="onPageChange($event)" 
+  class="mt-4 bg-white">
   </mat-paginator>
 </div>

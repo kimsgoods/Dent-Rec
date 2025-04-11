@@ -9,6 +9,8 @@
       [clickEvent]="openCreateDialog.bind(this)"
       [actions]="actions"     
       (sortChange)="onSortChange($event)" 
+      [defaultSortField]="defaultSortField"
+      [defaultSortDirection]="defaultSortDirection"
       >
     </app-custom-table>
   </div>

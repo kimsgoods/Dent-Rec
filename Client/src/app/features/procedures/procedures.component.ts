@@ -27,6 +27,8 @@ export class ProceduresComponent {
   totalItems = 0;
   procedures: Procedure[] = [];
   title = "Procedure Records"
+  defaultSortField = "name"
+  defaultSortDirection: "asc" | "desc" = "asc"
 
   getProcedures() {
     this.procedureService.getProcedures(this.paginationParams).subscribe({
@@ -39,7 +41,7 @@ export class ProceduresComponent {
   }
 
   ngOnInit(): void {
-    this.paginationParams.orderBy = "name asc"
+    this.paginationParams.orderBy = `${this.defaultSortField} ${this.defaultSortDirection}`
     this.getProcedures();
   }
 

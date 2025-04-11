@@ -22,6 +22,9 @@ export class PatientLogsComponent implements OnInit {
   patientLogs?: Paging<PatientLog>
   totalItems = 0;
   logs: PatientLog[] = [];
+  title = "Patient Logs"
+  defaultSortField = "procedureDate"
+  defaultSortDirection: "asc" | "desc" = "desc"
 
 
   getPatientLogs() {
@@ -36,7 +39,7 @@ export class PatientLogsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.paginationParams.orderBy = "procedureDate desc"
+    this.paginationParams.orderBy = `${this.defaultSortField} ${this.defaultSortDirection}`
     this.getPatientLogs();
   }
 
@@ -46,22 +49,30 @@ export class PatientLogsComponent implements OnInit {
     this.getPatientLogs();
   }
 
+  onFilterChange(newFilter: string) {
+    this.paginationParams.filter = newFilter;
+    this.paginationParams.page = 1;
+    this.getPatientLogs();
+  }
+  
+
   columns = [
     { field: 'patientName', header: 'Name' },
     { field: 'age', header: 'Age' },
     { field: 'gender', header: 'Sex' },
     { field: 'address', header: 'Address' },
-    { field: 'procedures', header: 'Procedure' },
+    { field: 'procedures', header: 'Procedure', sortable: false },
     { field: 'procedureDate', header: 'Date', pipe: 'date', pipeArgs: 'short' },
     { field: 'fee', header: 'Fee', pipe: 'currency', pipeArgs: 'PHP' },
-    { field: 'paymentStatus', header: 'Payment Status' }
+    { field: 'paymentStatus', header: 'Payment Status' },
+    { field: 'notes', header: 'Notes' }
   ];
 
   actions = [
     {
       label: 'View',
       icon: 'visibility',
-      tooltip: 'View Order',
+      tooltip: 'View patient log details',
       action: (row: any) => {
         this.router.navigateByUrl(`/patient-logs/${row.id}`)
       }
@@ -70,5 +81,28 @@ export class PatientLogsComponent implements OnInit {
 
   onAction(action: (row: any) => void, row: any) {
     action(row);
+  }
+
+  onSortChange(event: { field: string, direction: 'asc' | 'desc' }) {
+    let orderByField = "";
+    switch (event.field) {
+      case "age":
+        orderByField = "patientAge"
+        break;
+      case "patientName":
+        orderByField = "Patient.FirstName"
+        break;
+      case "address":
+        orderByField = "Patient.Address"
+        break;
+      case "gender":
+        orderByField = "Patient.Gender"
+        break;
+      default:
+        orderByField = event.field
+        break;
+    }
+    this.paginationParams.orderBy = `${orderByField} ${event.direction}`;
+    this.getPatientLogs();
   }
 }
