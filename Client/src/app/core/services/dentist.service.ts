@@ -8,7 +8,7 @@ import { Paging } from '../../shared/models/paging';
 @Injectable({
   providedIn: 'root'
 })
-export class dentistService {
+export class DentistService {
 
   baseUrl = environment.apiUrl;
   private http = inject(HttpClient);

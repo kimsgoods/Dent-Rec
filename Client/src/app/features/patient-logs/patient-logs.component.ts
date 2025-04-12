@@ -25,7 +25,29 @@ export class PatientLogsComponent implements OnInit {
   title = "Patient Logs"
   defaultSortField = "procedureDate"
   defaultSortDirection: "asc" | "desc" = "desc"
+ 
+  columns = [
+    { field: 'patientName', header: 'Name' },
+    { field: 'age', header: 'Age' },
+    { field: 'gender', header: 'Sex' },
+    { field: 'address', header: 'Address' },
+    { field: 'procedures', header: 'Procedure', sortable: false },
+    { field: 'procedureDate', header: 'Date', pipe: 'date', pipeArgs: 'short' },
+    { field: 'fee', header: 'Fee', pipe: 'currency', pipeArgs: 'PHP' },
+    { field: 'paymentStatus', header: 'Payment Status' },
+    { field: 'notes', header: 'Notes' }
+  ];
 
+  actions = [
+    {
+      label: 'View',
+      icon: 'visibility',
+      tooltip: 'View patient log details',
+      action: (row: any) => {
+        this.router.navigateByUrl(`/patient-logs/${row.id}`)
+      }
+    }
+  ]
 
   getPatientLogs() {
     this.patientProcedureService.getPatientLogs(this.paginationParams).subscribe({
@@ -54,30 +76,10 @@ export class PatientLogsComponent implements OnInit {
     this.paginationParams.page = 1;
     this.getPatientLogs();
   }
-  
 
-  columns = [
-    { field: 'patientName', header: 'Name' },
-    { field: 'age', header: 'Age' },
-    { field: 'gender', header: 'Sex' },
-    { field: 'address', header: 'Address' },
-    { field: 'procedures', header: 'Procedure', sortable: false },
-    { field: 'procedureDate', header: 'Date', pipe: 'date', pipeArgs: 'short' },
-    { field: 'fee', header: 'Fee', pipe: 'currency', pipeArgs: 'PHP' },
-    { field: 'paymentStatus', header: 'Payment Status' },
-    { field: 'notes', header: 'Notes' }
-  ];
-
-  actions = [
-    {
-      label: 'View',
-      icon: 'visibility',
-      tooltip: 'View patient log details',
-      action: (row: any) => {
-        this.router.navigateByUrl(`/patient-logs/${row.id}`)
-      }
-    }
-  ]
+  openCreateNewForm() {
+    this.router.navigateByUrl("/patient-logs-form");
+  }  
 
   onAction(action: (row: any) => void, row: any) {
     action(row);
@@ -105,4 +107,5 @@ export class PatientLogsComponent implements OnInit {
     this.paginationParams.orderBy = `${orderByField} ${event.direction}`;
     this.getPatientLogs();
   }
+  
 }

@@ -7,11 +7,13 @@ import { DentistsComponent } from './features/dentists/dentists.component';
 import { PaymentsComponent } from './features/payments/payments.component';
 import { ProceduresComponent } from './features/procedures/procedures.component';
 import { PatientDetailsComponent } from './features/patient-details/patient-details.component';
+import { PatientLogFormComponent } from './features/patient-log-form/patient-log-form.component';
 
 export const routes: Routes = [
     { path: "", component: HomeComponent },
     { path: "patient-logs", component: PatientLogsComponent },
     { path: "patient-logs/:id", component: PatientLogDetailsComponent },
+    { path: "patient-logs-form", component: PatientLogFormComponent },
     { path: "patients", component: PatientsComponent },
     { path: "patients/:id", component: PatientDetailsComponent },
     { path: "dentists", component: DentistsComponent },

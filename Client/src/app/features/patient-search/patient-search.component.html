@@ -1,0 +1,23 @@
+<h1 class="text-2xl font-semibold py-4">Select Patient</h1>
+<mat-form-field appearance="outline" class="w-full">
+    <input type="text"
+           matInput
+           [formControl]="patientSearchControl"
+           [matAutocomplete]="auto"
+           placeholder="Search Patient by First Name Or Last Name">
+    <mat-autocomplete #auto="matAutocomplete"
+                      [displayWith]="displayPatient"
+                      (optionSelected)="selectPatient($event.option.value)">
+      <mat-option *ngFor="let patient of filteredPatients | async" [value]="patient">
+        {{ patient.firstName }} {{ patient.lastName }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  
+  <div *ngIf="selectedPatient" class="mt-4 p-4 border rounded bg-gray-50">
+    <p><strong>Name:</strong> {{ selectedPatient.firstName }} {{ selectedPatient.lastName }}</p>
+    <p><strong>Age:</strong> {{ selectedPatient.age }}</p>
+    <p><strong>Sex:</strong> {{ selectedPatient.gender }}</p>
+    <p><strong>Address:</strong> {{ selectedPatient.address }}</p>
+  </div>
+  

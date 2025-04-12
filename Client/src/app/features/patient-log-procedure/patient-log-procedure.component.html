@@ -1,0 +1,9 @@
+<h1 class="text-2xl font-semibold py-4">Select Procedure(s)</h1>
+<div class="grid gap-2">
+    <mat-selection-list>
+        <mat-list-option *ngFor="let procedure of procedures" [selected]="selectedProcedures.includes(procedure)"
+            (click)="toggleSelection(procedure)">
+            {{ procedure.name }} - ₱{{ procedure.fee }}
+        </mat-list-option>
+    </mat-selection-list>
+</div>

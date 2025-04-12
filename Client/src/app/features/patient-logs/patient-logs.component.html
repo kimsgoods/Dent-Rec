@@ -12,6 +12,8 @@
   [defaultSortDirection]="defaultSortDirection"
   [filter]="paginationParams.filter"
   (filterChange)="onFilterChange($event)"
+  [clickEvent]="openCreateNewForm.bind(this)"
+
   
   ></app-custom-table>
 </div>

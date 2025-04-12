@@ -9,6 +9,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { PatientFormComponent as PatientFormComponent } from '../patient-form/patient-form.component';
 import { firstValueFrom } from 'rxjs';
 import { DialogService } from '../../core/services/dialog.service';
+import { SnackbarService } from '../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-patients',
@@ -21,6 +22,7 @@ import { DialogService } from '../../core/services/dialog.service';
 export class PatientsComponent {
   private patientService = inject(PatientService);
   private dialogService = inject(DialogService);
+  private snackbarService = inject(SnackbarService);
   private router = inject(Router);
   private dialog = inject(MatDialog);
   paginationParams = new PaginationParams();
@@ -111,6 +113,7 @@ export class PatientsComponent {
           if (patient) {
             this.patients.push(patient);
             this.getPatients();
+            this.snackbarService.success("Created new patient record successfully");
           }
         }
       }
@@ -134,6 +137,7 @@ export class PatientsComponent {
             this.patients[index] = result.patient;
           }
           this.getPatients();
+          this.snackbarService.success("Updated patient record successfully");
         }
       }
     })
@@ -152,6 +156,7 @@ export class PatientsComponent {
       next: () => {
         this.patients = this.patients.filter(x => x.id !== id);
         this.getPatients();
+        this.snackbarService.success("Deleted patient record successfully");
       }
     })
   }

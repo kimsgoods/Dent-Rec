@@ -17,7 +17,7 @@ export class PatientLogService {
     let params = new HttpParams();
 
     if (paginationParams.filter) {
-      params = params.append("filter", paginationParams.filter);
+      params = params.append("filter", `Patient.FirstName=*${paginationParams.filter}|Patient.LastName=*${paginationParams.filter}`);
     }
     if (paginationParams.orderBy) {
       params = params.append("orderBy", paginationParams.orderBy);
@@ -32,4 +32,9 @@ export class PatientLogService {
   getPatientLogById(id: number) {
     return this.http.get<PatientLog>(`${this.baseUrl}patientlogs/${id}`)
   }
+
+  createPatientLog(log: any) {
+    return this.http.post(`${this.baseUrl}patientlogs`, log);
+  }
+  
 }

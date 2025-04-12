@@ -1,0 +1,36 @@
+<div class="mx-auto max-w-4xl space-y-6 w-full">
+    <div class="space-y-4 p-4 rounded-lg border border-gray-200 bg-white shadow-sm">
+      <p class="text-xl font-semibold">Summary</p>
+  
+      <!-- Patient Info -->
+      <div *ngIf="selectedPatient" class="text-sm text-gray-700 space-y-1">
+        <p><strong>Patient:</strong> {{ selectedPatient.firstName }} {{ selectedPatient.lastName }}</p>
+        <p><strong>Age:</strong> {{ selectedPatient.age }}</p>
+        <p><strong>Sex:</strong> {{ selectedPatient.gender }}</p>
+        <p><strong>Address:</strong> {{ selectedPatient.address }}</p>
+      </div>
+  
+      <!-- Procedures -->
+      <div *ngIf="selectedProcedures.length > 0" class="text-sm text-gray-700 space-y-1 border-t pt-4">
+        <p><strong>Procedures:</strong></p>
+        <ul>
+          <li *ngFor="let proc of selectedProcedures" class="flex justify-between">
+            <span>{{ proc.name }}</span>
+            <span>₱{{ proc.fee }}</span>
+          </li>
+        </ul>
+        <div class="flex justify-between font-medium pt-2">
+          <span>Total</span>
+          <span>₱{{ getTotalFee() }}</span>
+        </div>
+      </div>
+  
+      <!-- Payment -->
+      <div *ngIf="amountPaid > 0" class="text-sm text-gray-700 space-y-1 border-t pt-4">
+        <p><strong>Payment:</strong></p>
+        <p><strong>Amount Paid:</strong> ₱{{ amountPaid }}</p>
+        <p><strong>Payment Type:</strong> {{ paymentType }}</p>
+      </div>
+    </div>
+  </div>
+  

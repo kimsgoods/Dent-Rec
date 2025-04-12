@@ -1,0 +1,61 @@
+<div class="space-y-6 p-6 rounded-lg border border-gray-200 bg-white shadow-sm">
+  <h2 class="text-2xl font-semibold">Patient Log Summary</h2>
+
+  <!-- Patient Info -->
+  <div class="space-y-2">
+    <h3 class="text-xl font-medium">Patient Information</h3>
+    <dl class="text-sm">
+      <div class="flex justify-between font-medium text-lg">
+        <dt>Name</dt>
+        <dd>{{ selectedPatient?.firstName }} {{ selectedPatient?.lastName }}</dd>
+      </div>
+      <div class="flex justify-between font-medium text-lg">
+        <dt>Age</dt>
+        <dd>{{ selectedPatient?.age }}</dd>
+      </div>
+      <div class="flex justify-between font-medium text-lg">
+        <dt>Sex</dt>
+        <dd>{{ selectedPatient?.gender }}</dd>
+      </div>
+      <div class="flex justify-between font-medium text-lg">
+        <dt>Address</dt>
+        <dd>{{ selectedPatient?.address }}</dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- Procedures -->
+  <div>
+    <h3 class="text-xl font-medium mb-2">Procedures</h3>
+    <ul class="space-y-1">
+      <li *ngFor="let procedure of selectedProcedures" class="flex justify-between">
+        <span>{{ procedure.name }}</span>
+        <span>₱{{ procedure.fee }}</span>
+      </li>
+    </ul>
+    <div class="mt-2 flex justify-between border-t pt-2 font-semibold">
+      <span>Total Fee</span>
+      <span>₱{{ getTotalFee() }}</span>
+    </div>
+  </div>
+
+  <!-- Payment Info -->
+  <div>
+    <h3 class="text-xl font-medium mb-2">Payment</h3>
+    <dl class="flex justify-between">
+      <dt>Amount Paid</dt>
+      <dd>₱{{ amountPaid }}</dd>
+    </dl>
+    <dl class="flex justify-between">
+      <dt>Payment Type</dt>
+      <dd>{{ paymentType }}</dd>
+    </dl>
+  </div>
+</div>
+
+<mat-form-field appearance="fill" class="w-full mt-4">
+  <mat-label>Notes (optional)</mat-label>
+  <textarea matInput [(ngModel)]="notes" (ngModelChange)="notesChange.emit($event)"
+    placeholder="Enter any notes here..." rows="4">
+    </textarea>
+</mat-form-field>
