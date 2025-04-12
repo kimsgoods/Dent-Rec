@@ -51,7 +51,7 @@ namespace DentRec.Application.Extensions
             {
                 PatientId = patientDto.PatientId,
                 DentistId = patientDto.DentistId,
-                ProcedureDate = DateTime.Today,
+                ProcedureDate = DateTime.Now,
                 Notes = patientDto.Notes,
                 PaymentStatus = "Pending"
             };
