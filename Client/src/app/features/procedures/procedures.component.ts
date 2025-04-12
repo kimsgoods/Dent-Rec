@@ -9,6 +9,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { procedureFormComponent as ProcedureFormComponent } from '../procedure-form/procedure-form.component';
 import { firstValueFrom } from 'rxjs';
 import { DialogService } from '../../core/services/dialog.service';
+import { SnackbarService } from '../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-procedures',
@@ -21,6 +22,7 @@ import { DialogService } from '../../core/services/dialog.service';
 export class ProceduresComponent {
   private procedureService = inject(ProcedureService);
   private dialogService = inject(DialogService);
+  private snackbarService = inject(SnackbarService);
   private router = inject(Router);
   private dialog = inject(MatDialog);
   paginationParams = new PaginationParams();
@@ -33,7 +35,7 @@ export class ProceduresComponent {
   getProcedures() {
     this.procedureService.getProcedures(this.paginationParams).subscribe({
       next: response => {
-          this.procedures = response.data,
+        this.procedures = response.data,
           this.totalItems = response.count
       },
       error: error => console.log(error)
@@ -62,7 +64,7 @@ export class ProceduresComponent {
     { field: 'fee', header: 'Fee', pipe: 'currency', pipeArgs: 'PHP' }
   ]
 
-  actions = [       
+  actions = [
     {
       label: 'Edit',
       icon: 'edit',
@@ -78,7 +80,7 @@ export class ProceduresComponent {
       action: (row: any) => {
         this.openConfirmDialog(row.id)
       }
-    }    
+    }
   ];
 
   onAction(action: (row: any) => void, row: any) {
@@ -98,12 +100,13 @@ export class ProceduresComponent {
           const procedure = await firstValueFrom(this.procedureService.createProcedure(result.procedure));
           if (procedure) {
             this.procedures.push(procedure);
-            this.getProcedures();
+            this.getProcedures();            
+            this.snackbarService.success("Created new procedure record successfully");
           }
         }
       }
     })
-  }  
+  }
 
   openEditDialog(procedure: Procedure) {
     const dialog = this.dialog.open(ProcedureFormComponent, {
@@ -120,8 +123,10 @@ export class ProceduresComponent {
           const index = this.procedures.findIndex(p => p.id === result.procedure.id);
           if (index !== -1) {
             this.procedures[index] = result.procedure;
-          }          
+          }
           this.getProcedures();
+          
+          this.snackbarService.success("Updated procedure record successfully");
         }
       }
     })
@@ -140,6 +145,8 @@ export class ProceduresComponent {
       next: () => {
         this.procedures = this.procedures.filter(x => x.id !== id);
         this.getProcedures();
+        
+        this.snackbarService.success("Deleted procedure record successfully");
       }
     })
   }

@@ -2,13 +2,14 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CustomTableComponent } from '../../shared/components/custom-table/custom-table.component';
 import { PaginationParams } from '../../shared/models/paginationParams';
 import { Router } from '@angular/router';
-import { dentistService } from '../../core/services/dentist.service';
+import { DentistService } from '../../core/services/dentist.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Dentist } from '../../shared/models/dentist';
 import { PageEvent } from '@angular/material/paginator';
 import { DentistFormComponent } from '../dentist-form/dentist-form.component';
 import { firstValueFrom } from 'rxjs';
 import { DialogService } from '../../core/services/dialog.service';
+import { SnackbarService } from '../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-dentists',
@@ -19,18 +20,19 @@ import { DialogService } from '../../core/services/dialog.service';
   styleUrl: './dentists.component.scss'
 })
 export class DentistsComponent {
-  private dentistService = inject(dentistService);
+  private dentistService = inject(DentistService);
   private dialogService = inject(DialogService);
+  private snackbarService = inject(SnackbarService);
   private dialog = inject(MatDialog);
   paginationParams = new PaginationParams();
   totalItems = 0;
   dentists: Dentist[] = [];
   title = "Dentist Records"
 
-  getdentists() {
+  getDentists() {
     this.dentistService.getDentists(this.paginationParams).subscribe({
       next: response => {
-          this.dentists = response.data,
+        this.dentists = response.data,
           this.totalItems = response.count
       },
       error: error => console.log(error)
@@ -39,18 +41,18 @@ export class DentistsComponent {
 
   ngOnInit(): void {
     this.paginationParams.orderBy = "firstName asc"
-    this.getdentists();
+    this.getDentists();
   }
 
   onPageChange(event: PageEvent) {
     this.paginationParams.page = event.pageIndex + 1;
     this.paginationParams.pageSize = event.pageSize;
-    this.getdentists();
+    this.getDentists();
   }
 
   onSortChange(event: { field: string, direction: 'asc' | 'desc' }) {
     this.paginationParams.orderBy = `${event.field} ${event.direction}`;
-    this.getdentists();
+    this.getDentists();
   }
 
   columns = [
@@ -60,7 +62,7 @@ export class DentistsComponent {
     { field: 'email', header: 'Email' },
   ]
 
-  actions = [       
+  actions = [
     {
       label: 'Edit',
       icon: 'edit',
@@ -76,7 +78,7 @@ export class DentistsComponent {
       action: (row: any) => {
         this.openConfirmDialog(row.id)
       }
-    }    
+    }
   ];
 
   onAction(action: (row: any) => void, row: any) {
@@ -96,12 +98,13 @@ export class DentistsComponent {
           const dentist = await firstValueFrom(this.dentistService.createDentist(result.dentist));
           if (dentist) {
             this.dentists.push(dentist);
-            this.getdentists();
+            this.getDentists();            
+            this.snackbarService.success("Created new dentist record successfully");
           }
         }
       }
     })
-  }  
+  }
 
   openEditDialog(dentist: Dentist) {
     const dialog = this.dialog.open(DentistFormComponent, {
@@ -118,8 +121,9 @@ export class DentistsComponent {
           const index = this.dentists.findIndex(p => p.id === result.dentist.id);
           if (index !== -1) {
             this.dentists[index] = result.dentist;
-          }          
-          this.getdentists();
+          }
+          this.getDentists();          
+          this.snackbarService.success("Updated dentist record successfully");
         }
       }
     })
@@ -137,7 +141,8 @@ export class DentistsComponent {
     this.dentistService.deleteDentist(id).subscribe({
       next: () => {
         this.dentists = this.dentists.filter(x => x.id !== id);
-        this.getdentists();
+        this.getDentists();
+        this.snackbarService.success("Deleted dentist record successfully");
       }
     })
   }
