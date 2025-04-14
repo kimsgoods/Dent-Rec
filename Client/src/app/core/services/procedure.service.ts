@@ -11,14 +11,15 @@ import { Paging } from '../../shared/models/paging';
 export class ProcedureService {
 
   baseUrl = environment.apiUrl;
+  controllerName = "procedures";
   private http = inject(HttpClient);
 
   createProcedure(procedure: Procedure) {
-    return this.http.post<Procedure>(`${this.baseUrl}procedures`, procedure);
+    return this.http.post<number>(`${this.baseUrl}${this.controllerName}`, procedure);
   }
 
   updateProcedure(procedure: Procedure) {
-    return this.http.put(`${this.baseUrl}procedures`, procedure);
+    return this.http.put(`${this.baseUrl}${this.controllerName}`, procedure);
   }
 
   getProcedures(paginationParams: PaginationParams) {
@@ -34,15 +35,15 @@ export class ProcedureService {
     params = params.append("pageSize", paginationParams.pageSize);
     params = params.append("page", paginationParams.page);
 
-    return this.http.get<Paging<Procedure>>(`${this.baseUrl}procedures`, { params })
+    return this.http.get<Paging<Procedure>>(`${this.baseUrl}${this.controllerName}`, { params })
   }
 
   getProcedureById(id: number) {
-    return this.http.get<Procedure>(`${this.baseUrl}procedures/${id}`)
+    return this.http.get<Procedure>(`${this.baseUrl}${this.controllerName}/${id}`)
   }
 
   deleteProcedure(id: number) {
-    return this.http.delete(`${this.baseUrl}procedures/${id}`)
+    return this.http.delete(`${this.baseUrl}${this.controllerName}/${id}`)
   }
 
 

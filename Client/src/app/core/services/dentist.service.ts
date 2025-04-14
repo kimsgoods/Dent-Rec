@@ -11,14 +11,15 @@ import { Paging } from '../../shared/models/paging';
 export class DentistService {
 
   baseUrl = environment.apiUrl;
+  controllerName = "dentists";
   private http = inject(HttpClient);
 
   createDentist(dentist: Dentist) {
-    return this.http.post<Dentist>(`${this.baseUrl}dentists`, dentist);
+    return this.http.post<number>(`${this.baseUrl}${this.controllerName}`, dentist);
   }
 
   updateDentist(dentist: Dentist) {
-    return this.http.put(`${this.baseUrl}dentists`, dentist);
+    return this.http.put(`${this.baseUrl}${this.controllerName}`, dentist);
   }
 
   getDentists(paginationParams: PaginationParams) {
@@ -34,15 +35,15 @@ export class DentistService {
     params = params.append("pageSize", paginationParams.pageSize);
     params = params.append("page", paginationParams.page);
 
-    return this.http.get<Paging<Dentist>>(`${this.baseUrl}dentists`, { params })
+    return this.http.get<Paging<Dentist>>(`${this.baseUrl}${this.controllerName}`, { params })
   }
 
   getDentistById(id: number) {
-    return this.http.get<Dentist>(`${this.baseUrl}dentists/${id}`)
+    return this.http.get<Dentist>(`${this.baseUrl}${this.controllerName}/${id}`)
   }
 
   deleteDentist(id: number) {
-    return this.http.delete(`${this.baseUrl}dentists/${id}`)
+    return this.http.delete(`${this.baseUrl}${this.controllerName}/${id}`)
   }
 
 

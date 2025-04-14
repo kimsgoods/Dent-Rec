@@ -11,14 +11,15 @@ import { Paging } from '../../shared/models/paging';
 export class PatientService {
 
   baseUrl = environment.apiUrl;
+  controllerName = "patients";
   private http = inject(HttpClient);
 
   createPatient(patient: Patient) {
-    return this.http.post<Patient>(`${this.baseUrl}patients`, patient);
+    return this.http.post<number>(`${this.baseUrl}${this.controllerName}`, patient);
   }
 
   updatePatient(patient: Patient) {
-    return this.http.put(`${this.baseUrl}patients`, patient);
+    return this.http.put(`${this.baseUrl}${this.controllerName}`, patient);
   }
 
   getPatients(paginationParams: PaginationParams) {
@@ -34,7 +35,7 @@ export class PatientService {
     params = params.append("pageSize", paginationParams.pageSize);
     params = params.append("page", paginationParams.page);
 
-    return this.http.get<Paging<Patient>>(`${this.baseUrl}patients`, { params })
+    return this.http.get<Paging<Patient>>(`${this.baseUrl}${this.controllerName}`, { params })
   }
 
   getPatientLogById(id: number) {

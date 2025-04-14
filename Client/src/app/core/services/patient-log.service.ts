@@ -11,6 +11,7 @@ import { Paging } from '../../shared/models/paging';
 export class PatientLogService {
 
   baseUrl = environment.apiUrl;
+  controllerName = "patientlogs";
   private http = inject(HttpClient);
 
   getPatientLogs(paginationParams: PaginationParams) {
@@ -26,15 +27,15 @@ export class PatientLogService {
     params = params.append("pageSize", paginationParams.pageSize);
     params = params.append("page", paginationParams.page);
 
-    return this.http.get<Paging<PatientLog>>(`${this.baseUrl}patientlogs`, { params })
+    return this.http.get<Paging<PatientLog>>(`${this.baseUrl}${this.controllerName}`, { params })
   }
 
   getPatientLogById(id: number) {
-    return this.http.get<PatientLog>(`${this.baseUrl}patientlogs/${id}`)
+    return this.http.get<PatientLog>(`${this.baseUrl}${this.controllerName}/${id}`)
   }
 
   createPatientLog(log: any) {
-    return this.http.post(`${this.baseUrl}patientlogs`, log);
+    return this.http.post<number>(`${this.baseUrl}${this.controllerName}`, log);
   }
-  
+
 }
