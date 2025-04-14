@@ -97,7 +97,6 @@ export class DentistsComponent {
         if (result) {
           const dentist = await firstValueFrom(this.dentistService.createDentist(result.dentist));
           if (dentist) {
-            this.dentists.push(dentist);
             this.getDentists();            
             this.snackbarService.success("Created new dentist record successfully");
           }

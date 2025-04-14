@@ -24,8 +24,7 @@
 
       <mat-step label="Payment" [completed]="completionStatus().paymentComplete">
         <app-payment-form [selectedPatient]="selectedPatient" [selectedProcedures]="selectedProcedures"
-          [(amountPaid)]="amountPaid" [(paymentType)]="paymentType" (paymentValid)="handlePaymentChange($event)"
-          (paymentChanged)="handlePaymentChange($event)">
+          [(amountPaid)]="amountPaid" [(paymentType)]="paymentType" (paymentValid)="handlePaymentChange($event)">
         </app-payment-form>
         <div class="flex justify-between mt-6">
           <button matStepperPrevious mat-stroked-button>Back</button>

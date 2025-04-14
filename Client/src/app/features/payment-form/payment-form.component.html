@@ -4,8 +4,15 @@
 
 <mat-form-field appearance="fill" class="w-full mt-4">
   <mat-label>Amount Paid</mat-label>
-  <input matInput type="number" min="0" [max]="getTotalFee()" [ngModel]="amountPaid"
-    (ngModelChange)="onAmountChange($event)">
+  <input
+    matInput
+    type="number"
+    min="0"
+    [max]="getTotalFee()"
+    [ngModel]="amountPaid"
+    required
+    (ngModelChange)="onAmountChange($event)"
+  />
 </mat-form-field>
 
 <div *ngIf="amountExceedsTotal" class="text-red-600 text-sm mt-1">
@@ -14,7 +21,12 @@
 
 <mat-form-field appearance="fill" class="w-full mt-4">
   <mat-label>Payment Type</mat-label>
-  <mat-select [ngModel]="paymentType" (ngModelChange)="onPaymentTypeChange($event)">
+  <mat-select
+    [ngModel]="paymentType"
+    (ngModelChange)="onPaymentTypeChange($event)"
+    required
+  >
+    <mat-option value="" disabled>Select a payment method</mat-option>
     <mat-option value="Cash">Cash</mat-option>
     <mat-option value="Gcash">GCash</mat-option>
   </mat-select>

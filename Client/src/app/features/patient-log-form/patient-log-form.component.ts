@@ -17,6 +17,8 @@ import { PatientLogSummaryComponent } from '../patient-log-summary/patient-log-s
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { NewPayment } from '../../shared/models/payment';
+import { PaymentService } from '../../core/services/payment.service';
 @Component({
   selector: 'app-patient-log-form',
   imports: [
@@ -37,6 +39,7 @@ export class PatientLogFormComponent implements OnInit {
   private patientLogService = inject(PatientLogService);
   private patientService = inject(PatientService);
   private procedureService = inject(ProcedureService);
+  private paymentService = inject(PaymentService);
   private snackbarService = inject(SnackbarService);
   private router = inject(Router);
   patients: Patient[] = [];
@@ -75,10 +78,13 @@ export class PatientLogFormComponent implements OnInit {
     this.completionStatus.update(state => {
       state.procedureComplete = event;
       return state;
-    })
+    });
+
+    // Set default amountPaid to total fee
+    this.amountPaid = this.getTotalFee() ?? 0;
   }
 
-  handlePaymentChange(isValid: boolean) {    
+  handlePaymentChange(isValid: boolean) {
     this.paymentFormValid = isValid;
     this.completionStatus.update(state => {
       state.paymentComplete = isValid;
@@ -111,7 +117,7 @@ export class PatientLogFormComponent implements OnInit {
   displayPatient(patient: Patient): string {
     return patient ? `${patient.firstName} ${patient.lastName}` : '';
   }
-  
+
   searchPatients(filter: string | null): Observable<Patient[]> {
     if (!filter) return of([]);
     const paginationParams = new PaginationParams();
@@ -133,28 +139,35 @@ export class PatientLogFormComponent implements OnInit {
   async createPatientLog(stepper: MatStepper) {
     const newLog = {
       patientId: this.selectedPatient?.id,
-      dentistId: 1,      
-      procedureIds: this.selectedProcedures?.map(p => p.id),      
-      notes: this.notes     
-    };    
+      dentistId: 1,
+      procedureIds: this.selectedProcedures?.map(p => p.id),
+      notes: this.notes
+    };
 
     this.patientLogService.createPatientLog(newLog).subscribe({
-      next: () => {
+      next: (result) => {
         this.snackbarService.success("Created new Patient Log successfully")
         stepper.reset();
-        this.router.navigateByUrl("/patient-logs");
+        this.createPayment(result);
       },
       error: error => this.snackbarService.error(error.message || "Something went wrong")
     });
-    
+
   }
 
-  async createPayment(stepper: MatStepper) {
-    const newPayment = {
-      totalFee: this.getTotalFee(),
-      amountPaid: this.amountPaid,
-      paymentType: this.paymentType,
+  async createPayment(patientLogId: number) {
+    const newPayment: NewPayment = {
+      amount: this.amountPaid,
+      patientId: this.selectedPatient != null ? this.selectedPatient.id : 0,
+      patientLogId: patientLogId,
+      paymentMethod: this.paymentType,
     }
+    this.paymentService.createPayment(newPayment).subscribe({
+      next: () =>{        
+        this.router.navigateByUrl("/patient-logs");
+      },
+      error: error => this.snackbarService.error(error.message || "Something went wrong")
+    })
   }
 
 }

@@ -33,6 +33,7 @@ namespace DentRec.Application.Extensions
             return new GetPatientLogDto
             {
                 Id = patientLog.Id,
+                PatientId = patientLog.PatientId,
                 PatientName = $"{patientLog.Patient?.FirstName} {patientLog.Patient?.LastName}".Trim(),
                 Gender = patientLog.Patient?.Gender ?? string.Empty,
                 Age = patientLog.PatientAge,

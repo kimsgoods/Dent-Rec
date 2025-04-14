@@ -111,7 +111,6 @@ export class PatientsComponent {
         if (result) {
           const patient = await firstValueFrom(this.patientService.createPatient(result.patient));
           if (patient) {
-            this.patients.push(patient);
             this.getPatients();
             this.snackbarService.success("Created new patient record successfully");
           }

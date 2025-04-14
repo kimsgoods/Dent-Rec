@@ -5,6 +5,7 @@ namespace DentRec.Application.DTOs.PatientLog
     public class GetPatientLogDto
     {
         public int Id { get; set; }
+        public int PatientId { get; set; }
         public string PatientName { get; set; } = string.Empty;
         public string Procedures { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;

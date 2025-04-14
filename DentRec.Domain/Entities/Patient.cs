@@ -10,8 +10,8 @@
         public string? Email { get; set; }
         public string? Address { get; set; }
 
-        public ICollection<PatientLog>? PatientLogs { get; set; }
-        public ICollection<PatientPrescription>? PatientPrescriptions { get; set; }
-        public ICollection<Payment>? Payments { get; set; }
+        public ICollection<PatientLog> PatientLogs { get; set; } = new List<PatientLog>();
+        public ICollection<PatientPrescription> PatientPrescriptions { get; set; } = new List<PatientPrescription>();
+        public ICollection<Payment> Payments { get; set; } = new List<Payment>();
     }
 }
