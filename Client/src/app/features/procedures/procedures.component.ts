@@ -99,7 +99,6 @@ export class ProceduresComponent {
         if (result) {
           const procedure = await firstValueFrom(this.procedureService.createProcedure(result.procedure));
           if (procedure) {
-            this.procedures.push(procedure);
             this.getProcedures();            
             this.snackbarService.success("Created new procedure record successfully");
           }

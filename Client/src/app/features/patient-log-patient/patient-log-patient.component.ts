@@ -18,10 +18,10 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatAutocompleteModule
   ],
-  templateUrl: './patient-search.component.html',
-  styleUrl: './patient-search.component.scss'
+  templateUrl: './patient-log-patient.component.html',
+  styleUrl: './patient-log-patient.component.scss'
 })
-export class PatientSearchComponent {
+export class PatientLogPatientComponent {
   @Input() patientSearchControl!: FormControl;
   @Input() filteredPatients!: Observable<Patient[]>;
   @Input() selectedPatient!: Patient | null;

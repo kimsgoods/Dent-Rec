@@ -17,10 +17,10 @@ import { Procedure } from '../../shared/models/procedure';
     MatInputModule,
     MatSelectModule
   ],
-  templateUrl: './payment-form.component.html',
-  styleUrl: './payment-form.component.scss'
+  templateUrl: './patient-log-payment.component.html',
+  styleUrl: './patient-log-payment.component.scss'
 })
-export class PaymentFormComponent implements OnInit{
+export class PatientLogPaymentComponent implements OnInit {
   @Input() amountPaid!: number;
   @Input() paymentType!: string;
   @Input() selectedPatient!: Patient | null;
@@ -35,10 +35,10 @@ export class PaymentFormComponent implements OnInit{
   onAmountChange(value: number) {
     const totalFee = this.getTotalFee();
     const parsedValue = isNaN(value) || value < 0 ? 0 : value;
-  
+
     this.amountExceedsTotal = parsedValue > totalFee;
     const validAmount = Math.min(parsedValue, totalFee);
-  
+
     this.amountPaid = validAmount;
     this.amountPaidChange.emit(validAmount);
     this.emitValidity();
@@ -62,7 +62,7 @@ export class PaymentFormComponent implements OnInit{
     const isAmountValid = this.amountPaid >= 0 && this.amountPaid <= totalFee;
     const isPaymentTypeValid = !!this.paymentType?.trim();
     const hasProcedures = this.selectedProcedures?.length > 0;
-  
+
     const isValid = isAmountValid && isPaymentTypeValid && hasProcedures;
     this.paymentValid.emit(isValid);
   }
