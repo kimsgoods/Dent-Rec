@@ -9,9 +9,9 @@ import { PaginationParams } from '../../shared/models/paginationParams';
 import { Patient } from '../../shared/models/patient';
 import { Procedure } from '../../shared/models/procedure';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { PatientSearchComponent } from '../patient-search/patient-search.component';
+import { PatientLogPatientComponent } from '../patient-log-patient/patient-log-patient.component';
 import { PatientLogProcedureComponent } from '../patient-log-procedure/patient-log-procedure.component';
-import { PaymentFormComponent } from '../payment-form/payment-form.component';
+import { PatientLogPaymentComponent } from '../patient-log-payment/patient-log-payment.component';
 import { PatientLogConfirmationComponent } from '../patient-log-confirmation/patient-log-confirmation.component';
 import { PatientLogSummaryComponent } from '../patient-log-summary/patient-log-summary.component';
 import { MatInputModule } from '@angular/material/input';
@@ -25,9 +25,9 @@ import { PaymentService } from '../../core/services/payment.service';
     MatStepperModule,
     MatStepper,
     MatInputModule,
-    PatientSearchComponent,
+    PatientLogPatientComponent,
     PatientLogProcedureComponent,
-    PaymentFormComponent,
+    PatientLogPaymentComponent,
     PatientLogConfirmationComponent,
     PatientLogSummaryComponent,
     CommonModule

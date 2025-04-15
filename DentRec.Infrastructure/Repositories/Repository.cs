@@ -20,14 +20,14 @@ namespace DentRec.Infrastructure.Repositories
         }
         public async Task<T?> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes)
         {
-            IQueryable<T> query = context.Set<T>().Where(x => !x.IsDeleted);
+            IQueryable<T> query = context.Set<T>().Where(x => !x.IsDeleted && x.Id == id);
 
             foreach (var include in includes)
             {
                 query = query.Include(include);
             }
 
-            return await query.FirstOrDefaultAsync(x => x.Id == id);
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<IReadOnlyList<T>> ListAllAsync()

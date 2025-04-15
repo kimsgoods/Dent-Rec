@@ -13,7 +13,8 @@ namespace DentRec.Application.Extensions
                 PatientId = payment.PatientId,
                 PatientLogId = payment.PatientLogId,
                 Amount = payment.Amount,
-                PaymentMethod = payment.PaymentMethod
+                PaymentMethod = payment.PaymentMethod,
+                PaymentDate = payment.CreatedOn
             };
         }
 

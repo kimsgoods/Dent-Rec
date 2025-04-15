@@ -37,4 +37,9 @@ export class PaymentService {
   createPayment(payment: NewPayment) {
     return this.http.post<number>(`${this.baseUrl}${this.controllerName}`, payment);
   }
+
+  deletePayment(id: number) {
+    return this.http.delete(`${this.baseUrl}${this.controllerName}/${id}`)
+  }
+
 }

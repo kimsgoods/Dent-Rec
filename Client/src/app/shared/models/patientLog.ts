@@ -11,4 +11,9 @@ export interface PatientLog {
     paymentStatus: string
 }
 
+export interface UpdatePatientLogNotes {
+    id: number
+    notes: string
+}
+
 

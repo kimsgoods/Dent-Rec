@@ -16,6 +16,14 @@ namespace DentRec.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Dentist>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<Prescription>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<Patient>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<PatientPrescription>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<PatientLog>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<Payment>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<Procedure>().HasQueryFilter(e => !e.IsDeleted);
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
         }

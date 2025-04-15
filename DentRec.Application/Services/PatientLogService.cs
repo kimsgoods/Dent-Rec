@@ -16,7 +16,8 @@ namespace DentRec.Application.Services
         {
             x => x.Patient,
             x => x.Dentist,
-            x => x.Procedures
+            x => x.Procedures,
+            x => x.Payments
         };
 #pragma warning restore CS8603
 

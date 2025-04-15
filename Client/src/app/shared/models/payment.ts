@@ -11,5 +11,6 @@ export interface Payment {
     patientId: number;
     paymentMethod: string;
     amount: number;
+    paymentDate: string;
 }
 

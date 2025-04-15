@@ -25,7 +25,8 @@ namespace DentRec.Application.Extensions
                 CreatedBy = patientLog.CreatedBy,
                 ModifiedOn = patientLog.ModifiedOn,
                 CreatedOn = patientLog.CreatedOn,
-                ModifiedBy = patientLog.ModifiedBy
+                ModifiedBy = patientLog.ModifiedBy,
+                Payments = patientLog.Payments.Select(x => x.ToDto())
             };
         }
         public static GetPatientLogDto ToDto(this PatientLog patientLog)

@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 namespace DentRec.Application.Services
 {
     public class PaymentService(
-        IRepository<Payment> repository,
+        IRepository<Payment> paymentRepository,
         IRepository<Patient> patientRepository,
         IRepository<PatientLog> logRepository
     ) : IPaymentService
@@ -65,16 +65,38 @@ namespace DentRec.Application.Services
 
         public async Task<bool> DeletePayment(int id)
         {
-            var payment = await repository.GetByIdAsync(id)
+            var payment = await paymentRepository.GetByIdAsync(id)
                 ?? throw new KeyNotFoundException($"Could not find Payment with Id: {id}");
 
-            repository.Remove(payment);
-            return await repository.SaveAsync(payment) > 0;
+            // Get the associated PatientLog with its Payments
+            var patientLog = await logRepository.GetByIdAsync(payment.PatientLogId, x => x.Payments)
+                ?? throw new KeyNotFoundException($"Associated PatientLog not found for Payment {id}");
+
+            paymentRepository.Remove(payment);
+
+            var totalPaid = patientLog.Payments.Where(x => !x.IsDeleted).Sum(p => p.Amount);
+            if (totalPaid >= patientLog.Fee)
+            {
+                patientLog.PaymentStatus = "Paid";
+            }
+            else if (totalPaid > 0)
+            {
+                patientLog.PaymentStatus = "Partial";
+            }
+            else
+            {
+                patientLog.PaymentStatus = "Pending";
+            }
+
+
+            await logRepository.SaveAsync(patientLog);
+
+            return await paymentRepository.SaveAsync(payment) > 0;
         }
 
         public async Task<GetPaymentDetailsDto> GetPaymentById(int id)
         {
-            var payment = await repository.GetByIdAsync(id)
+            var payment = await paymentRepository.GetByIdAsync(id)
                 ?? throw new KeyNotFoundException($"Could not find Payment with Id: {id}");
 
             return payment.ToDetailsDto();
@@ -82,7 +104,7 @@ namespace DentRec.Application.Services
 
         public async Task<Paging<GetPaymentDto>> GetPayments(GridifyQuery gridifyQuery)
         {
-            var payments = await repository.GetPaginatedRecordsAsync(gridifyQuery);
+            var payments = await paymentRepository.GetPaginatedRecordsAsync(gridifyQuery);
             return new Paging<GetPaymentDto>
             {
                 Count = payments.Count,
@@ -92,7 +114,7 @@ namespace DentRec.Application.Services
 
         public async Task<int> UpdatePayment(UpdatePaymentDto dto)
         {
-            var payment = await repository.GetByIdAsync(dto.Id)
+            var payment = await paymentRepository.GetByIdAsync(dto.Id)
                 ?? throw new KeyNotFoundException($"Could not find Payment with Id: {dto.Id}");
 
             if (dto.Amount != null) payment.Amount = dto.Amount.Value;
@@ -100,8 +122,8 @@ namespace DentRec.Application.Services
 
             try
             {
-                repository.Update(payment);
-                return await repository.SaveAsync(payment);
+                paymentRepository.Update(payment);
+                return await paymentRepository.SaveAsync(payment);
             }
             catch (Exception ex)
             {
