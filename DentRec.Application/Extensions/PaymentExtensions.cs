@@ -11,6 +11,7 @@ namespace DentRec.Application.Extensions
             {
                 Id = payment.Id,
                 PatientId = payment.PatientId,
+                PatientName = $"{payment.Patient?.FirstName} {payment.Patient?.LastName}".Trim(),
                 PatientLogId = payment.PatientLogId,
                 Amount = payment.Amount,
                 PaymentMethod = payment.PaymentMethod,

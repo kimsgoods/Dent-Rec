@@ -61,7 +61,7 @@ export class PatientLogsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.paginationParams.orderBy = `${this.defaultSortField} ${this.defaultSortDirection}`
+    this.updateFilter(this.defaultSortField, this.defaultSortDirection);
     this.getPatientLogs();
   }
 
@@ -86,8 +86,13 @@ export class PatientLogsComponent implements OnInit {
   }
 
   onSortChange(event: { field: string, direction: 'asc' | 'desc' }) {
+    this.updateFilter(event.field, event.direction);
+    this.getPatientLogs();
+  }
+
+  updateFilter(field: string, direction: string) {
     let orderByField = "";
-    switch (event.field) {
+    switch (field) {
       case "age":
         orderByField = "patientAge"
         break;
@@ -101,11 +106,10 @@ export class PatientLogsComponent implements OnInit {
         orderByField = "Patient.Gender"
         break;
       default:
-        orderByField = event.field
+        orderByField = field
         break;
     }
-    this.paginationParams.orderBy = `${orderByField} ${event.direction}`;
-    this.getPatientLogs();
+    this.paginationParams.orderBy = `${orderByField} ${direction}`;
   }
   
 }

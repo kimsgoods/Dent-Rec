@@ -30,6 +30,7 @@ export class CustomTableComponent {
   @Input() filter: string = "";
   @Input() title: string = "";
   @Input() clickEvent: () => void = () => { }
+  @Input() showCreateNewButton: boolean = true;
   @Input() defaultSortField: string = '';
   @Input() defaultSortDirection: 'asc' | 'desc' = 'asc';
 

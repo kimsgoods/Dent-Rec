@@ -1,1 +1,16 @@
-<p>payments works!</p>
+<div class="mx-auto">      
+    <app-custom-table
+      [columns]="columns"
+      [dataSource]="payments"
+      [totalItems]="totalItems"
+      [pageSize]="paginationParams.pageSize"
+      (pageChange)="onPageChange($event)"
+      [title]="title"
+      [actions]="actions"     
+      (sortChange)="onSortChange($event)" 
+      [defaultSortField]="defaultSortField"
+      [defaultSortDirection]="defaultSortDirection"
+      [showCreateNewButton]="false"
+      >
+    </app-custom-table>
+  </div>

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PatientLogService } from '../../core/services/patient-log.service';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, Location } from '@angular/common';
 import { PatientLogDetails } from '../../shared/models/patientLogDetails';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
@@ -42,6 +42,7 @@ export class PatientLogDetailsComponent implements OnInit {
   private paymentService = inject(PaymentService);
   private dialogService = inject(DialogService);
   private router = inject(Router);
+  private location = inject(Location);
   private fb = inject(FormBuilder);
   private dialog = inject(MatDialog);
   private snackbar = inject(SnackbarService);
@@ -81,7 +82,7 @@ export class PatientLogDetailsComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigateByUrl('/patient-logs');
+    this.location.back();
   }
 
   editNotes(): void {

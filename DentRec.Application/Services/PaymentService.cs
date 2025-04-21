@@ -104,7 +104,9 @@ namespace DentRec.Application.Services
 
         public async Task<Paging<GetPaymentDto>> GetPayments(GridifyQuery gridifyQuery)
         {
-            var payments = await paymentRepository.GetPaginatedRecordsAsync(gridifyQuery);
+#pragma warning disable CS8603 // Possible null reference return.
+            var payments = await paymentRepository.GetPaginatedRecordsAsync(gridifyQuery, x => x.Patient);
+#pragma warning restore CS8603 // Possible null reference return.
             return new Paging<GetPaymentDto>
             {
                 Count = payments.Count,

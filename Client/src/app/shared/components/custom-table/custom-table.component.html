@@ -21,7 +21,7 @@
         <div class="text-4xl font-semibold mt-4">
            {{title}}
         </div>
-        <button mat-flat-button (click)="clickEvent()">
+        <button *ngIf="showCreateNewButton" mat-flat-button (click)="clickEvent()">
         Create New
         </button>
      </div>
