@@ -1,0 +1,15 @@
+<div class="mx-auto">      
+    <app-custom-table
+      [columns]="columns"
+      [dataSource]="reports"
+      [totalItems]="totalItems"
+      [pageSize]="paginationParams.pageSize"
+      (pageChange)="onPageChange($event)"
+      [title]="title"
+      (sortChange)="onSortChange($event)" 
+      [defaultSortField]="defaultSortField"
+      [defaultSortDirection]="defaultSortDirection"
+      [showCreateNewButton]="false"
+      >
+    </app-custom-table>
+  </div>

@@ -8,6 +8,7 @@ import { PaymentsComponent } from './features/payments/payments.component';
 import { ProceduresComponent } from './features/procedures/procedures.component';
 import { PatientDetailsComponent } from './features/patient-details/patient-details.component';
 import { PatientLogFormComponent } from './features/patient-log-form/patient-log-form.component';
+import { ReportsComponent } from './features/reports/reports.component';
 
 export const routes: Routes = [
     { path: "", component: HomeComponent },
@@ -19,5 +20,6 @@ export const routes: Routes = [
     { path: "dentists", component: DentistsComponent },
     { path: "payments", component: PaymentsComponent },
     { path: "procedures", component: ProceduresComponent },
+    { path: "reports", component: ReportsComponent },
     { path: "**", redirectTo: "", pathMatch: "full" }
 ];

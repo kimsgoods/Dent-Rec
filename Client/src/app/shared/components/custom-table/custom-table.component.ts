@@ -84,7 +84,11 @@ export class CustomTableComponent {
       return new Intl.NumberFormat('en-PH', { style: 'currency', currency: column.pipeArgs || 'PHP' }).format(value);
     }
     if (column.pipe === 'date') {
-      return new Date(value).toLocaleString('en-PH', column.pipeArgs);
+      const options: Intl.DateTimeFormatOptions = column.pipeArgs || {
+        dateStyle: 'medium',
+        timeStyle: 'short'
+      };
+      return new Date(value).toLocaleString('en-PH', options);
     }
     return value;
   }
