@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DentRec.Application.DTOs.Report
+{
+    public class GetDailyReportDto
+    {
+        public DateTime Date { get; set; }
+        public decimal TotalPaymentAmount { get; set; }
+        public int MorningPatientCount { get; set; }
+        public int AfternoonPatientCount { get; set; }
+        public int DailyPatientCount => MorningPatientCount + AfternoonPatientCount;
+    }
+}
