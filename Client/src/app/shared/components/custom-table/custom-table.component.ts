@@ -31,6 +31,7 @@ export class CustomTableComponent {
   @Input() title: string = "";
   @Input() clickEvent: () => void = () => { }
   @Input() showCreateNewButton: boolean = true;
+  @Input() enableSearch: boolean = false;
   @Input() defaultSortField: string = '';
   @Input() defaultSortDirection: 'asc' | 'desc' = 'asc';
 

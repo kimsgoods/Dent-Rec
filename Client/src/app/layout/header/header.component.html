@@ -1,6 +1,6 @@
-<header class="border-b shadow-md p-3 w-full max-h-20 fixed top-0 z-50 bg-white">
-    <div class="flex align-middle items-center justify-between max-w-screen-2xl mx-auto">
-        <img src="images/cliniclogo.jpg" alt="Clinic Logo" class="h-10" routerLink="/" />
+<header class="shadow-lg p-3 w-full max-h-20 fixed top-0 z-50 bg-white text-stone-800 border-b border-black">
+    <div class="flex align-middle items-center justify-between mx-5">
+        <img src="images/cliniclogo-2.png" alt="Clinic Logo" class="h-12" routerLink="/" />
         <nav class="navbar">
             <ul class="flex space-x-6">
                 <li><a [routerLink]="'/patient-logs'" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
@@ -13,7 +13,8 @@
                         class="hover:text-gray-300 text-2xl">Procedures</a></li>
                 <li><a routerLink="/payments" routerLinkActive="active"
                         class="hover:text-gray-300 text-2xl">Payments</a>
-                <li><a routerLink="/reports" routerLinkActive="active" class="hover:text-gray-300 text-2xl">Reports</a>
+                <li><a routerLink="/reports" routerLinkActive="active" 
+                        class="hover:text-gray-300 text-2xl">Reports</a>
             </ul>
         </nav>
     </div>

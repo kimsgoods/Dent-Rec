@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NewPayment } from '../../shared/models/payment';
 import { PaymentService } from '../../core/services/payment.service';
+import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-patient-log-form',
   imports: [
@@ -30,7 +31,8 @@ import { PaymentService } from '../../core/services/payment.service';
     PatientLogPaymentComponent,
     PatientLogConfirmationComponent,
     PatientLogSummaryComponent,
-    CommonModule
+    CommonModule,
+    MatButtonModule
   ],
   templateUrl: './patient-log-form.component.html',
   styleUrl: './patient-log-form.component.scss'

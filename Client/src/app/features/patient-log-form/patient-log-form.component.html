@@ -1,6 +1,6 @@
-<div class="flex mt-32 gap-6">
+<div class="flex mt-32 gap-6 mx-10 rounded-lg">
   <div [ngClass]="stepper.selectedIndex === 3 ? 'w-full' : 'w-3/4'">
-    <mat-stepper [linear]="true" #stepper class="bg-white border border-gray-200 shadow-sm">
+    <mat-stepper [linear]="true" #stepper class="bg-olive-light border border-olive-light shadow-sm rounded-lg">
 
       <mat-step label="Select Patient" [completed]="completionStatus().patientComplete">
         <app-patient-search [patientSearchControl]="patientSearchControl" [filteredPatients]="filteredPatients$"

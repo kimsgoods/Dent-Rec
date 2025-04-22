@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  overflow-y: scroll;
+}
+
 .container {
     @apply mx-auto max-w-screen-2xl;
 }
