@@ -1,1 +1,24 @@
-<p>home works!</p>
+<div class="relative bg-cover bg-center min-h-screen w-full" style="background-image: url('images/clinicbanner.jpg');">
+    <div
+        class="absolute bottom-16 right-16 flex flex-row gap-6 p-6 bg-olive bg-opacity-90 rounded-xl shadow-lg min-w-[600px] max-w-[90%]">
+        <div class="flex flex-col items-start max-w-sm">
+            <h1 class="text-2xl font-bold mb-2">{{ getGreeting() }}</h1>
+            <p class="text-lg text-gray-700 mb-1">The time is</p>
+            <p class="text-3xl font-bold mb-2">{{ currentTime }}</p>
+            <p class="text-lg text-gray-700 mb-1">Weather: {{ weather }}</p>
+            <img *ngIf="weatherIcon" [src]="weatherIcon" alt="weather icon" class="w-10 h-10 mb-2" />
+            <p class="text-sm text-gray-700 mb-1">Temp: {{ temperature }}  |  Feels like: {{ temperatureFeelsLike }}</p>
+            <p class="text-sm text-gray-700">Humidity: {{ humidity }}%</p>
+        </div>
+        <div>
+            <iframe
+                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fescabartedental%2F&tabs=timeline&width=500&height=350&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false&appId"
+                width="500" height="350" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                allowfullscreen="true"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        </div>
+    </div>
+    <div class="w-full md:w-1/2">
+        <!-- Placeholder for left content -->
+    </div>
+</div>
