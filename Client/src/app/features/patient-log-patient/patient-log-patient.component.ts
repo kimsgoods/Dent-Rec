@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'app-patient-search',
+  selector: 'app-patient-log-patient',
   standalone:true,
   imports: [
     CommonModule,

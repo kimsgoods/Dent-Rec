@@ -3,23 +3,27 @@ import { FormControl } from '@angular/forms';
 import { Observable, of, startWith, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { PatientLogService } from '../../core/services/patient-log.service';
 import { PatientService } from '../../core/services/patient.service';
+import { DentistService } from '../../core/services/dentist.service';
 import { ProcedureService } from '../../core/services/procedure.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
+import { PaymentService } from '../../core/services/payment.service';
 import { PaginationParams } from '../../shared/models/paginationParams';
-import { Patient } from '../../shared/models/patient';
-import { Procedure } from '../../shared/models/procedure';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { PatientLogPatientComponent } from '../patient-log-patient/patient-log-patient.component';
+import { PatientLogDentistComponent } from '../patient-log-dentist/patient-log-dentist.component';
 import { PatientLogProcedureComponent } from '../patient-log-procedure/patient-log-procedure.component';
 import { PatientLogPaymentComponent } from '../patient-log-payment/patient-log-payment.component';
 import { PatientLogConfirmationComponent } from '../patient-log-confirmation/patient-log-confirmation.component';
 import { PatientLogSummaryComponent } from '../patient-log-summary/patient-log-summary.component';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { NewPayment } from '../../shared/models/payment';
-import { PaymentService } from '../../core/services/payment.service';
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
+import { Patient } from '../../shared/models/patient';
+import { Dentist } from '../../shared/models/dentist';
+import { Procedure } from '../../shared/models/procedure';
+import { NewPayment } from '../../shared/models/payment';
+
 @Component({
   selector: 'app-patient-log-form',
   imports: [
@@ -27,6 +31,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatStepper,
     MatInputModule,
     PatientLogPatientComponent,
+    PatientLogDentistComponent,
     PatientLogProcedureComponent,
     PatientLogPaymentComponent,
     PatientLogConfirmationComponent,
@@ -39,27 +44,35 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class PatientLogFormComponent implements OnInit {
   private patientLogService = inject(PatientLogService);
-  private patientService = inject(PatientService);
+  private patientService = inject(PatientService);  
+  private dentistService = inject(DentistService);
   private procedureService = inject(ProcedureService);
   private paymentService = inject(PaymentService);
   private snackbarService = inject(SnackbarService);
   private router = inject(Router);
   patients: Patient[] = [];
-  selectedPatient: Patient | null = null;
+  dentists: Dentist[] = [];
   procedures: Procedure[] = [];
-  selectedProcedures: Procedure[] = [];
-  paginationParams = new PaginationParams();
-  completionStatus = signal<{ patientComplete: boolean, procedureComplete: boolean, paymentComplete: boolean }>({ patientComplete: false, procedureComplete: false, paymentComplete: false });
+
   amountPaid: number = 0;
   paymentType: string = '';
-  notes: string = '';
   paymentFormValid = false;
+  
+  paginationParams = new PaginationParams();
+  completionStatus = signal<{ patientComplete: boolean, dentistComplete: boolean, procedureComplete: boolean, paymentComplete: boolean }>
+    ({ patientComplete: false, dentistComplete:false, procedureComplete: false, paymentComplete: false });
 
   patientSearchControl = new FormControl('');
   filteredPatients$: Observable<Patient[]> = of([]);
+  
+  selectedPatient: Patient | null = null;  
+  selectedDentist: Dentist | null = null;
+  selectedProcedures: Procedure[] = [];  
+  notes: string = '';
 
   ngOnInit(): void {
     this.getProcedures();
+    this.getDentists();
 
     this.filteredPatients$ = this.patientSearchControl.valueChanges.pipe(
       startWith(''),
@@ -72,6 +85,13 @@ export class PatientLogFormComponent implements OnInit {
   handlePatientChange(event: boolean) {
     this.completionStatus.update(state => {
       state.patientComplete = event;
+      return state;
+    })
+  }
+
+  handleDentistChange(event: boolean) {
+    this.completionStatus.update(state => {
+      state.dentistComplete = event;
       return state;
     })
   }
@@ -101,6 +121,15 @@ export class PatientLogFormComponent implements OnInit {
       },
       error: error => console.log(error)
     });
+  }
+
+  getDentists() {
+    this.dentistService.getDentists(this.paginationParams).subscribe({
+      next: response => {
+        this.dentists = response.data
+      },
+      error: error => console.log(error)
+    })
   }
 
   getProcedures() {
@@ -138,10 +167,15 @@ export class PatientLogFormComponent implements OnInit {
     this.handlePatientChange(true);
   }
 
+  selectDentist(dentist: Dentist) {
+    this.selectedDentist = dentist;
+    this.handleDentistChange(true);
+  }
+
   async createPatientLog(stepper: MatStepper) {
     const newLog = {
       patientId: this.selectedPatient?.id,
-      dentistId: 1,
+      dentistId: this.selectedDentist?.id,
       procedureIds: this.selectedProcedures?.map(p => p.id),
       notes: this.notes
     };

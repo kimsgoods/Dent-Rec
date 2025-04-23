@@ -1,11 +1,11 @@
-<div *ngIf="patientLog != null" class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-md">
+<div *ngIf="patientLog != null" class="mt-20 max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-md">
     <!-- Header Section -->
     <div class="flex justify-between items-center mb-6 pb-4 border-b">
         <button mat-button color="primary" (click)="goBack()">
             <mat-icon>arrow_back</mat-icon>
             Back to Previous Page
         </button>
-        <h1 class="text-2xl font-bold text-gray-800">Patient Treatment Details</h1>
+        <h1 class="text-2xl font-bold">Patient Treatment Details</h1>
         <div class="flex space-x-2">
             <span class="px-3 py-1 rounded-full text-xs font-semibold" [ngClass]="{
             'bg-green-100 text-green-800': patientLog.paymentStatus === 'Paid',
@@ -23,7 +23,7 @@
     <!-- Patient Information Section -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div class="bg-gray-50 p-4 rounded-lg">
-            <h2 class="text-lg font-semibold text-gray-700 mb-3">Patient Information</h2>
+            <h2 class="text-lg font-semibold mb-3">Patient Information</h2>
             <div class="space-y-2">
                 <div class="flex">
                     <span class="w-32 text-gray-600">Name:</span>
@@ -46,7 +46,7 @@
 
         <!-- Treatment Information Section -->
         <div class="bg-gray-50 p-4 rounded-lg">
-            <h2 class="text-lg font-semibold text-gray-700 mb-3">Treatment Information</h2>
+            <h2 class="text-lg font-semibold mb-3">Treatment Information</h2>
             <div class="space-y-2">
                 <div class="flex">
                     <span class="w-32 text-gray-600">Dentist:</span>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="flex">
                     <span class="w-32 text-gray-600">Total Fee:</span>
-                    <span class="font-medium">{{ patientLog.fee | currency }}</span>
+                    <span class="font-medium">{{ patientLog.fee | currency:'PHP':'symbol' }}</span>
                 </div>
             </div>
         </div>
@@ -66,7 +66,7 @@
 
     <!-- Procedures Section -->
     <div class="mb-8">
-        <h2 class="text-lg font-semibold text-gray-700 mb-3">Procedures Performed</h2>
+        <h2 class="text-lg font-semibold mb-3">Procedures Performed</h2>
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -88,13 +88,13 @@
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-500">{{ procedure.description }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">{{ procedure.fee |
-                            currency }}</td>
+                            currency:'PHP':'symbol' }}</td>
                     </tr>
                     <tr class="bg-gray-50">
                         <td colspan="2"
                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">Total</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">{{
-                            patientLog.fee | currency }}</td>
+                            patientLog.fee | currency:'PHP':'symbol' }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -103,7 +103,7 @@
 
     <div class="mb-8">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-lg font-semibold text-gray-700">Payment History</h2>
+          <h2 class="text-lg font-semibold">Payment History</h2>
           <span
             [matTooltip]="balance <= 0 ? 'No balance remaining' : ''"
             matTooltipPosition="above"
@@ -137,7 +137,7 @@
                   {{ payment.paymentDate | date: 'medium' }}
                 </td>
                 <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">{{ payment.paymentMethod }}</td>
-                <td class="px-6 py-4 text-sm text-gray-700 text-right whitespace-nowrap">{{ payment.amount | currency }}</td>
+                <td class="px-6 py-4 text-sm text-gray-700 text-right whitespace-nowrap">{{ payment.amount | currency:'PHP':'symbol' }}</td>
                 <td class="px-6 py-4 text-right whitespace-nowrap">
                   <button
                     mat-icon-button
@@ -155,7 +155,7 @@
               <tr class="bg-gray-50">
                 <td colspan="2" class="px-6 py-3 text-sm font-medium text-gray-900 text-right">Total Paid</td>
                 <td class="px-6 py-3 text-sm font-semibold text-right text-gray-700">
-                  {{ totalPaid | currency }}
+                  {{ totalPaid | currency:'PHP':'symbol' }}
                 </td>
                 <td></td>
               </tr>
@@ -170,7 +170,7 @@
                     'text-red-600': balance > 0
                   }"
                 >
-                  {{ balance | currency }}
+                  {{ balance | currency:'PHP':'symbol' }}
                 </td>
                 <td></td>
               </tr>
@@ -189,7 +189,7 @@
     <!-- Notes Section -->
     <div class="mb-8">
         <div class="flex justify-between items-center mb-2">
-            <h2 class="text-lg font-semibold text-gray-700">Notes</h2>
+            <h2 class="text-lg font-semibold">Notes</h2>
             <button mat-icon-button color="primary" (click)="editNotes()">
                 <mat-icon>edit</mat-icon>
             </button>

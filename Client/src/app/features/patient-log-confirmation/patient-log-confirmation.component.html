@@ -1,61 +1,107 @@
-<div class="space-y-6 p-6 rounded-lg border border-gray-200 bg-white shadow-sm">
-  <h2 class="text-2xl font-semibold">Patient Log Summary</h2>
+<div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-md">
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6 pb-4 border-b">
+    <h1 class="text-2xl font-bold text-gray-800">Patient Log Summary</h1>
+  </div>
 
-  <!-- Patient Info -->
-  <div class="space-y-2">
-    <h3 class="text-xl font-medium">Patient Information</h3>
-    <dl class="text-sm">
-      <div class="flex justify-between font-medium text-lg">
-        <dt>Name</dt>
-        <dd>{{ selectedPatient?.firstName }} {{ selectedPatient?.lastName }}</dd>
+  <!-- Patien Info -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <!-- Patient Info -->
+    <div class="bg-gray-50 p-4 rounded-lg">
+      <h2 class="text-lg font-semibold text-gray-700 mb-3">Patient Information</h2>
+      <div class="space-y-2">
+        <div class="flex">
+          <span class="w-32 text-gray-600">Name:</span>
+          <span class="font-medium">{{ selectedPatient?.firstName }} {{ selectedPatient?.lastName }}</span>
+        </div>
+        <div class="flex">
+          <span class="w-32 text-gray-600">Age:</span>
+          <span class="font-medium">{{ selectedPatient?.age }}</span>
+        </div>
+        <div class="flex">
+          <span class="w-32 text-gray-600">Sex:</span>
+          <span class="font-medium">{{ selectedPatient?.gender }}</span>
+        </div>
+        <div class="flex">
+          <span class="w-32 text-gray-600">Address:</span>
+          <span class="font-medium">{{ selectedPatient?.address }}</span>
+        </div>
       </div>
-      <div class="flex justify-between font-medium text-lg">
-        <dt>Age</dt>
-        <dd>{{ selectedPatient?.age }}</dd>
+    </div>
+
+    <!-- Dentist Info -->
+    <div class="bg-gray-50 p-4 rounded-lg">
+      <h2 class="text-lg font-semibold text-gray-700 mb-3">Treatment Information</h2>
+      <div class="space-y-2">
+        <div class="flex">
+          <span class="w-32 text-gray-600">Dentist:</span>
+          <span class="font-medium">{{ selectedDentist?.firstName }} {{ selectedDentist?.lastName }}</span>
+        </div>
+        <div class="flex">
+          <span class="w-32 text-gray-600">Procedure Date:</span>
+          <span class="font-medium">{{ currentDate | date }}</span>
+        </div>
+        <div class="flex">
+          <span class="w-32 text-gray-600">Total Fee:</span>
+          <span class="font-medium">{{ getTotalFee() | currency:'PHP':'symbol' }}</span>
+        </div>
       </div>
-      <div class="flex justify-between font-medium text-lg">
-        <dt>Sex</dt>
-        <dd>{{ selectedPatient?.gender }}</dd>
-      </div>
-      <div class="flex justify-between font-medium text-lg">
-        <dt>Address</dt>
-        <dd>{{ selectedPatient?.address }}</dd>
-      </div>
-    </dl>
+    </div>
   </div>
 
   <!-- Procedures -->
-  <div>
-    <h3 class="text-xl font-medium mb-2">Procedures</h3>
-    <ul class="space-y-1">
-      <li *ngFor="let procedure of selectedProcedures" class="flex justify-between">
-        <span>{{ procedure.name }}</span>
-        <span>₱{{ procedure.fee }}</span>
-      </li>
-    </ul>
-    <div class="mt-2 flex justify-between border-t pt-2 font-semibold">
-      <span>Total Fee</span>
-      <span>₱{{ getTotalFee() }}</span>
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold text-gray-700 mb-3">Procedures Performed</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 bg-white">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Procedure</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Fee</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr *ngFor="let procedure of selectedProcedures" class="hover:bg-gray-50">
+            <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ procedure.name }}</td>
+            <td class="px-6 py-4 text-sm text-gray-700 text-right">{{ procedure.fee | currency:'PHP':'symbol' }}</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="px-6 py-4 text-sm font-semibold text-right">Total</td>
+            <td class="px-6 py-4 text-sm font-semibold text-right text-gray-800">{{ getTotalFee() | currency:'PHP':'symbol' }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
   <!-- Payment Info -->
-  <div>
-    <h3 class="text-xl font-medium mb-2">Payment</h3>
-    <dl class="flex justify-between">
-      <dt>Amount Paid</dt>
-      <dd>₱{{ amountPaid }}</dd>
-    </dl>
-    <dl class="flex justify-between">
-      <dt>Payment Type</dt>
-      <dd>{{ paymentType }}</dd>
-    </dl>
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold text-gray-700 mb-3">Payment</h2>
+    <div class="flex-col gap-4 bg-gray-50 p-4 rounded-lg">
+      <div class="flex justify-between">
+        <span class="text-gray-600 font-medium">Amount Paid:</span>
+        <span class="font-semibold text-gray-800">{{ amountPaid | currency:'PHP':'symbol'}}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-gray-600 font-medium">Payment Type:</span>
+        <span class="font-semibold text-gray-800">{{ paymentType }}</span>
+      </div>
+      <div class="flex justify-between col-span-1 md:col-span-2 border-t pt-2">
+        <span class="text-gray-600 font-medium">Balance:</span>
+        <span class="font-semibold" [ngClass]="getTotalFee() - amountPaid > 0 ? 'text-red-600' : 'text-green-600'">
+          ₱{{ getTotalFee() - amountPaid }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold text-gray-700 mb-2">Notes</h2>
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Notes (optional)</mat-label>
+      <textarea matInput [(ngModel)]="notes" (ngModelChange)="notesChange.emit($event)"
+        placeholder="Enter any notes here..." rows="4" class="bg-white"></textarea>
+    </mat-form-field>
   </div>
 </div>
-
-<mat-form-field appearance="fill" class="w-full mt-4">
-  <mat-label>Notes (optional)</mat-label>
-  <textarea matInput [(ngModel)]="notes" (ngModelChange)="notesChange.emit($event)"
-    placeholder="Enter any notes here..." rows="4">
-    </textarea>
-</mat-form-field>

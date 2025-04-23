@@ -1,36 +1,56 @@
 <div class="mx-auto max-w-4xl space-y-6 w-full">
-    <div class="space-y-4 p-4 rounded-lg border border-gray-200 bg-white shadow-sm">
-      <p class="text-xl font-semibold">Summary</p>
-  
-      <!-- Patient Info -->
-      <div *ngIf="selectedPatient" class="text-sm text-gray-700 space-y-1">
-        <p><strong>Patient:</strong> {{ selectedPatient.firstName }} {{ selectedPatient.lastName }}</p>
-        <p><strong>Age:</strong> {{ selectedPatient.age }}</p>
-        <p><strong>Sex:</strong> {{ selectedPatient.gender }}</p>
-        <p><strong>Address:</strong> {{ selectedPatient.address }}</p>
+  <div class="space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
+    <h2 class="text-3xl font-bold pb-4 border-b border-gray-100">Summary</h2>
+
+    <!-- Patient Info -->
+    <div *ngIf="selectedPatient" class="text-sm space-y-3">
+      <h3 class="text-xl font-semibold tracking-tight">Patient Information</h3>
+      <div class="flex flex-wrap gap-4 pl-2">
+        <p class="min-w-[200px]"><span class="font-medium">Name:</span> {{ selectedPatient.firstName }} {{
+          selectedPatient.lastName }}</p>
+        <p class="min-w-[100px]"><span class="font-medium">Age:</span> {{ selectedPatient.age }}</p>
+        <p class="min-w-[100px]"><span class="font-medium">Sex:</span> {{ selectedPatient.gender }}</p>
+        <p class="w-full"><span class="font-medium">Address:</span> {{ selectedPatient.address }}</p>
       </div>
-  
-      <!-- Procedures -->
-      <div *ngIf="selectedProcedures.length > 0" class="text-sm text-gray-700 space-y-1 border-t pt-4">
-        <p><strong>Procedures:</strong></p>
-        <ul>
-          <li *ngFor="let proc of selectedProcedures" class="flex justify-between">
-            <span>{{ proc.name }}</span>
-            <span>₱{{ proc.fee }}</span>
-          </li>
-        </ul>
-        <div class="flex justify-between font-medium pt-2">
-          <span>Total</span>
-          <span>₱{{ getTotalFee() }}</span>
-        </div>
+    </div>
+
+    <!-- Dentist Info -->
+    <div *ngIf="selectedDentist" class="text-sm space-y-3">
+      <h3 class="text-xl font-semibold tracking-tight">Dentist</h3>
+      <p class="pl-2">{{ selectedDentist.firstName }} {{ selectedDentist.lastName }}</p>
+    </div>
+
+    <!-- Procedures -->
+    <div *ngIf="selectedProcedures.length > 0" class="text-sm space-y-4 border-t border-gray-100 pt-4">
+      <h3 class="text-xl font-semibold tracking-tight">Procedures</h3>
+      <ul>
+        <li *ngFor="let procedure of selectedProcedures"
+          class="flex justify-between items-center py-2 border-b border-dashed border-gray-100">
+          <span>{{ procedure.name }}</span>
+          <span class="font-medium">₱{{ procedure.fee }}</span>
+        </li>
+      </ul>
+      <div class="flex justify-between pt-3 font-semibold text-base border-t border-gray-100">
+        <span>Total</span>
+        <span class="text-blue-600">₱{{ getTotalFee() }}</span>
       </div>
-  
-      <!-- Payment -->
-      <div *ngIf="amountPaid > 0" class="text-sm text-gray-700 space-y-1 border-t pt-4">
-        <p><strong>Payment:</strong></p>
-        <p><strong>Amount Paid:</strong> ₱{{ amountPaid }}</p>
-        <p><strong>Payment Type:</strong> {{ paymentType }}</p>
+    </div>
+
+    <!-- Payment -->
+    <div *ngIf="paymentType !=''" class="text-sm space-y-4 border-t border-gray-100 pt-4">
+      <h3 class="text-xl font-semibold tracking-tight">Payment Details</h3>
+      <div class="flex flex-wrap gap-4 pl-2">
+        <p class="min-w-[200px]">
+          <span class="font-medium">Amount Paid:</span>
+          <span class="font-semibold"> ₱{{ amountPaid }}</span>
+        </p>
+        <p class="min-w-[180px]">
+          <span class="font-medium">Payment Type:</span> {{ paymentType }}
+        </p>
+        <p *ngIf="getTotalFee() - amountPaid > 0" class="w-full text-sm text-red-600 font-medium">
+          Balance: ₱{{ getTotalFee() - amountPaid }}
+        </p>
       </div>
     </div>
   </div>
-  
+</div>

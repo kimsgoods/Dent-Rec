@@ -1,11 +1,19 @@
 <div class="flex mt-32 gap-6 mx-10 rounded-lg">
-  <div [ngClass]="stepper.selectedIndex === 3 ? 'w-full' : 'w-3/4'">
-    <mat-stepper [linear]="true" #stepper class="bg-olive-light border border-olive-light shadow-sm rounded-lg">
+  <div [ngClass]="stepper.selectedIndex === 4 ? 'w-full' : 'w-3/4'">
+    <mat-stepper [linear]="true" #stepper class="border shadow-sm rounded-lg">
 
       <mat-step label="Select Patient" [completed]="completionStatus().patientComplete">
-        <app-patient-search [patientSearchControl]="patientSearchControl" [filteredPatients]="filteredPatients$"
+        <app-patient-log-patient [patientSearchControl]="patientSearchControl" [filteredPatients]="filteredPatients$"
           [selectedPatient]="selectedPatient" (patientSelected)="selectPatient($event)">
-        </app-patient-search>
+        </app-patient-log-patient>
+        <div class="flex justify-between mt-6">
+          <button class="z-0" routerLink="/patient-logs" mat-stroked-button>Cancel</button>
+          <button [disabled]="!completionStatus().patientComplete" matStepperNext mat-flat-button>Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step label="Select Dentist" [completed]="completionStatus().patientComplete">
+        <app-patient-log-dentist [dentists]="dentists" [selectedDentist]="selectedDentist" (dentistSelected)="selectDentist($event)"></app-patient-log-dentist>
         <div class="flex justify-between mt-6">
           <button class="z-0" routerLink="/patient-logs" mat-stroked-button>Cancel</button>
           <button [disabled]="!completionStatus().patientComplete" matStepperNext mat-flat-button>Next</button>
@@ -33,7 +41,7 @@
       </mat-step>
 
       <mat-step label="Confirmation">
-        <app-patient-log-confirmation [selectedPatient]="selectedPatient" [selectedProcedures]="selectedProcedures"
+        <app-patient-log-confirmation [selectedPatient]="selectedPatient" [selectedDentist]="selectedDentist" [selectedProcedures]="selectedProcedures"
           [amountPaid]="amountPaid" [paymentType]="paymentType" [(notes)]="notes">
         </app-patient-log-confirmation>
 
@@ -49,8 +57,8 @@
     </mat-stepper>
   </div>
 
-  <div class="w-1/4" *ngIf="stepper.selectedIndex !== 3">
-    <app-patient-log-summary [selectedPatient]="selectedPatient" [selectedProcedures]="selectedProcedures"
+  <div class="w-1/4" *ngIf="stepper.selectedIndex !== 4">
+    <app-patient-log-summary [selectedPatient]="selectedPatient" [selectedDentist]="selectedDentist" [selectedProcedures]="selectedProcedures" 
       [amountPaid]="amountPaid" [paymentType]="paymentType">
     </app-patient-log-summary>
   </div>

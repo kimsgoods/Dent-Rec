@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Patient } from '../../shared/models/patient';
 import { Procedure } from '../../shared/models/procedure';
 import { CommonModule } from '@angular/common';
+import { Dentist } from '../../shared/models/dentist';
 
 @Component({
   selector: 'app-patient-log-summary',
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PatientLogSummaryComponent {
   @Input() selectedPatient: Patient | null = null;
+  @Input() selectedDentist: Dentist | null = null;
   @Input() selectedProcedures: Procedure[] = [];
   @Input() amountPaid: number = 0;
   @Input() paymentType: string = '';

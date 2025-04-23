@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Dentist } from '../../shared/models/dentist';
 
 @Component({
   selector: 'app-patient-log-confirmation',
@@ -19,11 +20,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './patient-log-confirmation.component.scss'
 })
 export class PatientLogConfirmationComponent {
-  @Input() selectedPatient!: Patient | null;
+  @Input() selectedPatient!: Patient | null;  
+  @Input() selectedDentist!: Dentist | null;
   @Input() selectedProcedures: Procedure[] = [];
   @Input() amountPaid!: number;
   @Input() paymentType!: string;
   @Input() notes: string = '';
+  currentDate = Date.now();
 
   @Output() notesChange = new EventEmitter<string>();
 
