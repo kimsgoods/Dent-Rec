@@ -32,7 +32,7 @@ namespace DentRec.Application.Services
             var payments = await paymentRepository.GetPaginatedRecordsAsync(gridifyQuery);
 
             var patientLogGroups = patientLogs.Data.GroupBy(x => x.CreatedOn.Date).ToDictionary(x => x.Key);
-            var paymentGroups = payments.Data.GroupBy(x => x.CreatedOn.Date).ToDictionary(x => x.Key, x => x.Sum(s => s.Amount));
+            var paymentGroups = payments.Data.GroupBy(x => x.CreatedOn.Date).ToDictionary(x => x.Key);
 
             var allDates = patientLogGroups.Keys
                 .Union(paymentGroups.Keys)
@@ -44,14 +44,16 @@ namespace DentRec.Application.Services
             foreach (var date in allDates)
             {
                 patientLogGroups.TryGetValue(date, out var patientLogGroup);
-                paymentGroups.TryGetValue(date, out var dailyPaymentTotal);
+                paymentGroups.TryGetValue(date, out var paymentGroup);
 
                 report.Add(new GetDailyReportDto
                 {
                     Date = date,
                     MorningPatientCount = patientLogGroup?.Where(x => x.ProcedureDate.Hour < 12).Select(x => x.PatientId).Distinct().Count() ?? 0,
                     AfternoonPatientCount = patientLogGroup?.Where(x => x.ProcedureDate.Hour >= 12).Select(x => x.PatientId).Distinct().Count() ?? 0,
-                    TotalPaymentAmount = dailyPaymentTotal
+                    GCashPayment = paymentGroup?.Where(x => x.PaymentMethod.Equals("GCash",StringComparison.OrdinalIgnoreCase)).Sum(x => x.Amount) ?? 0,
+                    CashPayment = paymentGroup?.Where(x => x.PaymentMethod.Equals("Cash", StringComparison.OrdinalIgnoreCase)).Sum(x => x.Amount) ?? 0,
+                    TotalPaymentAmount = paymentGroup?.Sum(x => x.Amount) ?? 0,
                 });
             }
             var resultFilter = new GridifyQuery { OrderBy = orderBy };

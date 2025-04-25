@@ -62,7 +62,9 @@ export class ReportsComponent {
     { field: 'date', header: 'Day', pipe: 'date', pipeArgs: { weekday: 'long' }, sortable: false },
     { field: 'morningPatientCount', header: 'Morning Patients' },
     { field: 'afternoonPatientCount', header: 'Afternoon Patients' },
-    { field: 'dailyPatientCount', header: 'Total Patients' },
+    { field: 'dailyPatientCount', header: 'Total Patients' },    
+    { field: 'cashPayment', header: 'Cash Payment', pipe: 'currency', pipeArgs: 'PHP' },    
+    { field: 'gCashPayment', header: 'GCash Payment', pipe: 'currency', pipeArgs: 'PHP' },
     { field: 'totalPaymentAmount', header: 'Total Amount', pipe: 'currency', pipeArgs: 'PHP' },
   ]
 }
