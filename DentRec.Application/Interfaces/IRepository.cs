@@ -8,6 +8,7 @@ namespace DentRec.Application.Interfaces
     {
         Task<T?> GetByIdAsync(int id);
         Task<T?> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes);
+        Task<T?> GetByIdAsync(int id, params Func<IQueryable<T>, IQueryable<T>>[] includes);
         Task<IReadOnlyList<T>> ListAllAsync();
         Task<Paging<T>> GetPaginatedRecordsAsync(GridifyQuery gridifyQuery);
         Task<Paging<T>> GetPaginatedRecordsAsync(GridifyQuery gridifyQuery, params Expression<Func<T, object>>[] includes);

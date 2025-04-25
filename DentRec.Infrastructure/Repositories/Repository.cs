@@ -30,6 +30,18 @@ namespace DentRec.Infrastructure.Repositories
             return await query.FirstOrDefaultAsync();
         }
 
+        public async Task<T?> GetByIdAsync(int id, params Func<IQueryable<T>, IQueryable<T>>[] includes)
+        {
+            var query = context.Set<T>().Where(x => !x.IsDeleted && x.Id == id);
+
+            foreach (var include in includes)
+            {
+                query = include(query);
+            }
+
+            return await query.FirstOrDefaultAsync();
+        }
+
         public async Task<IReadOnlyList<T>> ListAllAsync()
         {
             return await context.Set<T>().Where(x => !x.IsDeleted).ToListAsync();

@@ -20,7 +20,9 @@ namespace DentRec.Application.Extensions
                 CreatedBy = patient.CreatedBy,
                 ModifiedOn = patient.ModifiedOn,
                 CreatedOn = patient.CreatedOn,
-                ModifiedBy = patient.ModifiedBy
+                ModifiedBy = patient.ModifiedBy,
+                PatientLogs = patient.PatientLogs.Select(x => x.ToDto()).ToList(),
+                Payments = patient.Payments.Select(x => x.ToDto()).ToList()
             };
         }
 

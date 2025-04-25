@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginationParams } from '../../shared/models/paginationParams';
-import { Patient } from '../../shared/models/patient';
+import { Patient, PatientDetails } from '../../shared/models/patient';
 import { Paging } from '../../shared/models/paging';
 
 @Injectable({
@@ -38,8 +38,8 @@ export class PatientService {
     return this.http.get<Paging<Patient>>(`${this.baseUrl}${this.controllerName}`, { params })
   }
 
-  getPatientLogById(id: number) {
-    return this.http.get<Patient>(`${this.baseUrl}patients/${id}`)
+  getPatientById(id: number) {
+    return this.http.get<PatientDetails>(`${this.baseUrl}patients/${id}`)
   }
 
   deletePatient(id: number) {

@@ -10,7 +10,7 @@
             <span class="px-3 py-1 rounded-full text-xs font-semibold" [ngClass]="{
             'bg-green-100 text-green-800': patientLog.paymentStatus === 'Paid',
             'bg-yellow-100 text-yellow-800': patientLog.paymentStatus === 'Partial',
-            'bg-red-100 text-red-800': patientLog.paymentStatus === 'Unpaid'
+            'bg-red-100 text-red-800': patientLog.paymentStatus === 'Pending'
           }">
                 {{ patientLog.paymentStatus }}
             </span>
@@ -41,6 +41,12 @@
                     <span class="w-32 text-gray-600">Address:</span>
                     <span class="font-medium">{{ patientLog.address }}</span>
                 </div>
+            </div>
+            <div class="flex justify-end mt-4">
+              <button mat-raised-button color="accent" (click)="viewPatientDetails()">
+                <mat-icon>visibility</mat-icon>
+                View Patient Details
+              </button>
             </div>
         </div>
 

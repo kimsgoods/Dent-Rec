@@ -3,11 +3,14 @@ using DentRec.Application.Extensions;
 using DentRec.Application.Interfaces;
 using DentRec.Domain.Entities;
 using Gridify;
+using Microsoft.EntityFrameworkCore;
 
 namespace DentRec.Application.Services
 {
     public class PatientService(IRepository<Patient> repository) : IPatientService
     {
+        
+        Func<IQueryable<Patient>, IQueryable<Patient>> includes = q => q.Include(p => p.PatientLogs).ThenInclude(pl=>pl.Procedures).Include(p=>p.Payments);
         public async Task<int> CreatePatient(CreatePatientDto dto)
         {
             if (String.IsNullOrEmpty(dto.FirstName) || String.IsNullOrEmpty(dto.LastName))
@@ -41,7 +44,7 @@ namespace DentRec.Application.Services
 
         public async Task<GetPatientDetailsDto> GetPatientById(int id)
         {
-            var patient = await repository.GetByIdAsync(id)
+            var patient = await repository.GetByIdAsync(id, includes)
                 ?? throw new KeyNotFoundException($"Could not find patient with Id: {id}");
             return patient.ToDetailsDto();
         }

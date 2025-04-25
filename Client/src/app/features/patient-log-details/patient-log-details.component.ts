@@ -16,7 +16,6 @@ import { PaymentService } from '../../core/services/payment.service';
 import { PaymentFormComponent } from '../payment-form/payment-form.component';
 import { NewPayment } from '../../shared/models/payment';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { DialogService } from '../../core/services/dialog.service';
 
 @Component({
@@ -84,6 +83,11 @@ export class PatientLogDetailsComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
+  viewPatientDetails() : void {
+    this.router.navigateByUrl(`/patients/${this.patientLog.patientId}`)
+  }
+
 
   editNotes(): void {
     this.isEditingNotes = true;

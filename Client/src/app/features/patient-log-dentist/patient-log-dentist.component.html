@@ -1,10 +1,8 @@
 <h1 class="text-2xl font-semibold py-4">Select Dentist</h1>
 <div class="grid gap-2">
-    <mat-radio-group (change)="selectDentist($event.value)">
+    <mat-radio-group (change)="selectDentist($event.value)" class="flex flex-col gap-2">
         <mat-radio-button *ngFor="let dentist of dentists" [value]="dentist">
           {{ dentist.firstName }} {{ dentist.lastName }}
         </mat-radio-button>
-      </mat-radio-group>
-      
-
+    </mat-radio-group>
 </div>
