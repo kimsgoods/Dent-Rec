@@ -10,9 +10,11 @@ namespace DentRec.Infrastructure.EntityConfigurations
         {
             builder.Property(x => x.CreatedOn)
                 .HasColumnType("datetime2")
+                .HasDefaultValueSql("GETDATE()")
                 .IsRequired(true);
 
             builder.Property(x => x.ModifiedOn)
+                .HasDefaultValueSql("GETDATE()")
                 .HasColumnType("datetime2");
 
             builder.Property(x => x.CreatedBy)
