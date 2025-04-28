@@ -20,4 +20,10 @@
     <ProjectReference Include="..\DentRec.Infrastructure\DentRec.Infrastructure.csproj" />
   </ItemGroup>
 
+ <Target Name="PublishAngularApp" BeforeTargets="Build">
+  <Exec Command="npm install" WorkingDirectory="..\Client" />
+  <Exec Command="npm run build" WorkingDirectory="..\Client" />
+</Target>
+
+
 </Project>
