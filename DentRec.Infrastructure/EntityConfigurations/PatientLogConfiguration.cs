@@ -36,9 +36,6 @@ namespace DentRec.Infrastructure.EntityConfigurations
                 .HasForeignKey(x => x.DentistId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasMany(x => x.Procedures)
-                .WithMany(p => p.PatientLogs);
-
             builder.HasMany(x => x.Payments)
                 .WithOne(p => p.PatientLog)
                 .HasForeignKey(p => p.PatientLogId)

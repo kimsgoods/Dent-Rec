@@ -4,7 +4,15 @@
     {
         public required int PatientId { get; set; }
         public required int DentistId { get; set; }
-        public List<int> ProcedureIds { get; set; } = new List<int>();
+        public List<CreatePatientLogProcedureDto> Procedures { get; set; } = [];
         public string? Notes { get; set; }
+    }
+
+    public class CreatePatientLogProcedureDto
+    {
+        public int Id { get; set; }
+        public int? Quantity { get; set; }
+        public string? Notes { get; set; }
+
     }
 }

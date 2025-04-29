@@ -13,6 +13,7 @@ namespace DentRec.Application.Extensions
                 Name = procedure.Name,
                 Description = procedure.Description,
                 Fee = procedure.Fee,
+                PricingType = procedure.PricingType.ToString(),
                 CreatedBy = procedure.CreatedBy,
                 ModifiedOn = procedure.ModifiedOn,
                 CreatedOn = procedure.CreatedOn,
@@ -21,12 +22,17 @@ namespace DentRec.Application.Extensions
         }
 
         public static Procedure ToEntity(this CreateProcedureDto dto)
-        {          
+        {
+            if (!Enum.TryParse<PricingType>(dto.PricingType, true, out var pricingType))
+            {
+                throw new ArgumentException($"Invalid pricingType: {dto.PricingType}");
+            }
             return new Procedure
             {
                 Name = dto.Name,
                 Fee = dto.Fee,
-                Description = dto.Description
+                Description = dto.Description,
+                PricingType = pricingType
             };
         }
     }

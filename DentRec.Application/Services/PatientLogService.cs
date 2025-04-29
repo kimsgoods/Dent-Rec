@@ -3,6 +3,7 @@ using DentRec.Application.Extensions;
 using DentRec.Application.Interfaces;
 using DentRec.Domain.Entities;
 using Gridify;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace DentRec.Application.Services
@@ -11,15 +12,13 @@ namespace DentRec.Application.Services
         IRepository<Patient> patientRepository, IRepository<Dentist> dentistRepository,
         IRepository<Procedure> procedureRepository) : IPatientLogService
     {
-#pragma warning disable CS8603  // Disable warning for possible null reference return.
-        private static readonly Expression<Func<PatientLog, object>>[] includes =
-        {
-            x => x.Patient,
-            x => x.Dentist,
-            x => x.Procedures,
-            x => x.Payments
-        };
-#pragma warning restore CS8603
+
+        private readonly Func<IQueryable<PatientLog>, IQueryable<PatientLog>> includes = 
+            x => x.Include(p => p.Patient)
+                  .Include(p => p.Dentist)
+                  .Include(p => p.PatientLogProcedures)
+                    .ThenInclude(plp => plp.Procedure)
+                  .Include(p => p.Payments);
 
         public async Task<int> CreatePatientLogAsync(CreatePatientLogDto dto)
         {
@@ -33,12 +32,18 @@ namespace DentRec.Application.Services
             var totalProcedureFee = 0.0m;
             var newPatientLog = dto.ToEntity();
 
-            foreach (var procedureId in dto.ProcedureIds)
+            foreach (var inputProcedure in dto.Procedures)
             {
-                var procedure = await procedureRepository.GetByIdAsync(procedureId) ??
-                    throw new KeyNotFoundException($"Procedure with Id {procedureId} does not exist.");
+                var procedure = await procedureRepository.GetByIdAsync(inputProcedure.Id) ??
+                    throw new KeyNotFoundException($"Procedure with Id {inputProcedure.Id} does not exist.");
 
-                newPatientLog.Procedures.Add(procedure);
+                newPatientLog.PatientLogProcedures.Add(new PatientLogProcedure
+                {
+                    ProcedureId = procedure.Id,
+                    Procedure = procedure,     
+                    Notes = inputProcedure.Notes,
+                    Quantity = inputProcedure.Quantity ?? 1,
+                });
                 totalProcedureFee += procedure.Fee;
             }
             newPatientLog.Fee = totalProcedureFee;

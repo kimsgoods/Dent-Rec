@@ -1,6 +1,7 @@
 ﻿using DentRec.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DentRec.Infrastructure.EntityConfigurations
 {
@@ -17,6 +18,11 @@ namespace DentRec.Infrastructure.EntityConfigurations
 
             builder.Property(x => x.Fee)
                 .HasColumnType("decimal(10,2)")
+                .IsRequired();
+
+            builder.Property(x => x.PricingType)
+                .HasConversion(new EnumToStringConverter<PricingType>())
+                .HasMaxLength(50)
                 .IsRequired();
 
             builder.AddAuditFields();

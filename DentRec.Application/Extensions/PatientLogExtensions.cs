@@ -21,7 +21,7 @@ namespace DentRec.Application.Extensions
                 Fee = patientLog.Fee,
                 PaymentStatus = patientLog.PaymentStatus,
                 Notes = patientLog.Notes,
-                Procedures = patientLog.Procedures.Select(x => x.ToDto()),
+                Procedures = patientLog.PatientLogProcedures.Select(x => x.Procedure!.ToDto()),
                 CreatedBy = patientLog.CreatedBy,
                 ModifiedOn = patientLog.ModifiedOn,
                 CreatedOn = patientLog.CreatedOn,
@@ -42,7 +42,7 @@ namespace DentRec.Application.Extensions
                 ProcedureDate = patientLog.ProcedureDate,
                 Fee = patientLog.Fee,
                 Notes = patientLog.Notes,
-                Procedures = string.Join(", ", patientLog.Procedures.Select(x => x.Name)),
+                Procedures = string.Join(", ", patientLog.PatientLogProcedures.Select(x => x.Procedure!.Name)),
                 PaymentStatus = patientLog.PaymentStatus
             };
         }

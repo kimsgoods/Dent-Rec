@@ -86,6 +86,20 @@ namespace DentRec.Infrastructure.Repositories
             return await query.GridifyAsync(gridifyQuery);
         }
 
+        public async Task<Paging<T>> GetPaginatedRecordsAsync(GridifyQuery gridifyQuery, params Func<IQueryable<T>, IQueryable<T>>[] includes)
+        {
+            var query = context.Set<T>().Where(x => !x.IsDeleted);
+
+            // Apply includes dynamically
+            foreach (var include in includes)
+            {
+                query = include(query);
+            }
+
+            // Apply Gridify for filtering, sorting, and pagination
+            return await query.GridifyAsync(gridifyQuery);
+        }
+
         public async Task<bool> ExistsAsync(int id)
         {
             return await context.Set<T>().Where(x => !x.IsDeleted).AnyAsync(x => x.Id == id);

@@ -12,6 +12,7 @@ namespace DentRec.Application.Interfaces
         Task<IReadOnlyList<T>> ListAllAsync();
         Task<Paging<T>> GetPaginatedRecordsAsync(GridifyQuery gridifyQuery);
         Task<Paging<T>> GetPaginatedRecordsAsync(GridifyQuery gridifyQuery, params Expression<Func<T, object>>[] includes);
+        Task<Paging<T>> GetPaginatedRecordsAsync(GridifyQuery gridifyQuery, params Func<IQueryable<T>, IQueryable<T>>[] includes);
         void Add(T entity);
         void Update(T entity);
         void Remove(T entity);

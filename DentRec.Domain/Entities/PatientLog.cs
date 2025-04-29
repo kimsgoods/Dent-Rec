@@ -13,7 +13,7 @@
         public Dentist? Dentist { get; set; }
 
         // Many-to-Many Relationship with Procedure
-        public ICollection<Procedure> Procedures { get; set; } = new List<Procedure>();
+        public ICollection<PatientLogProcedure> PatientLogProcedures { get; set; } = new List<PatientLogProcedure>();
         // One-to-Many Relationship with Payment
         public ICollection<Payment> Payments { get; set; } = new List<Payment>();
     }

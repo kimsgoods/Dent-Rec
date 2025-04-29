@@ -14,9 +14,14 @@ namespace DentRec.Application.Services
             {
                 throw new ArgumentException("Name is required.");
             }
+            if (String.IsNullOrEmpty(dto.PricingType))
+            {
+                throw new ArgumentException("PricingType is required.");
+            }
+
+            var newProcedure = dto.ToEntity();
             try
             {
-                var newProcedure = dto.ToEntity();
                 repository.Add(newProcedure);
                 var result = await repository.SaveAsync(newProcedure);
 
@@ -63,6 +68,14 @@ namespace DentRec.Application.Services
             
             if (!String.IsNullOrEmpty(dto.Name)) procedure.Name = dto.Name;
             if (!String.IsNullOrEmpty(dto.Description)) procedure.Description = dto.Description;
+            if (!String.IsNullOrEmpty(dto.PricingType))
+            {
+                if (!Enum.TryParse<PricingType>(dto.PricingType, true, out var pricingType))
+                {
+                    throw new ArgumentException($"Invalid pricingType: {dto.PricingType}");
+                }
+                procedure.PricingType = pricingType;
+            }
             if (dto.Fee.HasValue) procedure.Fee = (decimal)dto.Fee;
 
             try

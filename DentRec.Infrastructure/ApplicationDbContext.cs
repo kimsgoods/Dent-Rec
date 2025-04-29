@@ -12,6 +12,7 @@ namespace DentRec.Infrastructure
         public DbSet<PatientLog> PatientLogs { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Procedure> Procedures { get; set; }
+        public DbSet<PatientLogProcedure> PatientLogProcedures { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,6 +24,7 @@ namespace DentRec.Infrastructure
             modelBuilder.Entity<PatientLog>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<Payment>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<Procedure>().HasQueryFilter(e => !e.IsDeleted);
+            modelBuilder.Entity<PatientLogProcedure>().HasQueryFilter(e => !e.IsDeleted);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
@@ -40,6 +42,14 @@ namespace DentRec.Infrastructure
                 {
                     entry.Entity.CreatedOn = DateTime.Now;
                     entry.Entity.ModifiedOn = DateTime.Now;
+                }
+            }
+
+            foreach (var entry in ChangeTracker.Entries<PatientLogProcedure>())
+            {
+                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                {
+                    entry.Entity.CalculatedAdjustedFee();
                 }
             }
 
