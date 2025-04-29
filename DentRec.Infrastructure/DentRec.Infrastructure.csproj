@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="SeedData\**" CopyToOutputDirectory="PreserveNewest" />
     <ProjectReference Include="..\DentRec.Application\DentRec.Application.csproj" />
     <ProjectReference Include="..\DentRec.Domain\DentRec.Domain.csproj" />
   </ItemGroup>

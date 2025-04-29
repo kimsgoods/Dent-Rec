@@ -1,0 +1,50 @@
+﻿[
+  {
+    "Name": "Braces",
+    "Description": "",
+    "Fee": 50000,
+    "PricingType": "Fixed"
+  },
+  {
+    "Name": "Denture",
+    "Description": "",
+    "Fee": 700,
+    "PricingType": "PerTooth"
+  },
+  {
+    "Name": "Full Denture Lower",
+    "Description": "",
+    "Fee": 6000,
+    "PricingType": "Fixed"
+  },
+  {
+    "Name": "Full Denture Upper",
+    "Description": "",
+    "Fee": 6000,
+    "PricingType": "Fixed"
+  },
+  {
+    "Name": "Oral Prophylaxis",
+    "Description": "",
+    "Fee": 8000,
+    "PricingType": "Fixed"
+  },
+  {
+    "Name": "Tooth Exo Milk Tooth",
+    "Description": "Topical Anesthesia",
+    "Fee": 500,
+    "PricingType": "PerTooth"
+  },
+  {
+    "Name": "Tooth Extraction (Permanent)",
+    "Description": "",
+    "Fee": 700,
+    "PricingType": "PerTooth"
+  },
+  {
+    "Name": "Tooth X-Ray",
+    "Description": "",
+    "Fee": 400,
+    "PricingType": "PerTooth"
+  }
+]

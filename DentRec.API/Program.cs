@@ -3,6 +3,7 @@ using DentRec.Application.Interfaces;
 using DentRec.Application.Services;
 using DentRec.Infrastructure;
 using DentRec.Infrastructure.Repositories;
+using DentRec.Infrastructure.SeedData;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -60,6 +61,7 @@ try
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ApplicationDbContext>();
     await context.Database.MigrateAsync();
+    await SeedData.SeedAsync(context);
 }
 catch (Exception ex)
 {

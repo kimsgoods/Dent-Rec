@@ -206,6 +206,64 @@ namespace DentRec.Infrastructure.Migrations
                     b.ToTable("PatientLogs");
                 });
 
+            modelBuilder.Entity("DentRec.Domain.Entities.PatientLogProcedure", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AdjustedFee")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("PatientLogId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProcedureId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientLogId");
+
+                    b.HasIndex("ProcedureId");
+
+                    b.ToTable("PatientLogProcedures");
+                });
+
             modelBuilder.Entity("DentRec.Domain.Entities.PatientPrescription", b =>
                 {
                     b.Property<int>("Id")
@@ -415,24 +473,14 @@ namespace DentRec.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("PricingType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Procedures");
-                });
-
-            modelBuilder.Entity("PatientLogProcedure", b =>
-                {
-                    b.Property<int>("PatientLogsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProceduresId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PatientLogsId", "ProceduresId");
-
-                    b.HasIndex("ProceduresId");
-
-                    b.ToTable("PatientLogProcedure");
                 });
 
             modelBuilder.Entity("DentRec.Domain.Entities.PatientLog", b =>
@@ -452,6 +500,25 @@ namespace DentRec.Infrastructure.Migrations
                     b.Navigation("Dentist");
 
                     b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("DentRec.Domain.Entities.PatientLogProcedure", b =>
+                {
+                    b.HasOne("DentRec.Domain.Entities.PatientLog", "PatientLog")
+                        .WithMany("PatientLogProcedures")
+                        .HasForeignKey("PatientLogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DentRec.Domain.Entities.Procedure", "Procedure")
+                        .WithMany("PatientLogProcedures")
+                        .HasForeignKey("ProcedureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PatientLog");
+
+                    b.Navigation("Procedure");
                 });
 
             modelBuilder.Entity("DentRec.Domain.Entities.PatientPrescription", b =>
@@ -500,21 +567,6 @@ namespace DentRec.Infrastructure.Migrations
                     b.Navigation("PatientLog");
                 });
 
-            modelBuilder.Entity("PatientLogProcedure", b =>
-                {
-                    b.HasOne("DentRec.Domain.Entities.PatientLog", null)
-                        .WithMany()
-                        .HasForeignKey("PatientLogsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DentRec.Domain.Entities.Procedure", null)
-                        .WithMany()
-                        .HasForeignKey("ProceduresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DentRec.Domain.Entities.Dentist", b =>
                 {
                     b.Navigation("PatientLogs");
@@ -533,7 +585,14 @@ namespace DentRec.Infrastructure.Migrations
 
             modelBuilder.Entity("DentRec.Domain.Entities.PatientLog", b =>
                 {
+                    b.Navigation("PatientLogProcedures");
+
                     b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("DentRec.Domain.Entities.Procedure", b =>
+                {
+                    b.Navigation("PatientLogProcedures");
                 });
 #pragma warning restore 612, 618
         }

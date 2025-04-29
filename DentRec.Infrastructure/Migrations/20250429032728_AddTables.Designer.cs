@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentRec.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250403045553_UpdatePatientProcedureToPatientLog")]
-    partial class UpdatePatientProcedureToPatientLog
+    [Migration("20250429032728_AddTables")]
+    partial class AddTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,9 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Email")
                         .HasMaxLength(100)
@@ -64,7 +66,9 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Phone")
                         .HasMaxLength(20)
@@ -87,15 +91,17 @@ namespace DentRec.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Email")
                         .HasMaxLength(100)
@@ -107,6 +113,7 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Gender")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -125,7 +132,9 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Phone")
                         .HasMaxLength(20)
@@ -149,7 +158,9 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<int>("DentistId")
                         .HasColumnType("int");
@@ -167,20 +178,27 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int>("PatientAge")
+                        .HasColumnType("int");
+
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
                     b.Property<DateTime>("ProcedureDate")
                         .HasColumnType("datetime2(3)");
-
-                    b.Property<int>("ProcedureId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -188,9 +206,65 @@ namespace DentRec.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
+                    b.ToTable("PatientLogs");
+                });
+
+            modelBuilder.Entity("DentRec.Domain.Entities.PatientLogProcedure", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AdjustedFee")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("PatientLogId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProcedureId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientLogId");
+
                     b.HasIndex("ProcedureId");
 
-                    b.ToTable("PatientLogs");
+                    b.ToTable("PatientLogProcedures");
                 });
 
             modelBuilder.Entity("DentRec.Domain.Entities.PatientPrescription", b =>
@@ -206,7 +280,9 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<int>("DentistId")
                         .HasColumnType("int");
@@ -224,7 +300,9 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -262,7 +340,9 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -274,33 +354,26 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PatientProcedureId")
+                    b.Property<int>("PatientLogId")
                         .HasColumnType("int");
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasDefaultValue("Cash");
-
-                    b.Property<string>("PaymentStatus")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasDefaultValue("Pending");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PatientId");
 
-                    b.HasIndex("PatientProcedureId");
+                    b.HasIndex("PatientLogId");
 
                     b.ToTable("Payments");
                 });
@@ -318,7 +391,9 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Description")
                         .HasMaxLength(100)
@@ -344,7 +419,9 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -369,14 +446,13 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<TimeSpan?>("EstimatedDuration")
-                        .HasColumnType("time");
 
                     b.Property<decimal>("Fee")
                         .HasColumnType("decimal(10,2)");
@@ -391,12 +467,19 @@ namespace DentRec.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PricingType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -417,15 +500,26 @@ namespace DentRec.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("DentRec.Domain.Entities.Procedure", "Procedure")
-                        .WithMany()
-                        .HasForeignKey("ProcedureId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Dentist");
 
                     b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("DentRec.Domain.Entities.PatientLogProcedure", b =>
+                {
+                    b.HasOne("DentRec.Domain.Entities.PatientLog", "PatientLog")
+                        .WithMany("PatientLogProcedures")
+                        .HasForeignKey("PatientLogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DentRec.Domain.Entities.Procedure", "Procedure")
+                        .WithMany("PatientLogProcedures")
+                        .HasForeignKey("ProcedureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PatientLog");
 
                     b.Navigation("Procedure");
                 });
@@ -466,8 +560,8 @@ namespace DentRec.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("DentRec.Domain.Entities.PatientLog", "PatientLog")
-                        .WithMany()
-                        .HasForeignKey("PatientProcedureId")
+                        .WithMany("Payments")
+                        .HasForeignKey("PatientLogId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -490,6 +584,18 @@ namespace DentRec.Infrastructure.Migrations
                     b.Navigation("PatientPrescriptions");
 
                     b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("DentRec.Domain.Entities.PatientLog", b =>
+                {
+                    b.Navigation("PatientLogProcedures");
+
+                    b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("DentRec.Domain.Entities.Procedure", b =>
+                {
+                    b.Navigation("PatientLogProcedures");
                 });
 #pragma warning restore 612, 618
         }

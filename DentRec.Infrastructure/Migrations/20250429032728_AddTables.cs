@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace DentRec.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddInitialTables : Migration
+    public partial class AddTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,8 +21,8 @@ namespace DentRec.Infrastructure.Migrations
                     LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
@@ -32,27 +33,6 @@ namespace DentRec.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MedicationCatalogs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Dosage = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Instructions = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MedicationCatalogs", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Patients",
                 columns: table => new
                 {
@@ -60,13 +40,13 @@ namespace DentRec.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Gender = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
@@ -77,24 +57,81 @@ namespace DentRec.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProcedureCatalogs",
+                name: "Prescriptions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Cost = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    EstimatedDuration = table.Column<TimeSpan>(type: "time", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Dosage = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Instructions = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProcedureCatalogs", x => x.Id);
+                    table.PrimaryKey("PK_Prescriptions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Procedures",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Fee = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    PricingType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Procedures", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PatientLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PatientId = table.Column<int>(type: "int", nullable: false),
+                    DentistId = table.Column<int>(type: "int", nullable: false),
+                    ProcedureDate = table.Column<DateTime>(type: "datetime2(3)", nullable: false),
+                    PatientAge = table.Column<int>(type: "int", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Fee = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    PaymentStatus = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PatientLogs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PatientLogs_Dentists_DentistId",
+                        column: x => x.DentistId,
+                        principalTable: "Dentists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PatientLogs_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,8 +145,8 @@ namespace DentRec.Infrastructure.Migrations
                     MedicationId = table.Column<int>(type: "int", nullable: false),
                     PrescriptionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
@@ -124,58 +161,51 @@ namespace DentRec.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PatientPrescriptions_MedicationCatalogs_MedicationId",
-                        column: x => x.MedicationId,
-                        principalTable: "MedicationCatalogs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_PatientPrescriptions_Patients_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PatientPrescriptions_Prescriptions_MedicationId",
+                        column: x => x.MedicationId,
+                        principalTable: "Prescriptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PatientProcedures",
+                name: "PatientLogProcedures",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientId = table.Column<int>(type: "int", nullable: false),
-                    DentistId = table.Column<int>(type: "int", nullable: false),
+                    PatientLogId = table.Column<int>(type: "int", nullable: false),
                     ProcedureId = table.Column<int>(type: "int", nullable: false),
-                    ProcedureDate = table.Column<DateTime>(type: "datetime2(3)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
                     Notes = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Cost = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AdjustedFee = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PatientProcedures", x => x.Id);
+                    table.PrimaryKey("PK_PatientLogProcedures", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PatientProcedures_Dentists_DentistId",
-                        column: x => x.DentistId,
-                        principalTable: "Dentists",
+                        name: "FK_PatientLogProcedures_PatientLogs_PatientLogId",
+                        column: x => x.PatientLogId,
+                        principalTable: "PatientLogs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PatientProcedures_Patients_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Patients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PatientProcedures_ProcedureCatalogs_ProcedureId",
+                        name: "FK_PatientLogProcedures_Procedures_ProcedureId",
                         column: x => x.ProcedureId,
-                        principalTable: "ProcedureCatalogs",
+                        principalTable: "Procedures",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -185,12 +215,11 @@ namespace DentRec.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PatientId = table.Column<int>(type: "int", nullable: false),
-                    PatientProcedureId = table.Column<int>(type: "int", nullable: false),
+                    PatientLogId = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    PaymentStatus = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, defaultValue: "Pending"),
-                    PaymentMethod = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, defaultValue: "Cash"),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PaymentMethod = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "GETDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
@@ -199,9 +228,9 @@ namespace DentRec.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payments_PatientProcedures_PatientProcedureId",
-                        column: x => x.PatientProcedureId,
-                        principalTable: "PatientProcedures",
+                        name: "FK_Payments_PatientLogs_PatientLogId",
+                        column: x => x.PatientLogId,
+                        principalTable: "PatientLogs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -211,6 +240,26 @@ namespace DentRec.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientLogProcedures_PatientLogId",
+                table: "PatientLogProcedures",
+                column: "PatientLogId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientLogProcedures_ProcedureId",
+                table: "PatientLogProcedures",
+                column: "ProcedureId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientLogs_DentistId",
+                table: "PatientLogs",
+                column: "DentistId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientLogs_PatientId",
+                table: "PatientLogs",
+                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PatientPrescriptions_DentistId",
@@ -228,34 +277,22 @@ namespace DentRec.Infrastructure.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PatientProcedures_DentistId",
-                table: "PatientProcedures",
-                column: "DentistId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PatientProcedures_PatientId",
-                table: "PatientProcedures",
-                column: "PatientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PatientProcedures_ProcedureId",
-                table: "PatientProcedures",
-                column: "ProcedureId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Payments_PatientId",
                 table: "Payments",
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_PatientProcedureId",
+                name: "IX_Payments_PatientLogId",
                 table: "Payments",
-                column: "PatientProcedureId");
+                column: "PatientLogId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "PatientLogProcedures");
+
             migrationBuilder.DropTable(
                 name: "PatientPrescriptions");
 
@@ -263,19 +300,19 @@ namespace DentRec.Infrastructure.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "MedicationCatalogs");
+                name: "Procedures");
 
             migrationBuilder.DropTable(
-                name: "PatientProcedures");
+                name: "Prescriptions");
+
+            migrationBuilder.DropTable(
+                name: "PatientLogs");
 
             migrationBuilder.DropTable(
                 name: "Dentists");
 
             migrationBuilder.DropTable(
                 name: "Patients");
-
-            migrationBuilder.DropTable(
-                name: "ProcedureCatalogs");
         }
     }
 }
