@@ -51,8 +51,8 @@ namespace DentRec.Application.Services
                     Date = date,
                     MorningPatientCount = patientLogGroup?.Where(x => x.ProcedureDate.Hour < 12).Select(x => x.PatientId).Distinct().Count() ?? 0,
                     AfternoonPatientCount = patientLogGroup?.Where(x => x.ProcedureDate.Hour >= 12).Select(x => x.PatientId).Distinct().Count() ?? 0,
-                    GCashPayment = paymentGroup?.Where(x => x.PaymentMethod.Equals("GCash",StringComparison.OrdinalIgnoreCase)).Sum(x => x.Amount) ?? 0,
-                    CashPayment = paymentGroup?.Where(x => x.PaymentMethod.Equals("Cash", StringComparison.OrdinalIgnoreCase)).Sum(x => x.Amount) ?? 0,
+                    GCashPayment = paymentGroup?.Where(x => x.PaymentMethod.Equals(PaymentMethod.GCash)).Sum(x => x.Amount) ?? 0,
+                    CashPayment = paymentGroup?.Where(x => x.PaymentMethod.Equals(PaymentMethod.Cash)).Sum(x => x.Amount) ?? 0,
                     TotalPaymentAmount = paymentGroup?.Sum(x => x.Amount) ?? 0,
                 });
             }

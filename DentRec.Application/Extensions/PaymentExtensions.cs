@@ -14,7 +14,7 @@ namespace DentRec.Application.Extensions
                 PatientName = $"{payment.Patient?.FirstName} {payment.Patient?.LastName}".Trim(),
                 PatientLogId = payment.PatientLogId,
                 Amount = payment.Amount,
-                PaymentMethod = payment.PaymentMethod,
+                PaymentMethod = payment.PaymentMethod.ToString(),
                 PaymentDate = payment.CreatedOn
             };
         }
@@ -28,19 +28,8 @@ namespace DentRec.Application.Extensions
                 PatientName = $"{payment.Patient?.FirstName} {payment.Patient?.LastName}",
                 PatientLogId = payment.PatientLogId,
                 Amount = payment.Amount,
-                PaymentMethod = payment.PaymentMethod,
+                PaymentMethod = payment.PaymentMethod.ToString(),
                 PaymentDate = payment.CreatedOn
-            };
-        }
-
-        public static Payment ToEntity(this CreatePaymentDto dto)
-        {
-            return new Payment
-            {
-                PatientId = dto.PatientId,
-                PatientLogId = dto.PatientLogId,               
-                Amount = dto.Amount,
-                PaymentMethod = dto.PaymentMethod
             };
         }
     }

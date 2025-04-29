@@ -4,7 +4,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { TextInputComponent } from '../../shared/components/text-input/text-input.component';
 import { Procedure } from '../../shared/models/procedure';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { TextAreaComponent } from "../../shared/components/text-area/text-area.component";
 
@@ -23,11 +22,11 @@ import { TextAreaComponent } from "../../shared/components/text-area/text-area.c
   styleUrl: './procedure-form.component.scss'
 })
 
-export class procedureFormComponent implements OnInit {
+export class ProcedureFormComponent implements OnInit {
   procedureForm!: FormGroup;
   data = inject(MAT_DIALOG_DATA);
   private fb = inject(FormBuilder);
-  private dialogRef = inject(MatDialogRef<procedureFormComponent>);
+  private dialogRef = inject(MatDialogRef<ProcedureFormComponent>);
 
   ngOnInit(): void {
     this.initializeForm();

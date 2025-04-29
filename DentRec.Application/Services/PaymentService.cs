@@ -21,10 +21,14 @@ namespace DentRec.Application.Services
                 throw new ArgumentException($"Patient log {dto.PatientLogId} does not belong to the given patient {dto.PatientId}.");
 
             var patient = await patientRepository.GetByIdAsync(dto.PatientId, x => x.Payments) ?? throw new KeyNotFoundException("Patient not found.");
+            if (!Enum.TryParse<PaymentMethod>(dto.PaymentMethod, true, out var paymentMethod))
+            {
+                throw new ArgumentException($"Invalid paymentMethod: {dto.PaymentMethod}");
+            }
             var newPayment = new Payment
             {
                 Amount = dto.Amount,
-                PaymentMethod = dto.PaymentMethod,
+                PaymentMethod = paymentMethod,
                 PatientLogId = dto.PatientLogId
             };
 
@@ -120,7 +124,15 @@ namespace DentRec.Application.Services
                 ?? throw new KeyNotFoundException($"Could not find Payment with Id: {dto.Id}");
 
             if (dto.Amount != null) payment.Amount = dto.Amount.Value;
-            if (dto.PaymentMethod != null) payment.PaymentMethod = dto.PaymentMethod;
+            if (dto.PaymentMethod != null)
+            {
+                if (!Enum.TryParse<PaymentMethod>(dto.PaymentMethod, true, out var paymentMethod))
+                {
+                    throw new ArgumentException($"Invalid paymentMethod: {dto.PaymentMethod}");
+                }
+                payment.PaymentMethod = paymentMethod;
+            }
+            
 
             try
             {

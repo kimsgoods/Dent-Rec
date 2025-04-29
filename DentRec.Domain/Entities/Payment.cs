@@ -6,9 +6,15 @@
         public int PatientLogId { get; set; }
 
         public decimal Amount { get; set; }
-        public string PaymentMethod { get; set; } = "Cash"; //Cash, Gcash
+        public PaymentMethod PaymentMethod { get; set; }
 
         public Patient? Patient { get; set; }
         public PatientLog? PatientLog { get; set; }
+    }
+
+    public enum PaymentMethod
+    {
+        Cash,
+        GCash
     }
 }

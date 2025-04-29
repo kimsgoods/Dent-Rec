@@ -1,6 +1,7 @@
 ﻿using DentRec.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DentRec.Infrastructure.EntityConfigurations
 {
@@ -12,6 +13,7 @@ namespace DentRec.Infrastructure.EntityConfigurations
                 .HasColumnType("decimal(10,2)");           
 
             builder.Property(i => i.PaymentMethod)
+                .HasConversion(new EnumToStringConverter<PaymentMethod>())
                 .HasMaxLength(50)
                 .IsRequired();
 

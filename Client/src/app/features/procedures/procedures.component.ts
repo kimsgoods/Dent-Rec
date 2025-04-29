@@ -6,7 +6,7 @@ import { ProcedureService } from '../../core/services/procedure.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Procedure } from '../../shared/models/procedure';
 import { PageEvent } from '@angular/material/paginator';
-import { procedureFormComponent as ProcedureFormComponent } from '../procedure-form/procedure-form.component';
+import { ProcedureFormComponent } from '../procedure-form/procedure-form.component';
 import { firstValueFrom } from 'rxjs';
 import { DialogService } from '../../core/services/dialog.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
