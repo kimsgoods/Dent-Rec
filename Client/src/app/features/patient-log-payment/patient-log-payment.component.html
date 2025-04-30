@@ -9,6 +9,7 @@
     type="number"
     min="0"
     [max]="getTotalFee()"
+    [value]="getTotalFee"
     [ngModel]="amountPaid"
     required
     (ngModelChange)="onAmountChange($event)"
@@ -20,14 +21,14 @@
 </div>
 
 <mat-form-field appearance="fill" class="w-full mt-4">
-  <mat-label>Payment Type</mat-label>
+  <mat-label>Payment Method</mat-label>
   <mat-select
-    [ngModel]="paymentType"
-    (ngModelChange)="onPaymentTypeChange($event)"
+    [ngModel]="paymentMethod"
+    (ngModelChange)="onpaymentMethodChange($event)"
     required
   >
     <mat-option value="" disabled>Select a payment method</mat-option>
     <mat-option value="Cash">Cash</mat-option>
-    <mat-option value="Gcash">GCash</mat-option>
+    <mat-option value="GCash">GCash</mat-option>
   </mat-select>
 </mat-form-field>

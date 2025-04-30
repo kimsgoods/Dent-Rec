@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Patient } from '../../shared/models/patient';
-import { Procedure } from '../../shared/models/procedure';
+import { SelectedProcedure } from '../../shared/models/procedure';
 
 @Component({
   selector: 'app-payment-form',
@@ -22,12 +22,12 @@ import { Procedure } from '../../shared/models/procedure';
 })
 export class PatientLogPaymentComponent implements OnInit {
   @Input() amountPaid!: number;
-  @Input() paymentType!: string;
+  @Input() paymentMethod!: string;
   @Input() selectedPatient!: Patient | null;
-  @Input() selectedProcedures: Procedure[] = [];
+  @Input() selectedProcedures: SelectedProcedure[] = [];
 
   @Output() amountPaidChange = new EventEmitter<number>();
-  @Output() paymentTypeChange = new EventEmitter<string>();
+  @Output() paymentMethodChange = new EventEmitter<string>();
   @Output() paymentValid = new EventEmitter<boolean>();
 
   amountExceedsTotal = false;
@@ -43,27 +43,27 @@ export class PatientLogPaymentComponent implements OnInit {
     this.amountPaidChange.emit(validAmount);
     this.emitValidity();
   }
-  onPaymentTypeChange(value: string) {
-    this.paymentType = value;
-    this.paymentTypeChange.emit(value);
+  onpaymentMethodChange(value: string) {
+    this.paymentMethod = value;
+    this.paymentMethodChange.emit(value);
     this.emitValidity();
   }
 
   getTotalFee(): number {
-    return this.selectedProcedures?.reduce((sum, p) => sum + p.fee, 0);
+    return this.selectedProcedures?.reduce((sum, p) => sum + (p.procedure.fee * p.quantity), 0);
   }
 
   getBalance(): number {
-    return this.selectedProcedures?.reduce((sum, p) => sum + p.fee, 0) - this.amountPaid;
+    return this.selectedProcedures?.reduce((sum, p) => sum + (p.procedure.fee * p.quantity), 0) - this.amountPaid;
   }
 
   emitValidity() {
     const totalFee = this.getTotalFee();
     const isAmountValid = this.amountPaid >= 0 && this.amountPaid <= totalFee;
-    const isPaymentTypeValid = !!this.paymentType?.trim();
+    const ispaymentMethodValid = !!this.paymentMethod?.trim();
     const hasProcedures = this.selectedProcedures?.length > 0;
 
-    const isValid = isAmountValid && isPaymentTypeValid && hasProcedures;
+    const isValid = isAmountValid && ispaymentMethodValid && hasProcedures;
     this.paymentValid.emit(isValid);
   }
 

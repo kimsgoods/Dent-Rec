@@ -18,10 +18,10 @@ import { PatientLogSummaryComponent } from '../patient-log-summary/patient-log-s
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Patient } from '../../shared/models/patient';
 import { Dentist } from '../../shared/models/dentist';
-import { Procedure } from '../../shared/models/procedure';
+import { Procedure, SelectedProcedure } from '../../shared/models/procedure';
 import { NewPayment } from '../../shared/models/payment';
 
 @Component({
@@ -37,14 +37,15 @@ import { NewPayment } from '../../shared/models/payment';
     PatientLogConfirmationComponent,
     PatientLogSummaryComponent,
     CommonModule,
-    MatButtonModule
+    MatButtonModule,
+    RouterLink
   ],
   templateUrl: './patient-log-form.component.html',
   styleUrl: './patient-log-form.component.scss'
 })
 export class PatientLogFormComponent implements OnInit {
   private patientLogService = inject(PatientLogService);
-  private patientService = inject(PatientService);  
+  private patientService = inject(PatientService);
   private dentistService = inject(DentistService);
   private procedureService = inject(ProcedureService);
   private paymentService = inject(PaymentService);
@@ -55,19 +56,19 @@ export class PatientLogFormComponent implements OnInit {
   procedures: Procedure[] = [];
 
   amountPaid: number = 0;
-  paymentType: string = '';
+  paymentMethod: string = '';
   paymentFormValid = false;
-  
+
   paginationParams = new PaginationParams();
   completionStatus = signal<{ patientComplete: boolean, dentistComplete: boolean, procedureComplete: boolean, paymentComplete: boolean }>
-    ({ patientComplete: false, dentistComplete:false, procedureComplete: false, paymentComplete: false });
+    ({ patientComplete: false, dentistComplete: false, procedureComplete: false, paymentComplete: false });
 
   patientSearchControl = new FormControl('');
   filteredPatients$: Observable<Patient[]> = of([]);
-  
-  selectedPatient: Patient | null = null;  
+
+  selectedPatient: Patient | null = null;
   selectedDentist: Dentist | null = null;
-  selectedProcedures: Procedure[] = [];  
+  selectedProcedures: SelectedProcedure[] = [];
   notes: string = '';
 
   ngOnInit(): void {
@@ -101,9 +102,11 @@ export class PatientLogFormComponent implements OnInit {
       state.procedureComplete = event;
       return state;
     });
-
-    // Set default amountPaid to total fee
-    this.amountPaid = this.getTotalFee() ?? 0;
+  
+    const totalFee = this.getTotalFee() ?? 0;
+    if (this.amountPaid !== totalFee) {
+      this.amountPaid = totalFee;
+    }
   }
 
   handlePaymentChange(isValid: boolean) {
@@ -142,7 +145,7 @@ export class PatientLogFormComponent implements OnInit {
   }
 
   getTotalFee() {
-    return this.selectedProcedures?.reduce((sum, procedure) => sum + procedure.fee, 0);
+    return this.selectedProcedures?.reduce((sum, item) => sum + (item.procedure.fee * item.quantity), 0);
   }
 
   displayPatient(patient: Patient): string {
@@ -176,7 +179,11 @@ export class PatientLogFormComponent implements OnInit {
     const newLog = {
       patientId: this.selectedPatient?.id,
       dentistId: this.selectedDentist?.id,
-      procedureIds: this.selectedProcedures?.map(p => p.id),
+      procedures: this.selectedProcedures.map(sp => ({
+        id: sp.procedure.id,
+        quantity: sp.quantity,
+        notes: sp.notes
+      })),
       notes: this.notes
     };
 
@@ -196,10 +203,10 @@ export class PatientLogFormComponent implements OnInit {
       amount: this.amountPaid,
       patientId: this.selectedPatient != null ? this.selectedPatient.id : 0,
       patientLogId: patientLogId,
-      paymentMethod: this.paymentType,
+      paymentMethod: this.paymentMethod,
     }
     this.paymentService.createPayment(newPayment).subscribe({
-      next: () =>{        
+      next: () => {
         this.router.navigateByUrl("/patient-logs");
       },
       error: error => this.snackbarService.error(error.message || "Something went wrong")

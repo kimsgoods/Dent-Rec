@@ -6,6 +6,7 @@ import { Procedure } from '../../shared/models/procedure';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { TextAreaComponent } from "../../shared/components/text-area/text-area.component";
+import { SelectInputComponent } from '../../shared/components/select-input/select-input.component';
 
 
 @Component({
@@ -16,7 +17,8 @@ import { TextAreaComponent } from "../../shared/components/text-area/text-area.c
     MatDialogModule,
     ReactiveFormsModule,
     MatSelectModule,
-    TextAreaComponent
+    TextAreaComponent,
+    SelectInputComponent
   ],
   templateUrl: './procedure-form.component.html',
   styleUrl: './procedure-form.component.scss'
@@ -30,16 +32,17 @@ export class ProcedureFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-    if(this.data.procedure) {
+    if (this.data.procedure) {
       this.procedureForm.reset(this.data.procedure)
     }
   }
-
+  pricingTypes: string[] = ["Fixed", "PerTooth"];
   initializeForm() {
 
     this.procedureForm = this.fb.group({
       name: ['', [Validators.required]],
       description: [''],
+      pricingType: ['', [Validators.required]],
       fee: [0],
     });
 
@@ -48,7 +51,7 @@ export class ProcedureFormComponent implements OnInit {
   onSubmit(): void {
     if (this.procedureForm.valid) {
       let procedure: Procedure = this.procedureForm.value;
-      if(this.data.procedure) procedure.id = this.data.procedure.id;
+      if (this.data.procedure) procedure.id = this.data.procedure.id;
       this.dialogRef.close({
         procedure
       })

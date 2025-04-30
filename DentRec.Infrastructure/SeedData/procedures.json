@@ -26,7 +26,7 @@
   {
     "Name": "Oral Prophylaxis",
     "Description": "",
-    "Fee": 8000,
+    "Fee": 800,
     "PricingType": "Fixed"
   },
   {

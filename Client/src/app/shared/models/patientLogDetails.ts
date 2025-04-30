@@ -1,5 +1,5 @@
 import { Payment } from "./payment";
-import { Procedure } from "./procedure";
+import { GetPatientLogProcedure } from "./procedure";
 
 export interface PatientLogDetails {
     id: number
@@ -14,7 +14,7 @@ export interface PatientLogDetails {
   notes: string
   fee: number
   paymentStatus: string
-  procedures: Procedure[]
+  procedures: GetPatientLogProcedure[]
   payments: Payment[]
   createdOn: string
   modifiedOn: string

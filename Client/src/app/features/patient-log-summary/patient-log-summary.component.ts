@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Patient } from '../../shared/models/patient';
-import { Procedure } from '../../shared/models/procedure';
+import { SelectedProcedure } from '../../shared/models/procedure';
 import { CommonModule } from '@angular/common';
 import { Dentist } from '../../shared/models/dentist';
 
@@ -17,11 +17,12 @@ import { Dentist } from '../../shared/models/dentist';
 export class PatientLogSummaryComponent {
   @Input() selectedPatient: Patient | null = null;
   @Input() selectedDentist: Dentist | null = null;
-  @Input() selectedProcedures: Procedure[] = [];
+  @Input() selectedProcedures: SelectedProcedure[] = [];
   @Input() amountPaid: number = 0;
-  @Input() paymentType: string = '';
+  @Input() paymentMethod: string = '';  
+  currentDate = Date.now();
 
   getTotalFee(): number {
-    return this.selectedProcedures?.reduce((sum, p) => sum + p.fee, 0);
+    return this.selectedProcedures?.reduce((sum, p) => sum + (p.procedure.fee * p.quantity), 0);
   }
 }

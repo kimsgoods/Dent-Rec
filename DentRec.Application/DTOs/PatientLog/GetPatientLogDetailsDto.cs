@@ -20,7 +20,7 @@ namespace DentRec.Application.DTOs.PatientLog
         public decimal? Fee { get; set; }
         public string PaymentStatus { get; set; } = string.Empty;
 
-        public IEnumerable<GetProcedureDto> Procedures { get; set; } = [];
+        public IEnumerable<GetPatientLogProceduresDto> Procedures { get; set; } = [];
         public IEnumerable<GetPaymentDto> Payments { get; set; } = [];
     }
 }

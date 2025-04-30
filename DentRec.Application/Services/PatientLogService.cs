@@ -37,14 +37,16 @@ namespace DentRec.Application.Services
                 var procedure = await procedureRepository.GetByIdAsync(inputProcedure.Id) ??
                     throw new KeyNotFoundException($"Procedure with Id {inputProcedure.Id} does not exist.");
 
-                newPatientLog.PatientLogProcedures.Add(new PatientLogProcedure
+                var newPatientLogProcedure = new PatientLogProcedure
                 {
                     ProcedureId = procedure.Id,
-                    Procedure = procedure,     
+                    Procedure = procedure,
                     Notes = inputProcedure.Notes,
-                    Quantity = inputProcedure.Quantity ?? 1,
-                });
-                totalProcedureFee += procedure.Fee;
+                    Quantity = inputProcedure.Quantity ?? 1,                    
+                };
+                newPatientLogProcedure.CalculatedAdjustedFee();
+                newPatientLog.PatientLogProcedures.Add(newPatientLogProcedure);
+                totalProcedureFee += newPatientLogProcedure.AdjustedFee;
             }
             newPatientLog.Fee = totalProcedureFee;
             newPatientLog.PatientAge = patient.Age;

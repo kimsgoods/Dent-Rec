@@ -3,6 +3,7 @@
     <form [formGroup]="procedureForm" class="p-4 w-full" (ngSubmit)="onSubmit()">
         <app-text-input label="Name" formControlName="name" />
         <app-text-area label="Description" formControlName="description" />
+        <app-select-input label="Pricing Type" formControlName="pricingType" [options]="pricingTypes" class="w-full" />
         <app-text-input label="Fee" formControlName="fee" />
         <div class="flex justify-end gap-3">
             <button mat-button color="warn" type="button" mat-dialog-close>Cancel</button>

@@ -1,9 +1,44 @@
 <h1 class="text-2xl font-semibold py-4">Select Procedure(s)</h1>
 <div class="grid gap-2">
-    <mat-selection-list>
-        <mat-list-option *ngFor="let procedure of procedures" [selected]="selectedProcedures.includes(procedure)"
-            (click)="toggleSelection(procedure)">
-            {{ procedure.name }} - ₱{{ procedure.fee }}
-        </mat-list-option>
-    </mat-selection-list>
+  <mat-selection-list>
+    <mat-list-option *ngFor="let procedure of procedures" [selected]="updateCheckboxState(procedure)"
+      (click)="toggleSelection(procedure)" class="hover:bg-gray-50 transition-colors duration-150">
+      <div class="flex justify-between items-center w-full">
+        <div>
+          {{ procedure.name }} - ₱{{ procedure.fee }}
+        </div>
+        <div *ngIf="procedure.pricingType === 'PerTooth' && isSelected(procedure)" class="ml-4">
+          <span class="text-sm">Selected teeth: {{ getSelectedTeethForProcedure(procedure.id) }}</span>
+        </div>
+      </div>
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+
+<!-- Teeth Selection Modal -->
+<div *ngIf="showTeethChartForProcedure"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+  <div class="bg-white rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+    <h2 class="text-xl font-bold mb-4">Select Teeth</h2>
+
+    <!-- Teeth Chart Visualization -->
+    <div class="grid grid-cols-8 gap-2 mb-4">
+      <div *ngFor="let tooth of teethChart" (click)="toggleToothSelection(tooth.number)"
+        [class.bg-blue-200]="isToothSelected(tooth.number)"
+        class="border p-2 text-center cursor-pointer rounded hover:bg-blue-100 transition">
+        <div class="font-bold">{{ tooth.number }}</div>
+        <div class="text-xs">{{ tooth.name }}</div>
+      </div>
+    </div>
+
+    <div class="flex justify-between mt-4">
+      <button (click)="cancelTeethSelection()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+        Cancel
+      </button>
+      <button (click)="confirmTeethSelection()" [disabled]="selectedTeeth.length === 0"
+        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400">
+        Confirm Selection ({{ selectedTeeth.length }} teeth)
+      </button>
+    </div>
+  </div>
 </div>

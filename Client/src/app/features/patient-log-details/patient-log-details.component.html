@@ -1,217 +1,225 @@
 <div *ngIf="patientLog != null" class="mt-20 max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-md">
-    <!-- Header Section -->
-    <div class="flex justify-between items-center mb-6 pb-4 border-b">
-        <button mat-button color="primary" (click)="goBack()">
-            <mat-icon>arrow_back</mat-icon>
-            Back to Previous Page
-        </button>
-        <h1 class="text-2xl font-bold">Patient Treatment Details</h1>
-        <div class="flex space-x-2">
-            <span class="px-3 py-1 rounded-full text-xs font-semibold" [ngClass]="{
-            'bg-green-100 text-green-800': patientLog.paymentStatus === 'Paid',
-            'bg-yellow-100 text-yellow-800': patientLog.paymentStatus === 'Partial',
-            'bg-red-100 text-red-800': patientLog.paymentStatus === 'Pending'
-          }">
-                {{ patientLog.paymentStatus }}
-            </span>
-            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">
-                ID: {{ patientLog.id }}
-            </span>
-        </div>
-    </div>
-
-    <!-- Patient Information Section -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div class="bg-gray-50 p-4 rounded-lg">
-            <h2 class="text-lg font-semibold mb-3">Patient Information</h2>
-            <div class="space-y-2">
-                <div class="flex">
-                    <span class="w-32 text-gray-600">Name:</span>
-                    <span class="font-medium">{{ patientLog.patientName }}</span>
-                </div>
-                <div class="flex">
-                    <span class="w-32 text-gray-600">Gender:</span>
-                    <span class="font-medium">{{ patientLog.gender }}</span>
-                </div>
-                <div class="flex">
-                    <span class="w-32 text-gray-600">Age:</span>
-                    <span class="font-medium">{{ patientLog.age }}</span>
-                </div>
-                <div class="flex">
-                    <span class="w-32 text-gray-600">Address:</span>
-                    <span class="font-medium">{{ patientLog.address }}</span>
-                </div>
-            </div>
-            <div class="flex justify-end mt-4">
-              <button mat-raised-button color="accent" (click)="viewPatientDetails()">
-                <mat-icon>visibility</mat-icon>
-                View Patient Details
-              </button>
-            </div>
-        </div>
-
-        <!-- Treatment Information Section -->
-        <div class="bg-gray-50 p-4 rounded-lg">
-            <h2 class="text-lg font-semibold mb-3">Treatment Information</h2>
-            <div class="space-y-2">
-                <div class="flex">
-                    <span class="w-32 text-gray-600">Dentist:</span>
-                    <span class="font-medium">{{ patientLog.dentistName }}</span>
-                </div>
-                <div class="flex">
-                    <span class="w-32 text-gray-600">Procedure Date:</span>
-                    <span class="font-medium">{{ patientLog.procedureDate | date:"medium" }}</span>
-                </div>
-                <div class="flex">
-                    <span class="w-32 text-gray-600">Total Fee:</span>
-                    <span class="font-medium">{{ patientLog.fee | currency:'PHP':'symbol' }}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Procedures Section -->
-    <div class="mb-8">
-        <h2 class="text-lg font-semibold mb-3">Procedures Performed</h2>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th scope="col"
-                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Procedure</th>
-                        <th scope="col"
-                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Description</th>
-                        <th scope="col"
-                            class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Fee
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr *ngFor="let procedure of patientLog.procedures">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ procedure.name }}
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ procedure.description }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">{{ procedure.fee |
-                            currency:'PHP':'symbol' }}</td>
-                    </tr>
-                    <tr class="bg-gray-50">
-                        <td colspan="2"
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">Total</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">{{
-                            patientLog.fee | currency:'PHP':'symbol' }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="mb-8">
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-lg font-semibold">Payment History</h2>
-          <span
-            [matTooltip]="balance <= 0 ? 'No balance remaining' : ''"
-            matTooltipPosition="above"
-            [ngClass]="{ 'opacity-50 cursor-not-allowed': balance <= 0 }"
-          >
-            <button
-              mat-raised-button
-              color="primary"
-              (click)="openAddPaymentDialog()"
-              [disabled]="balance <= 0"
-            >
-              <mat-icon>add</mat-icon>
-              Add Payment
-            </button>
+  <!-- Header Section -->
+  <div class="flex justify-between items-center mb-6 pb-4 border-b">
+      <button mat-button color="primary" (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          Back to Previous Page
+      </button>
+      <h1 class="text-2xl font-bold">Patient Treatment Details</h1>
+      <div class="flex space-x-2">
+          <span class="px-3 py-1 rounded-full text-xs font-semibold" [ngClass]="{
+          'bg-green-100 text-green-800': patientLog.paymentStatus === 'Paid',
+          'bg-yellow-100 text-yellow-800': patientLog.paymentStatus === 'Partial',
+          'bg-red-100 text-red-800': patientLog.paymentStatus === 'Pending'
+        }">
+              {{ patientLog.paymentStatus }}
           </span>
-        </div>
-      
-        <div *ngIf="patientLog.payments.length > 0; else noPayments" class="overflow-x-auto rounded-lg shadow-sm">
-          <table class="min-w-full divide-y divide-gray-200 bg-white">
-            <thead class="bg-gray-100">
-              <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-              <tr *ngFor="let payment of patientLog.payments" class="hover:bg-gray-50">
-                <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">
-                  {{ payment.paymentDate | date: 'medium' }}
-                </td>
-                <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">{{ payment.paymentMethod }}</td>
-                <td class="px-6 py-4 text-sm text-gray-700 text-right whitespace-nowrap">{{ payment.amount | currency:'PHP':'symbol' }}</td>
-                <td class="px-6 py-4 text-right whitespace-nowrap">
-                  <button
-                    mat-icon-button
-                    color="warn"
-                    (click)="deletePayment(payment.id)"
-                    matTooltip="Delete Payment"
-                    class="transition hover:scale-110"
-                  >
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </td>
-              </tr>
-      
-              <!-- Total Paid Row -->
-              <tr class="bg-gray-50">
-                <td colspan="2" class="px-6 py-3 text-sm font-medium text-gray-900 text-right">Total Paid</td>
-                <td class="px-6 py-3 text-sm font-semibold text-right text-gray-700">
-                  {{ totalPaid | currency:'PHP':'symbol' }}
-                </td>
-                <td></td>
-              </tr>
-      
-              <!-- Balance Row -->
-              <tr class="bg-gray-100">
-                <td colspan="2" class="px-6 py-3 text-sm font-medium text-gray-900 text-right">Balance</td>
-                <td
-                  class="px-6 py-3 text-sm font-semibold text-right"
-                  [ngClass]="{
-                    'text-green-600': balance <= 0,
-                    'text-red-600': balance > 0
-                  }"
-                >
-                  {{ balance | currency:'PHP':'symbol' }}
-                </td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      
-        <!-- No Payments Template -->
-        <ng-template #noPayments>
-          <div class="bg-gray-50 p-6 rounded-lg text-center text-gray-500 border border-gray-200">
-            No payment records found.
-          </div>
-        </ng-template>
+          <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">
+              ID: {{ patientLog.id }}
+          </span>
       </div>
-      
-    <!-- Notes Section -->
-    <div class="mb-8">
-        <div class="flex justify-between items-center mb-2">
-            <h2 class="text-lg font-semibold">Notes</h2>
-            <button mat-icon-button color="primary" (click)="editNotes()">
-                <mat-icon>edit</mat-icon>
+  </div>
+
+  <!-- Patient Information Section -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div class="bg-gray-50 p-4 rounded-lg">
+          <h2 class="text-lg font-semibold mb-3">Patient Information</h2>
+          <div class="space-y-2">
+              <div class="flex">
+                  <span class="w-32 text-gray-600">Name:</span>
+                  <span class="font-medium">{{ patientLog.patientName }}</span>
+              </div>
+              <div class="flex">
+                  <span class="w-32 text-gray-600">Gender:</span>
+                  <span class="font-medium">{{ patientLog.gender }}</span>
+              </div>
+              <div class="flex">
+                  <span class="w-32 text-gray-600">Age:</span>
+                  <span class="font-medium">{{ patientLog.age }}</span>
+              </div>
+              <div class="flex">
+                  <span class="w-32 text-gray-600">Address:</span>
+                  <span class="font-medium">{{ patientLog.address }}</span>
+              </div>
+          </div>
+          <div class="flex justify-end mt-4">
+            <button mat-raised-button color="accent" (click)="viewPatientDetails()">
+              <mat-icon>visibility</mat-icon>
+              View Patient Details
             </button>
+          </div>
+      </div>
+
+      <!-- Treatment Information Section -->
+      <div class="bg-gray-50 p-4 rounded-lg">
+          <h2 class="text-lg font-semibold mb-3">Treatment Information</h2>
+          <div class="space-y-2">
+              <div class="flex">
+                  <span class="w-32 text-gray-600">Dentist:</span>
+                  <span class="font-medium">{{ patientLog.dentistName }}</span>
+              </div>
+              <div class="flex">
+                  <span class="w-32 text-gray-600">Procedure Date:</span>
+                  <span class="font-medium">{{ patientLog.procedureDate | date:"medium" }}</span>
+              </div>
+              <div class="flex">
+                  <span class="w-32 text-gray-600">Total Fee:</span>
+                  <span class="font-medium">{{ patientLog.fee | currency:'PHP':'symbol' }}</span>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Procedures Section -->
+  <div class="mb-8">
+      <h2 class="text-lg font-semibold mb-3">Procedures Performed</h2>
+      <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                  <tr>
+                      <th scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Procedure</th>
+                      <th scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Description</th>
+                      <th scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Teeth</th>
+                      <th scope="col"
+                          class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Quantity</th>
+                      <th scope="col"
+                          class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Fee
+                      </th>
+                  </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                  <tr *ngFor="let item of patientLog.procedures">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ item.procedure.name }}
+                      </td>
+                      <td class="px-6 py-4 text-sm text-gray-500">{{ item.procedure.description }}</td>
+                      <td class="px-6 py-4 text-sm text-gray-500">{{ item.notes || '-' }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">{{ item.quantity }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">{{ item.adjustedFee |
+                          currency:'PHP':'symbol' }}</td>
+                  </tr>
+                  <tr class="bg-gray-50">
+                      <td colspan="4"
+                          class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">Total</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">{{
+                          patientLog.fee | currency:'PHP':'symbol' }}</td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+
+  <div class="mb-8">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Payment History</h2>
+        <span
+          [matTooltip]="balance <= 0 ? 'No balance remaining' : ''"
+          matTooltipPosition="above"
+          [ngClass]="{ 'opacity-50 cursor-not-allowed': balance <= 0 }"
+        >
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="openAddPaymentDialog()"
+            [disabled]="balance <= 0"
+          >
+            <mat-icon>add</mat-icon>
+            Add Payment
+          </button>
+        </span>
+      </div>
+    
+      <div *ngIf="patientLog.payments.length > 0; else noPayments" class="overflow-x-auto rounded-lg shadow-sm">
+        <table class="min-w-full divide-y divide-gray-200 bg-white">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            <tr *ngFor="let payment of patientLog.payments" class="hover:bg-gray-50">
+              <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">
+                {{ payment.paymentDate | date: 'medium' }}
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">{{ payment.paymentMethod }}</td>
+              <td class="px-6 py-4 text-sm text-gray-700 text-right whitespace-nowrap">{{ payment.amount | currency:'PHP':'symbol' }}</td>
+              <td class="px-6 py-4 text-right whitespace-nowrap">
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="deletePayment(payment.id)"
+                  matTooltip="Delete Payment"
+                  class="transition hover:scale-110"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </tr>
+    
+            <!-- Total Paid Row -->
+            <tr class="bg-gray-50">
+              <td colspan="2" class="px-6 py-3 text-sm font-medium text-gray-900 text-right">Total Paid</td>
+              <td class="px-6 py-3 text-sm font-semibold text-right text-gray-700">
+                {{ totalPaid | currency:'PHP':'symbol' }}
+              </td>
+              <td></td>
+            </tr>
+    
+            <!-- Balance Row -->
+            <tr class="bg-gray-100">
+              <td colspan="2" class="px-6 py-3 text-sm font-medium text-gray-900 text-right">Balance</td>
+              <td
+                class="px-6 py-3 text-sm font-semibold text-right"
+                [ngClass]="{
+                  'text-green-600': balance <= 0,
+                  'text-red-600': balance > 0
+                }"
+              >
+                {{ balance | currency:'PHP':'symbol' }}
+              </td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+      <!-- No Payments Template -->
+      <ng-template #noPayments>
+        <div class="bg-gray-50 p-6 rounded-lg text-center text-gray-500 border border-gray-200">
+          No payment records found.
         </div>
-        <div class="bg-gray-50 p-4 rounded-lg min-h-20">
-            <p *ngIf="!isEditingNotes; else notesEditForm" class="text-gray-700 whitespace-pre-wrap">{{ patientLog.notes
-                || 'No notes available' }}</p>
-            <ng-template #notesEditForm>
-                <form [formGroup]="notesForm" (ngSubmit)="saveNotes()">
-                    <textarea matInput formControlName="notes" class="w-full p-2 border rounded" rows="4"></textarea>
-                    <div class="flex justify-end mt-2 space-x-2">
-                        <button mat-button type="button" (click)="cancelEditNotes()">Cancel</button>
-                        <button mat-raised-button color="primary" type="submit">Save</button>
-                    </div>
-                </form>
-            </ng-template>
-        </div>
+      </ng-template>
     </div>
+    
+  <!-- Notes Section -->
+  <div class="mb-8">
+      <div class="flex justify-between items-center mb-2">
+          <h2 class="text-lg font-semibold">Notes</h2>
+          <button mat-icon-button color="primary" (click)="editNotes()">
+              <mat-icon>edit</mat-icon>
+          </button>
+      </div>
+      <div class="bg-gray-50 p-4 rounded-lg min-h-20">
+          <p *ngIf="!isEditingNotes; else notesEditForm" class="text-gray-700 whitespace-pre-wrap">{{ patientLog.notes
+              || 'No notes available' }}</p>
+          <ng-template #notesEditForm>
+              <form [formGroup]="notesForm" (ngSubmit)="saveNotes()">
+                  <textarea matInput formControlName="notes" class="w-full p-2 border rounded" rows="4"></textarea>
+                  <div class="flex justify-end mt-2 space-x-2">
+                      <button mat-button type="button" (click)="cancelEditNotes()">Cancel</button>
+                      <button mat-raised-button color="primary" type="submit">Save</button>
+                  </div>
+              </form>
+          </ng-template>
+      </div>
+  </div>
 </div>

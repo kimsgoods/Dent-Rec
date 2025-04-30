@@ -60,7 +60,8 @@ export class ProceduresComponent {
 
   columns = [
     { field: 'name', header: 'Procedure Name' },
-    { field: 'description', header: 'description' },
+    { field: 'description', header: 'Description' },
+    { field: 'pricingType', header: 'Pricing Type' },
     { field: 'fee', header: 'Fee', pipe: 'currency', pipeArgs: 'PHP' }
   ]
 
