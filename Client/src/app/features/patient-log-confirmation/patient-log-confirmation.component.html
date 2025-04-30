@@ -71,10 +71,10 @@
           <tr *ngFor="let item of selectedProcedures">
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ item.procedure.name }}
             </td>
-            <td class="px-6 py-4 text-sm text-gray-500">{{ item.procedure.description }}</td>
-            <td class="px-6 py-4 text-sm text-gray-500">{{ item.notes || '-' }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">{{ item.quantity }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">{{ item.quantity *
+            <td class="px-6 py-4 text-sm text-gray-900">{{ item.procedure.description }}</td>
+            <td class="px-6 py-4 text-sm text-gray-900">{{ item.notes || '-' }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">{{ item.quantity }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">{{ item.quantity *
               item.procedure.fee|
               currency:'PHP':'symbol' }}</td>
           </tr>
@@ -94,11 +94,11 @@
     <div class="flex-col gap-4 bg-gray-50 p-4 rounded-lg">
       <div class="flex justify-between">
         <span class="text-gray-600 font-medium">Amount Paid:</span>
-        <span class=" text-gray-800">{{ amountPaid | currency:'PHP':'symbol'}}</span>
+        <span class=" text-gray-900">{{ amountPaid | currency:'PHP':'symbol'}}</span>
       </div>
       <div class="flex justify-between">
         <span class="text-gray-600-medium">Payment Method:</span>
-        <span class="text-gray-800">{{ paymentMethod }}</span>
+        <span class="text-gray-900">{{ paymentMethod }}</span>
       </div>
       <div class="flex justify-between col-span-1 md:col-span-2 border-t pt-2">
         <span class="text-gray-600 font-medium">Balance:</span>

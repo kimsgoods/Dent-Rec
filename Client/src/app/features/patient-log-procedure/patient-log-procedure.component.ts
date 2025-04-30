@@ -87,7 +87,7 @@ export class PatientLogProcedureComponent {
   toggleToothSelection(toothNumber: string) {
     const index = this.selectedTeeth.indexOf(toothNumber);
     if (index === -1) {
-      this.selectedTeeth.push("#" + toothNumber);
+      this.selectedTeeth.push(toothNumber);
     } else {
       this.selectedTeeth.splice(index, 1);
     }
@@ -114,7 +114,6 @@ export class PatientLogProcedureComponent {
     this.showTeethChartForProcedure = null;
     this.selectedTeeth = [];
   }
-
 
   updateCheckboxState(procedure: Procedure): boolean {
     return this.isSelected(procedure) || this.temporarilyChecked === procedure.id;
