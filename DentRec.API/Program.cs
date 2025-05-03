@@ -1,9 +1,12 @@
 using DentRec.API.Middleware;
 using DentRec.Application.Interfaces;
 using DentRec.Application.Services;
+using DentRec.Domain.Entities;
 using DentRec.Infrastructure;
 using DentRec.Infrastructure.Repositories;
 using DentRec.Infrastructure.SeedData;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -27,6 +30,12 @@ builder.Services.AddScoped<IPrescriptionService, PrescriptionService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<AppUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -51,7 +60,9 @@ app.UseStaticFiles();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers().RequireAuthorization(new AuthorizeAttribute { Roles = "Admin" });
+
+app.MapGroup("api").MapIdentityApi<AppUser>();
 
 app.MapFallbackToFile("index.html");
 
@@ -61,7 +72,7 @@ try
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ApplicationDbContext>();
     await context.Database.MigrateAsync();
-    await SeedData.SeedAsync(context);
+    await SeedData.SeedAsync(services);
 }
 catch (Exception ex)
 {

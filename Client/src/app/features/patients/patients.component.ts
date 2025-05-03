@@ -72,7 +72,7 @@ export class PatientsComponent {
     {
       label: 'View',
       icon: 'visibility',
-      tooltip: 'View patient details',
+      tooltip: 'View Patient details',
       action: (row: any) => {
         this.router.navigateByUrl(`/patients/${row.id}`)
       }
@@ -80,7 +80,7 @@ export class PatientsComponent {
     {
       label: 'Edit',
       icon: 'edit',
-      tooltip: 'Edit patient',
+      tooltip: 'Edit Patient',
       action: (row: any) => {
         this.openEditDialog(row)
       }
@@ -88,7 +88,7 @@ export class PatientsComponent {
     {
       label: 'Delete',
       icon: 'delete',
-      tooltip: 'Delete patient',
+      tooltip: 'Delete Patient',
       action: (row: any) => {
         this.openConfirmDialog(row.id)
       }
@@ -103,7 +103,7 @@ export class PatientsComponent {
     const dialog = this.dialog.open(PatientFormComponent, {
       minWidth: '500px',
       data: {
-        title: 'Create patient'
+        title: 'Create Patient'
       }
     });
     dialog.afterClosed().subscribe({
@@ -123,7 +123,7 @@ export class PatientsComponent {
     const dialog = this.dialog.open(PatientFormComponent, {
       minWidth: '500px',
       data: {
-        title: 'Edit patient',
+        title: 'Edit Patient',
         patient
       }
     })

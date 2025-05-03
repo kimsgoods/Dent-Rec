@@ -7,7 +7,7 @@
           [selectedPatient]="selectedPatient" (patientSelected)="selectPatient($event)">
         </app-patient-log-patient>
         <div class="flex justify-between mt-6">
-          <button class="z-0" routerLink="/patient-logs" mat-stroked-button>Cancel</button>
+          <button class="z-0" routerLink="/patient-logs" mat-button>Cancel</button>
           <button [disabled]="!completionStatus().patientComplete" matStepperNext mat-flat-button>Next</button>
         </div>
       </mat-step>
@@ -15,7 +15,7 @@
       <mat-step label="Dentist" [completed]="completionStatus().patientComplete">
         <app-patient-log-dentist [dentists]="dentists" [selectedDentist]="selectedDentist" (dentistSelected)="selectDentist($event)"></app-patient-log-dentist>
         <div class="flex justify-between mt-6">
-          <button matStepperPrevious mat-stroked-button>Back</button>
+          <button matStepperPrevious mat-flat-button>Back</button>
           <button [disabled]="!completionStatus().patientComplete" matStepperNext mat-flat-button>Next</button>
         </div>
       </mat-step>
@@ -25,7 +25,7 @@
           (selectedProceduresChange)="selectedProcedures = $event" (procedureChange)="handleProcedureChange($event)">
         </app-patient-log-procedure>
         <div class="flex justify-between mt-6">
-          <button matStepperPrevious mat-stroked-button>Back</button>
+          <button matStepperPrevious mat-flat-button>Back</button>
           <button [disabled]="!completionStatus().procedureComplete" matStepperNext mat-flat-button>Next</button>
         </div>
       </mat-step>
@@ -35,7 +35,7 @@
           [(amountPaid)]="amountPaid" [(paymentMethod)]="paymentMethod" (paymentValid)="handlePaymentChange($event)">
         </app-payment-form>
         <div class="flex justify-between mt-6">
-          <button matStepperPrevious mat-stroked-button>Back</button>
+          <button matStepperPrevious mat-flat-button>Back</button>
           <button [disabled]="!completionStatus().paymentComplete" matStepperNext mat-flat-button>Next</button>
         </div>
       </mat-step>
@@ -46,7 +46,7 @@
         </app-patient-log-confirmation>
 
         <div class="flex justify-between mt-6">
-          <button matStepperPrevious mat-stroked-button>Back</button>
+          <button matStepperPrevious mat-flat-button>Back</button>
           <button [disabled]="!selectedPatient || selectedProcedures.length === 0" (click)="createPatientLog(stepper)"
             mat-flat-button>
             Confirm and Submit

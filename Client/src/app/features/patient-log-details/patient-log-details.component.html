@@ -43,7 +43,7 @@
               </div>
           </div>
           <div class="flex justify-end mt-4">
-            <button mat-raised-button color="accent" (click)="viewPatientDetails()">
+            <button mat-flat-button color="accent" (click)="viewPatientDetails()">
               <mat-icon>visibility</mat-icon>
               View Patient Details
             </button>
@@ -124,7 +124,7 @@
           [ngClass]="{ 'opacity-50 cursor-not-allowed': balance <= 0 }"
         >
           <button
-            mat-raised-button
+            mat-flat-button
             color="primary"
             (click)="openAddPaymentDialog()"
             [disabled]="balance <= 0"
@@ -216,7 +216,7 @@
                   <textarea matInput formControlName="notes" class="w-full p-2 border rounded" rows="4"></textarea>
                   <div class="flex justify-end mt-2 space-x-2">
                       <button mat-button type="button" (click)="cancelEditNotes()">Cancel</button>
-                      <button mat-raised-button color="primary" type="submit">Save</button>
+                      <button mat-flat-button color="primary" type="submit">Save</button>
                   </div>
               </form>
           </ng-template>

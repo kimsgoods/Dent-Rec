@@ -66,7 +66,7 @@ export class DentistsComponent {
     {
       label: 'Edit',
       icon: 'edit',
-      tooltip: 'Edit dentist',
+      tooltip: 'Edit Dentist',
       action: (row: any) => {
         this.openEditDialog(row)
       }
@@ -74,7 +74,7 @@ export class DentistsComponent {
     {
       label: 'Delete',
       icon: 'delete',
-      tooltip: 'Delete dentist',
+      tooltip: 'Delete Dentist',
       action: (row: any) => {
         this.openConfirmDialog(row.id)
       }
@@ -89,7 +89,7 @@ export class DentistsComponent {
     const dialog = this.dialog.open(DentistFormComponent, {
       minWidth: '500px',
       data: {
-        title: 'Create dentist'
+        title: 'Create Dentist'
       }
     });
     dialog.afterClosed().subscribe({
