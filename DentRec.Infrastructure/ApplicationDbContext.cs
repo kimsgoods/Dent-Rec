@@ -1,9 +1,10 @@
 ﻿using DentRec.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DentRec.Infrastructure
 {
-    public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
+    public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
     {
         public DbSet<Dentist> Dentists { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
