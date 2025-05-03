@@ -31,6 +31,8 @@ namespace DentRec.Infrastructure.SeedData
             {
                 var user = new AppUser
                 {
+                    FirstName = "Admin",
+                    LastName = "Escabarte",
                     UserName = "admin@seclinic.com",
                     Email = "admin@seclinic.com",
                 };

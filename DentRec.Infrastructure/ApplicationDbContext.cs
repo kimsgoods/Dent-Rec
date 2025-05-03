@@ -1,10 +1,12 @@
-﻿using DentRec.Domain.Entities;
+﻿using DentRec.Application.Interfaces;
+using DentRec.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DentRec.Infrastructure
 {
-    public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
+    public class ApplicationDbContext(DbContextOptions options, ICurrentUserService currentUserService) : IdentityDbContext<AppUser>(options)
     {
         public DbSet<Dentist> Dentists { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
@@ -33,16 +35,20 @@ namespace DentRec.Infrastructure
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            var currentUser = currentUserService.GetUserName();
             foreach (var entry in ChangeTracker.Entries<BaseEntity>())
             {
                 if (entry.State == EntityState.Modified)
                 {
                     entry.Entity.ModifiedOn = DateTime.Now;
+                    entry.Entity.ModifiedBy = currentUser;
                 }
                 else if (entry.State == EntityState.Added)
                 {
                     entry.Entity.CreatedOn = DateTime.Now;
                     entry.Entity.ModifiedOn = DateTime.Now;
+                    entry.Entity.CreatedBy = currentUser;
+                    entry.Entity.ModifiedBy = currentUser;
                 }
             }
 
