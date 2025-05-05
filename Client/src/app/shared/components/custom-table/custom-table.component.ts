@@ -32,6 +32,7 @@ export class CustomTableComponent {
   @Input() clickEvent: () => void = () => { }
   @Input() showCreateNewButton: boolean = true;
   @Input() enableSearch: boolean = false;
+  @Input() searchPlaceholder: string = "Search..."
   @Input() defaultSortField: string = '';
   @Input() defaultSortDirection: 'asc' | 'desc' = 'asc';
 
@@ -71,9 +72,17 @@ export class CustomTableComponent {
   }
 
   onSearchChange() {
-    this.pageIndex = 1;
+    this.pageIndex = 0;
     this.filterChange.emit(this.filter);
   }
+
+  onSearchResetChange() {
+    if (this.filter === '') {
+      this.pageIndex = 0;
+      this.filterChange.emit('');
+    }
+  }
+  
 
   onAction(action: (row: any) => void, row: any) {
     action(row);

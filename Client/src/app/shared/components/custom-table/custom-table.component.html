@@ -1,73 +1,88 @@
-<div class="mx-10 mt-20">
-  <form 
-  *ngIf="enableSearch"
-  #searchForm="ngForm" 
-  (ngSubmit)="onSearchChange()" 
-  class="relative flex items-center w-full max-w-md mx-4">
-  <input 
-  type="search" 
-  class="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg"
-  placeholder="Search" 
-  name="search" 
-  [(ngModel)]="filter" />
-  <button 
-     mat-icon-button 
-     type="submit" 
-     class="absolute inset-y-0 right-8 top-2 flex items-center pl-3">
-     <mat-icon>search</mat-icon>
-  </button>
-  </form>
-  <div class="p-2">
-     <div class="flex justify-between items-center mt-2">
-        <div class="text-4xl font-semibold mt-4">
-           {{title}}
-        </div>
-        <button *ngIf="showCreateNewButton" mat-flat-button (click)="clickEvent()">
-        Create New
-        </button>
-     </div>
-  </div>
-  <table class="min-w-full divide-y divide-gray-200">
+<div class="mx-10 mt-24">
+   <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+     <div class="text-4xl font-semibold">
+       {{ title }}
+     </div> 
+     <form 
+       *ngIf="enableSearch"
+       #searchForm="ngForm" 
+       (ngSubmit)="onSearchChange()" 
+       class="relative w-full sm:max-w-xs">
+       <div class="relative rounded-md shadow-sm">
+         <input 
+           type="search" 
+           class="block w-full pl-4 pr-12 py-2 text-base text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+           [placeholder]="searchPlaceholder"
+           name="search" 
+           [(ngModel)]="filter" 
+           (input)="onSearchResetChange()"
+           />
+         <button 
+           type="submit" 
+           class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700">
+           <mat-icon class="!w-5 !h-5">search</mat-icon>
+         </button>         
+       </div>
+     </form> 
+     <button 
+       *ngIf="showCreateNewButton" 
+       mat-flat-button 
+       color="primary" 
+       (click)="clickEvent()"
+       class="whitespace-nowrap">
+       Create New
+     </button>
+   </div>
+ 
+   <table class="min-w-full divide-y divide-gray-200">
      <thead>
-        <tr class="uppercase border-b bg-gray-50">
-           <th *ngFor="let column of columns" 
-           [ngClass]="{
-           'py-2 px-4 text-left': true,
-           'cursor-pointer hover:bg-gray-100 select-none': column.sortable,
-           'text-gray-500': !column.sortable
-           }"
-           (click)="column.sortable && onHeaderClick(column)"
-           >
+       <tr class="uppercase border-b bg-gray-50">
+         <th *ngFor="let column of columns" 
+             [ngClass]="{
+               'py-2 px-4 text-left': true,
+               'cursor-pointer hover:bg-gray-100 select-none': column.sortable,
+               'text-gray-500': !column.sortable
+             }"
+             (click)="column.sortable && onHeaderClick(column)"
+             >
            {{ column.header }}
            <span *ngIf="sortField === column.field">
-           {{ sortDirection === 'asc' ? '↑' : '↓' }}
+             {{ sortDirection === 'asc' ? '↑' : '↓' }}
            </span>
-           </th>
-           <th class="py-2 px-4 text-left" *ngIf="actions.length">Actions</th>
-        </tr>
+         </th>
+         <th class="py-2 px-4 text-left" *ngIf="actions.length">Actions</th>
+       </tr>
      </thead>
      <tbody>
-        <tr *ngFor="let row of dataSource" class="hover:bg-gray-100 border-b">
-           <td *ngFor="let column of columns" class="py-2 px-4">{{ getCellValue(row, column) }}</td>
-           <td class="py-2 px-4" *ngIf="actions.length">
-              <div class="flex gap-2">
-                 <ng-container *ngFor="let action of actions">
-                    <button mat-icon-button matTooltip="{{ action.tooltip }}"
-                    [disabled]="action.disabled ? action.disabled(row) : false" (click)="onAction(action.action, row)">
-                    <mat-icon>{{ action.icon }}</mat-icon>
-                    </button>
-                 </ng-container>
-              </div>
-           </td>
-        </tr>
+       <tr *ngFor="let row of dataSource" class="hover:bg-gray-100 border-b">
+         <td *ngFor="let column of columns" class="py-2 px-4">{{ getCellValue(row, column) }}</td>
+         <td class="py-2 px-4" *ngIf="actions.length">
+           <div class="flex gap-2">
+             <ng-container *ngFor="let action of actions">
+               <button mat-icon-button matTooltip="{{ action.tooltip }}"
+                       [disabled]="action.disabled ? action.disabled(row) : false"
+                       (click)="onAction(action.action, row)"                       
+                       >
+                       <mat-icon 
+                       [ngClass]="{
+                         'text-red-600 hover:text-red-900': action.icon === 'delete',
+                         'text-blue-600 hover:text-blue-900': action.icon !== 'delete'
+                       }">
+                       {{ action.icon }}
+                     </mat-icon>                     
+               </button>
+             </ng-container>
+           </div>
+         </td>
+       </tr>
      </tbody>
-  </table>
-  <mat-paginator 
-  [length]="totalItems" 
-  [pageSize]="pageSize" 
-  [pageIndex]="pageIndex" 
-  [pageSizeOptions]="[50, 100]"
-  (page)="onPageChange($event)" 
-  class="mt-4 bg-white">
-  </mat-paginator>
-</div>
+   </table>
+    <mat-paginator 
+     [length]="totalItems" 
+     [pageSize]="pageSize" 
+     [pageIndex]="pageIndex" 
+     [pageSizeOptions]="[50, 100]"
+     (page)="onPageChange($event)" 
+     class="mt-4 bg-white">
+   </mat-paginator>
+ </div> 

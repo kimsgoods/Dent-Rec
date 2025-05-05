@@ -11,6 +11,9 @@
       (sortChange)="onSortChange($event)" 
       [defaultSortField]="defaultSortField"
       [defaultSortDirection]="defaultSortDirection"
+      [enableSearch]="true"
+      [searchPlaceholder]="'Search first name or last name'"
+      (filterChange)="onSearchChange($event)"
       >
     </app-custom-table>
   </div>

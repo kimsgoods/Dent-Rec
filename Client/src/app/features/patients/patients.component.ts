@@ -36,7 +36,8 @@ export class PatientsComponent {
     this.patientService.getPatients(this.paginationParams).subscribe({
       next: response => {
         this.patients = response.data,
-          this.totalItems = response.count
+        this.totalItems = response.count
+        this.paginationParams.page = 1
       },
       error: error => console.log(error)
     });
@@ -58,6 +59,12 @@ export class PatientsComponent {
     this.getPatients();
   }
 
+  onSearchChange(query: string) {
+    this.paginationParams.page = 1;
+    this.paginationParams.filter = query;
+    this.getPatients();
+  }
+  
   columns = [
     { field: 'firstName', header: 'First Name', sortable: true },
     { field: 'lastName', header: 'Last Name' },
