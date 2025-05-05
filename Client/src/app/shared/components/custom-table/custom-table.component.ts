@@ -34,11 +34,13 @@ export class CustomTableComponent {
   @Input() enableSearch: boolean = false;
   @Input() searchPlaceholder: string = "Search..."
   @Input() defaultSortField: string = '';
-  @Input() defaultSortDirection: 'asc' | 'desc' = 'asc';
+  @Input() defaultSortDirection: 'asc' | 'desc' = 'asc';  
+  @Input() enableFiltering: boolean = false;
 
   @Output() pageChange = new EventEmitter<PageEvent>();
   @Output() sortChange = new EventEmitter<{ field: string, direction: 'asc' | 'desc' }>();
   @Output() filterChange = new EventEmitter<string>();
+  @Output() filterDialogTriggered = new EventEmitter<void>();
 
   sortField: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
@@ -83,6 +85,9 @@ export class CustomTableComponent {
     }
   }
   
+  openFiltersDialog() {
+    this.filterDialogTriggered.emit();
+  }
 
   onAction(action: (row: any) => void, row: any) {
     action(row);

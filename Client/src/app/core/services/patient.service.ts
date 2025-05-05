@@ -26,7 +26,7 @@ export class PatientService {
     let params = new HttpParams();
 
     if (paginationParams.filter) {
-      params = params.append("filter", `FirstName=*${paginationParams.filter}|LastName=*${paginationParams.filter}`);
+      params = params.append("filter", paginationParams.filter);
     }
     if (paginationParams.orderBy) {
       params = params.append("orderBy", paginationParams.orderBy);

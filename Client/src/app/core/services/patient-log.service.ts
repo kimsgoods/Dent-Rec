@@ -19,7 +19,7 @@ export class PatientLogService {
     let params = new HttpParams();
 
     if (paginationParams.filter) {
-      params = params.append("filter", `Patient.FirstName=*${paginationParams.filter}|Patient.LastName=*${paginationParams.filter}`);
+      params = params.append("filter", paginationParams.filter);
     }
     if (paginationParams.orderBy) {
       params = params.append("orderBy", paginationParams.orderBy);

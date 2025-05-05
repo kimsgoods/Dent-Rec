@@ -61,7 +61,7 @@ export class PatientsComponent {
 
   onSearchChange(query: string) {
     this.paginationParams.page = 1;
-    this.paginationParams.filter = query;
+    this.paginationParams.filter = `firstName=*${query}|lastName=*${query}`;
     this.getPatients();
   }
   

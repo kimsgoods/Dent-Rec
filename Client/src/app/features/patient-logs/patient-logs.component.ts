@@ -6,6 +6,8 @@ import { PatientLog } from '../../shared/models/patientLog';
 import { Router } from '@angular/router';
 import { CustomTableComponent } from '../../shared/components/custom-table/custom-table.component';
 import { PageEvent } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { PatientLogFiltersComponent } from '../patient-log-filters/patient-log-filters.component';
 
 @Component({
   selector: 'app-patient-logs',
@@ -16,16 +18,20 @@ import { PageEvent } from '@angular/material/paginator';
   styleUrl: './patient-logs.component.scss'
 })
 export class PatientLogsComponent implements OnInit {
-  private patientProcedureService = inject(PatientLogService);
+  private patientLogService = inject(PatientLogService);
+  private dialogService = inject(MatDialog);
   private router = inject(Router);
   paginationParams = new PaginationParams();
   patientLogs?: Paging<PatientLog>
   totalItems = 0;
   logs: PatientLog[] = [];
-  title = "Patient Logs"
-  defaultSortField = "procedureDate"
-  defaultSortDirection: "asc" | "desc" = "desc"
- 
+  title = "Patient Logs";
+  defaultSortField = "procedureDate";
+  defaultSortDirection: "asc" | "desc" = "desc";
+  paymentFilter = "All";
+  startDate?: Date = undefined;
+  endDate?: Date = undefined;
+
   columns = [
     { field: 'patientName', header: 'Name' },
     { field: 'age', header: 'Age' },
@@ -50,11 +56,11 @@ export class PatientLogsComponent implements OnInit {
   ]
 
   getPatientLogs() {
-    this.patientProcedureService.getPatientLogs(this.paginationParams).subscribe({
+    this.patientLogService.getPatientLogs(this.paginationParams).subscribe({
       next: response => {
         this.patientLogs = response,
-          this.logs = response.data,
-          this.totalItems = response.count
+        this.logs = response.data,
+        this.totalItems = response.count
       },
       error: error => console.log(error)
     });
@@ -79,7 +85,7 @@ export class PatientLogsComponent implements OnInit {
 
   openCreateNewForm() {
     this.router.navigateByUrl("/patient-logs-form");
-  }  
+  }
 
   onAction(action: (row: any) => void, row: any) {
     action(row);
@@ -111,5 +117,55 @@ export class PatientLogsComponent implements OnInit {
     }
     this.paginationParams.orderBy = `${orderByField} ${direction}`;
   }
+
+  openPaymentFiltersDialog() {
+    const dialogRef = this.dialogService.open(PatientLogFiltersComponent, {
+      minWidth: "500px",
+      data: {
+        selectedPaymentFilter: this.paymentFilter,
+        dateRange: {
+          start: this.startDate,
+          end: this.endDate
+        }
+      }
+    });
   
+    dialogRef.afterClosed().subscribe({
+      next: result => {
+        if (result) {
+          this.paymentFilter = result.selectedPaymentFilter || "All";
+          this.startDate = result.dateRange?.start;
+          this.endDate = result.dateRange?.end;
+          this.paginationParams.page = 1;
+  
+          const filters: string[] = [];
+  
+          if (this.paymentFilter && this.paymentFilter !== "All") {
+            filters.push(`paymentStatus=${this.paymentFilter}`);
+          }
+  
+          if (this.startDate) {
+            filters.push(`procedureDate>=${this.formatDate(this.startDate)}`);
+          }
+  
+          if (this.endDate) {
+            filters.push(`procedureDate<=${this.formatDate(this.endDate, true)}`);
+          }
+  
+          this.paginationParams.filter = filters.join(',');
+          this.getPatientLogs();
+        }
+      }
+    });
+  }
+
+  private formatDate(date: Date, endOfDay = false): string {
+    const d = new Date(date);
+    if (endOfDay) {
+      d.setHours(23, 59, 59, 999);
+    } else {
+      d.setHours(0, 0, 0, 0);
+    }
+    return d.toISOString();
+  }
 }

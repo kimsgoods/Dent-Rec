@@ -13,7 +13,7 @@
   [filter]="paginationParams.filter"
   (filterChange)="onFilterChange($event)"
   [clickEvent]="openCreateNewForm.bind(this)"
-
-  
+  [enableFiltering]="true"
+  (filterDialogTriggered)="openPaymentFiltersDialog()"
   ></app-custom-table>
 </div>
