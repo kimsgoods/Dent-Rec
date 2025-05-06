@@ -1,14 +1,9 @@
 ﻿using DentRec.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace DentRec.Infrastructure.SeedData
 {
@@ -41,7 +36,7 @@ namespace DentRec.Infrastructure.SeedData
                 await userManager.AddToRoleAsync(user, "Admin");
             }
 
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);            
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             if (!context.Procedures.Any())
             {

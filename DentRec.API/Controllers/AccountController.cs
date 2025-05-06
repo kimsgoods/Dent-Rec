@@ -1,8 +1,8 @@
-﻿using System.Security.Claims;
-using DentRec.Domain.Entities;
+﻿using DentRec.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace DentRec.API.Controllers
 {
