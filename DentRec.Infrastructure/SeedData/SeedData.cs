@@ -41,20 +41,7 @@ namespace DentRec.Infrastructure.SeedData
                 await userManager.AddToRoleAsync(user, "Admin");
             }
 
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            if (!context.Dentists.Any())
-            {
-                var dentistsData = await File.ReadAllTextAsync(path + @"/SeedData/dentists.json");
-
-                var dentists = JsonSerializer.Deserialize<List<Dentist>>(dentistsData);
-
-                if (dentists == null) return;
-
-                context.Dentists.AddRange(dentists);
-
-                await context.SaveChangesAsync();
-            }
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);            
 
             if (!context.Procedures.Any())
             {

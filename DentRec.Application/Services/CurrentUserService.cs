@@ -12,9 +12,13 @@ namespace DentRec.Application.Services
     public class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICurrentUserService
     {
         public string GetUserName()
-        {
-            var user = httpContextAccessor.HttpContext.User;
-            return user.FindFirstValue(ClaimTypes.Name) ?? string.Empty;
+        {            
+            if (httpContextAccessor?.HttpContext?.User?.Identity?.IsAuthenticated != true)
+            {
+                return string.Empty;
+            }
+
+            return httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name) ?? string.Empty;
         }
     }
 }

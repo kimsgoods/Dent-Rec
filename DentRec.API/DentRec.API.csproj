@@ -22,7 +22,7 @@
 
  <Target Name="PublishAngularApp" BeforeTargets="Build">
   <Exec Command="npm install" WorkingDirectory="..\Client" />
-  <Exec Command="npm run build" WorkingDirectory="..\Client" />
+  <Exec Command="npm run build -- --configuration production" WorkingDirectory="..\Client" />
 </Target>
 
 

@@ -155,7 +155,7 @@ export class PatientLogFormComponent implements OnInit {
   searchPatients(filter: string | null): Observable<Patient[]> {
     if (!filter) return of([]);
     const paginationParams = new PaginationParams();
-    paginationParams.filter = filter;
+    paginationParams.filter = `firstName=*${filter}|lastName=*${filter}`;
     paginationParams.pageSize = 10;
     paginationParams.page = 1;
 
