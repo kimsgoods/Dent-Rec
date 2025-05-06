@@ -6,7 +6,7 @@ using Gridify;
 
 namespace DentRec.Application.Services
 {
-    public class DentistService(IRepository<Dentist> repository) : IDentistService
+    public class DentistService(IExtendedRepository<Dentist> repository) : IDentistService
     {
         public async Task<int> CreateDentist(CreateDentistDto dto)
         {

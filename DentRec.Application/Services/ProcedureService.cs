@@ -6,7 +6,7 @@ using Gridify;
 
 namespace DentRec.Application.Services
 {
-    public class ProcedureService(IRepository<Procedure> repository) : IProcedureService
+    public class ProcedureService(IExtendedRepository<Procedure> repository) : IProcedureService
     {
         public async Task<int> CreateProcedure(CreateProcedureDto dto)
         {
@@ -65,7 +65,7 @@ namespace DentRec.Application.Services
         {
             var procedure = await repository.GetByIdAsync(dto.Id)
                     ?? throw new KeyNotFoundException($"Could not find Procedure with Id: {dto.Id}");
-            
+
             if (!String.IsNullOrEmpty(dto.Name)) procedure.Name = dto.Name;
             if (!String.IsNullOrEmpty(dto.Description)) procedure.Description = dto.Description;
             if (!String.IsNullOrEmpty(dto.PricingType))
