@@ -6,7 +6,7 @@ using Gridify;
 
 namespace DentRec.Application.Services
 {
-    public class PrescriptionService(IRepository<Prescription> repository) : IPrescriptionService
+    public class PrescriptionService(IExtendedRepository<Prescription> repository) : IPrescriptionService
     {
         public async Task<int> CreatePrescription(CreatePrescriptionDto dto)
         {

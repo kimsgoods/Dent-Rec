@@ -1,6 +1,4 @@
 ﻿using DentRec.Application.DTOs.Payments;
-using DentRec.Application.DTOs.Procedure;
-using DentRec.Domain.Entities;
 
 namespace DentRec.Application.DTOs.PatientLog
 {

@@ -3,11 +3,10 @@ using DentRec.Domain.Entities;
 using Gridify;
 using Gridify.EntityFramework;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace DentRec.Infrastructure.Repositories
 {
-    public class Repository<T>(ApplicationDbContext context) : IRepository<T> where T : BaseEntity
+    public class Repository<T>(ApplicationDbContext context) : IExtendedRepository<T> where T : BaseEntity
     {
         public void Add(T entity)
         {
@@ -17,17 +16,6 @@ namespace DentRec.Infrastructure.Repositories
         public async Task<T?> GetByIdAsync(int id)
         {
             return await context.Set<T>().Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.Id == id);
-        }
-        public async Task<T?> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes)
-        {
-            IQueryable<T> query = context.Set<T>().Where(x => !x.IsDeleted && x.Id == id);
-
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
-
-            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<T?> GetByIdAsync(int id, params Func<IQueryable<T>, IQueryable<T>>[] includes)
@@ -71,19 +59,6 @@ namespace DentRec.Infrastructure.Repositories
                 .GridifyAsync(gridifyQuery);
 
             return pagedResult;
-        }
-        public async Task<Paging<T>> GetPaginatedRecordsAsync(GridifyQuery gridifyQuery, params Expression<Func<T, object>>[] includes)
-        {
-            IQueryable<T> query = context.Set<T>().Where(x => !x.IsDeleted);
-
-            // Apply includes dynamically
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
-
-            // Apply Gridify for filtering, sorting, and pagination
-            return await query.GridifyAsync(gridifyQuery);
         }
 
         public async Task<Paging<T>> GetPaginatedRecordsAsync(GridifyQuery gridifyQuery, params Func<IQueryable<T>, IQueryable<T>>[] includes)

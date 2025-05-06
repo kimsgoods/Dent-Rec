@@ -21,8 +21,8 @@ namespace DentRec.Application.Extensions
                 ModifiedOn = patient.ModifiedOn,
                 CreatedOn = patient.CreatedOn,
                 ModifiedBy = patient.ModifiedBy,
-                PatientLogs = patient.PatientLogs.Select(x => x.ToDto()).ToList(),
-                Payments = patient.Payments.Select(x => x.ToDto()).ToList()
+                PatientLogs = patient.PatientLogs.OrderByDescending(x => x.ProcedureDate).Select(x => x.ToDto()).ToList(),
+                Payments = patient.Payments.OrderByDescending(x => x.CreatedOn).Select(x => x.ToDto()).ToList()
             };
         }
 

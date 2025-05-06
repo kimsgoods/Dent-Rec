@@ -3,24 +3,28 @@ using DentRec.Application.Extensions;
 using DentRec.Application.Interfaces;
 using DentRec.Domain.Entities;
 using Gridify;
-using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace DentRec.Application.Services
 {
     public class PaymentService(
-        IRepository<Payment> paymentRepository,
-        IRepository<Patient> patientRepository,
-        IRepository<PatientLog> logRepository
+        IExtendedRepository<Payment> paymentRepository,
+        IExtendedRepository<Patient> patientRepository,
+        IExtendedRepository<PatientLog> logRepository
     ) : IPaymentService
     {
+        private readonly Func<IQueryable<PatientLog>, IQueryable<PatientLog>> patientLogIncludes = x => x.Include(p => p.Payments);
+        private readonly Func<IQueryable<Patient>, IQueryable<Patient>> patientIncludes = x => x.Include(p => p.Payments);
+        private readonly Func<IQueryable<Payment>, IQueryable<Payment>> paymentIncludes = x => x.Include(p => p.Patient);
+
         public async Task<int> CreatePayment(CreatePaymentDto dto)
         {
 
-            var patientLog = await logRepository.GetByIdAsync(dto.PatientLogId, x => x.Payments);
+            var patientLog = await logRepository.GetByIdAsync(dto.PatientLogId, patientLogIncludes);
             if (patientLog == null || patientLog.PatientId != dto.PatientId)
                 throw new ArgumentException($"Patient log {dto.PatientLogId} does not belong to the given patient {dto.PatientId}.");
 
-            var patient = await patientRepository.GetByIdAsync(dto.PatientId, x => x.Payments) ?? throw new KeyNotFoundException("Patient not found.");
+            var patient = await patientRepository.GetByIdAsync(dto.PatientId, patientIncludes) ?? throw new KeyNotFoundException("Patient not found.");
             if (!Enum.TryParse<PaymentMethod>(dto.PaymentMethod, true, out var paymentMethod))
             {
                 throw new ArgumentException($"Invalid paymentMethod: {dto.PaymentMethod}");
@@ -73,7 +77,7 @@ namespace DentRec.Application.Services
                 ?? throw new KeyNotFoundException($"Could not find Payment with Id: {id}");
 
             // Get the associated PatientLog with its Payments
-            var patientLog = await logRepository.GetByIdAsync(payment.PatientLogId, x => x.Payments)
+            var patientLog = await logRepository.GetByIdAsync(payment.PatientLogId, patientLogIncludes)
                 ?? throw new KeyNotFoundException($"Associated PatientLog not found for Payment {id}");
 
             paymentRepository.Remove(payment);
@@ -108,9 +112,7 @@ namespace DentRec.Application.Services
 
         public async Task<Paging<GetPaymentDto>> GetPayments(GridifyQuery gridifyQuery)
         {
-#pragma warning disable CS8603 // Possible null reference return.
-            var payments = await paymentRepository.GetPaginatedRecordsAsync(gridifyQuery, x => x.Patient);
-#pragma warning restore CS8603 // Possible null reference return.
+            var payments = await paymentRepository.GetPaginatedRecordsAsync(gridifyQuery, paymentIncludes);
             return new Paging<GetPaymentDto>
             {
                 Count = payments.Count,
@@ -132,7 +134,7 @@ namespace DentRec.Application.Services
                 }
                 payment.PaymentMethod = paymentMethod;
             }
-            
+
 
             try
             {

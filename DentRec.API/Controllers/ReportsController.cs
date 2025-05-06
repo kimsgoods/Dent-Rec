@@ -1,5 +1,4 @@
-﻿using DentRec.Application.DTOs.Dentist;
-using DentRec.Application.DTOs.Report;
+﻿using DentRec.Application.DTOs.Report;
 using DentRec.Application.Interfaces;
 using Gridify;
 using Microsoft.AspNetCore.Mvc;

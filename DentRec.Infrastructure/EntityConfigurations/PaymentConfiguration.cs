@@ -10,7 +10,7 @@ namespace DentRec.Infrastructure.EntityConfigurations
         public void Configure(EntityTypeBuilder<Payment> builder)
         {
             builder.Property(i => i.Amount)
-                .HasColumnType("decimal(10,2)");           
+                .HasColumnType("decimal(10,2)");
 
             builder.Property(i => i.PaymentMethod)
                 .HasConversion(new EnumToStringConverter<PaymentMethod>())

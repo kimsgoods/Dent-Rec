@@ -1,6 +1,4 @@
-﻿using DentRec.Application.DTOs.Procedure;
-
-namespace DentRec.Application.DTOs.PatientLog
+﻿namespace DentRec.Application.DTOs.PatientLog
 {
     public class GetPatientLogDto
     {

@@ -4,16 +4,15 @@ using DentRec.Application.Interfaces;
 using DentRec.Domain.Entities;
 using Gridify;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace DentRec.Application.Services
 {
-    public class PatientLogService(IRepository<PatientLog> patientLogRepo,
-        IRepository<Patient> patientRepository, IRepository<Dentist> dentistRepository,
-        IRepository<Procedure> procedureRepository) : IPatientLogService
+    public class PatientLogService(IExtendedRepository<PatientLog> patientLogRepository,
+        IExtendedRepository<Patient> patientRepository, IExtendedRepository<Dentist> dentistRepository,
+        IExtendedRepository<Procedure> procedureRepository) : IPatientLogService
     {
 
-        private readonly Func<IQueryable<PatientLog>, IQueryable<PatientLog>> includes = 
+        private readonly Func<IQueryable<PatientLog>, IQueryable<PatientLog>> includes =
             x => x.Include(p => p.Patient)
                   .Include(p => p.Dentist)
                   .Include(p => p.PatientLogProcedures)
@@ -24,9 +23,9 @@ namespace DentRec.Application.Services
         {
 
             var patient = await patientRepository.GetByIdAsync(dto.PatientId) ??
-                throw new KeyNotFoundException($"Patient with Id {dto.PatientId} does not exist."); 
+                throw new KeyNotFoundException($"Patient with Id {dto.PatientId} does not exist.");
 
-            var dentistExists = await dentistRepository.ExistsAsync(dto.DentistId);            
+            var dentistExists = await dentistRepository.ExistsAsync(dto.DentistId);
             if (!dentistExists) throw new KeyNotFoundException($"Dentist with Id {dto.DentistId} does not exist.");
 
             var totalProcedureFee = 0.0m;
@@ -42,7 +41,7 @@ namespace DentRec.Application.Services
                     ProcedureId = procedure.Id,
                     Procedure = procedure,
                     Notes = inputProcedure.Notes,
-                    Quantity = inputProcedure.Quantity ?? 1,                    
+                    Quantity = inputProcedure.Quantity ?? 1,
                 };
                 newPatientLogProcedure.CalculatedAdjustedFee();
                 newPatientLog.PatientLogProcedures.Add(newPatientLogProcedure);
@@ -50,25 +49,25 @@ namespace DentRec.Application.Services
             }
             newPatientLog.Fee = totalProcedureFee;
             newPatientLog.PatientAge = patient.Age;
-            patientLogRepo.Add(newPatientLog);
+            patientLogRepository.Add(newPatientLog);
 
-            return await patientLogRepo.SaveAsync(newPatientLog);
+            return await patientLogRepository.SaveAsync(newPatientLog);
         }
 
 
         public async Task<bool> DeletePatientLogAsync(int id)
         {
-            var patientLog = await patientLogRepo.GetByIdAsync(id, includes)
+            var patientLog = await patientLogRepository.GetByIdAsync(id, includes)
                 ?? throw new KeyNotFoundException($"Could not find PatientLog with Id: {id}");
 
-            patientLogRepo.Remove(patientLog);
+            patientLogRepository.Remove(patientLog);
 
-            return await patientLogRepo.SaveAsync(patientLog) > 0;
+            return await patientLogRepository.SaveAsync(patientLog) > 0;
         }
 
         public async Task<GetPatientLogDetailsDto> GetPatientLogByIdAsync(int id)
         {
-            var patientLog = await patientLogRepo.GetByIdAsync(id, includes)
+            var patientLog = await patientLogRepository.GetByIdAsync(id, includes)
                 ?? throw new KeyNotFoundException($"Could not find PatientLog with Id: {id}");
 
             return patientLog.ToDetailsDto();
@@ -77,7 +76,7 @@ namespace DentRec.Application.Services
         public async Task<Paging<GetPatientLogDto>> GetPatientLogsAsync(GridifyQuery gridifyQuery)
         {
 
-            var patientLogs = await patientLogRepo.GetPaginatedRecordsAsync(gridifyQuery, includes);
+            var patientLogs = await patientLogRepository.GetPaginatedRecordsAsync(gridifyQuery, includes);
             var result = new Paging<GetPatientLogDto>
             {
                 Count = patientLogs.Count,
@@ -89,7 +88,7 @@ namespace DentRec.Application.Services
 
         public async Task<int> UpdatePatientLogAsync(UpdatePatientLogDto dto)
         {
-            var patientLog = await patientLogRepo.GetByIdAsync(dto.Id)
+            var patientLog = await patientLogRepository.GetByIdAsync(dto.Id)
                     ?? throw new KeyNotFoundException($"Could not find PatientLog with Id: {dto.Id}");
 
             if (dto.PatientId.HasValue)
@@ -116,8 +115,8 @@ namespace DentRec.Application.Services
 
             try
             {
-                patientLogRepo.Update(patientLog);
-                var result = await patientLogRepo.SaveAsync(patientLog);
+                patientLogRepository.Update(patientLog);
+                var result = await patientLogRepository.SaveAsync(patientLog);
 
                 return result;
             }

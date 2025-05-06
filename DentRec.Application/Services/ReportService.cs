@@ -2,15 +2,10 @@
 using DentRec.Application.Interfaces;
 using DentRec.Domain.Entities;
 using Gridify;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DentRec.Application.Services
 {
-    public class ReportService(IRepository<PatientLog> patientLogRepository, IRepository<Payment> paymentRepository) : IReportService
+    public class ReportService(IExtendedRepository<PatientLog> patientLogRepository, IExtendedRepository<Payment> paymentRepository) : IReportService
     {
         public async Task<Paging<GetDailyReportDto>> GetDailyReportAsync(GridifyQuery gridifyQuery)
         {

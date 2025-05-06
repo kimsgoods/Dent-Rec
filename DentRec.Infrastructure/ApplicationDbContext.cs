@@ -1,6 +1,5 @@
 ﻿using DentRec.Application.Interfaces;
 using DentRec.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
