@@ -1,4 +1,4 @@
-﻿using DentRec.Application.Interfaces;
+﻿using DentRec.Application.CRUD.Interfaces;
 using DentRec.Domain.Entities;
 using Gridify;
 using Gridify.EntityFramework;
@@ -27,7 +27,7 @@ namespace DentRec.Infrastructure.Repositories
                 query = include(query);
             }
 
-            return await query.FirstOrDefaultAsync();
+            return await query.AsSplitQuery().FirstOrDefaultAsync();
         }
 
         public async Task<IReadOnlyList<T>> ListAllAsync()
@@ -56,6 +56,7 @@ namespace DentRec.Infrastructure.Repositories
         {
             var pagedResult = await context.Set<T>()
                 .Where(e => !e.IsDeleted)
+                .AsNoTracking()
                 .GridifyAsync(gridifyQuery);
 
             return pagedResult;
@@ -63,7 +64,11 @@ namespace DentRec.Infrastructure.Repositories
 
         public async Task<Paging<T>> GetPaginatedRecordsAsync(GridifyQuery gridifyQuery, params Func<IQueryable<T>, IQueryable<T>>[] includes)
         {
-            var query = context.Set<T>().Where(x => !x.IsDeleted);
+            if (string.IsNullOrEmpty(gridifyQuery.OrderBy))
+            {
+                gridifyQuery.OrderBy = "Id"; // Default sort
+            }
+            var query = context.Set<T>().Where(x => !x.IsDeleted).AsSplitQuery().AsNoTracking();
 
             // Apply includes dynamically
             foreach (var include in includes)

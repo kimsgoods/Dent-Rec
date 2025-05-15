@@ -1,4 +1,4 @@
-﻿using DentRec.Application.DTOs.PatientLog;
+﻿using DentRec.Application.CRUD.DTOs.PatientLog;
 using DentRec.Domain.Entities;
 
 namespace DentRec.Application.Extensions

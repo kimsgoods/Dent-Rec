@@ -91,15 +91,16 @@ export class PatientsComponent {
       action: (row: any) => {
         this.openEditDialog(row)
       }
-    },
-    {
-      label: 'Delete',
-      icon: 'delete',
-      tooltip: 'Delete Patient',
-      action: (row: any) => {
-        this.openConfirmDialog(row.id)
-      }
     }
+    // ,
+    // {
+    //   label: 'Delete',
+    //   icon: 'delete',
+    //   tooltip: 'Delete Patient',
+    //   action: (row: any) => {
+    //     this.openConfirmDialog(row.id)
+    //   }
+    // }
   ];
 
   onAction(action: (row: any) => void, row: any) {

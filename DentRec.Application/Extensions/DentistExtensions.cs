@@ -1,4 +1,4 @@
-﻿using DentRec.Application.DTOs.Dentist;
+﻿using DentRec.Application.CRUD.DTOs.Dentist;
 using DentRec.Domain.Entities;
 
 namespace DentRec.Application.Extensions

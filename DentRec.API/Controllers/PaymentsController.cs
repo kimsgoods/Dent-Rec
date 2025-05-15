@@ -1,5 +1,5 @@
-﻿using DentRec.Application.DTOs.Payments;
-using DentRec.Application.Interfaces;
+﻿using DentRec.Application.CRUD.DTOs.Payment;
+using DentRec.Application.CRUD.Interfaces;
 using Gridify;
 using Microsoft.AspNetCore.Mvc;
 
