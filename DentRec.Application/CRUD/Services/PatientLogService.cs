@@ -17,7 +17,7 @@ namespace DentRec.Application.CRUD.Services
                   .Include(p => p.Dentist)
                   .Include(p => p.PatientLogProcedures)
                     .ThenInclude(plp => plp.Procedure)
-                  .Include(p => p.Payments);
+                  .Include(p => p.Payments.Where(p => !p.IsDeleted));
 
         public async Task<int> CreatePatientLogAsync(CreatePatientLogDto dto)
         {

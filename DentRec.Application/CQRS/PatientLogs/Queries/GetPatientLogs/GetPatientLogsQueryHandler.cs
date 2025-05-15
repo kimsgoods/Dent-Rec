@@ -13,10 +13,8 @@ namespace DentRec.Application.CQRS.PatientLogs.Queries.GetPatientLogs
 
         private readonly Func<IQueryable<PatientLog>, IQueryable<PatientLog>> includes =
             x => x.Include(p => p.Patient)
-                  .Include(p => p.Dentist)
                   .Include(p => p.PatientLogProcedures)
-                    .ThenInclude(plp => plp.Procedure)
-                  .Include(p => p.Payments);
+                    .ThenInclude(plp => plp.Procedure);
         public async Task<Paging<GetPatientLogsQueryHandlerResult>> Handle(GetPatientLogsQuery request, CancellationToken cancellationToken)
         {
             logger.LogInformation("Handling GetPatientLogsQuery with page:{Page}, pageSize:{PageSize}, orderBy:{OrderBy}, filter:{Filter}",

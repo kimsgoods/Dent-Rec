@@ -44,7 +44,10 @@ export class PatientDetailsComponent implements OnInit {
       next: (data) => {
         this.patient = data;
       },
-      error: (err) => console.error('Error loading patient details', err)
+      error: (err) => {        
+        this.snackbarService.error("The patient's details do not exist");
+        this.router.navigateByUrl(`/patients`)
+      }
     });
   }
 

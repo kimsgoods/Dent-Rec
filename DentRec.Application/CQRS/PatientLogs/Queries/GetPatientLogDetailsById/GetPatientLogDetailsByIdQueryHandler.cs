@@ -15,7 +15,7 @@ namespace DentRec.Application.CQRS.PatientLogs.Queries.GetPatientLogDetailsById
                   .Include(p => p.Dentist)
                   .Include(p => p.PatientLogProcedures)
                     .ThenInclude(plp => plp.Procedure)
-                  .Include(p => p.Payments);
+                  .Include(p => p.Payments.Where(p => !p.IsDeleted));
         public async Task<GetPatientLogDetailsByIdQueryResult> Handle(GetPatientLogDetailsByIdQuery request, CancellationToken cancellationToken)
         {
             logger.LogInformation("Handling GetPatientLogDetailsByIdQuery for PatientLog Id: {PatientLogId}", request.Id);
