@@ -11,7 +11,7 @@
         public PatientLog PatientLog { get; set; } = null!;
         public Procedure Procedure { get; set; } = null!;
 
-        public void CalculatedAdjustedFee()
+        public void CalculateAdjustedFee()
         {
             AdjustedFee = Procedure.PricingType == PricingType.Fixed ? Procedure.Fee : Procedure.Fee * Quantity;
         }

@@ -1,4 +1,4 @@
-﻿using DentRec.Application.DTOs.Procedure;
+﻿using DentRec.Application.CRUD.DTOs.Procedure;
 using DentRec.Domain.Entities;
 
 namespace DentRec.Application.Extensions

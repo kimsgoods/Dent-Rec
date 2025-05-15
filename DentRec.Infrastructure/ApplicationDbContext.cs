@@ -1,4 +1,4 @@
-﻿using DentRec.Application.Interfaces;
+﻿using DentRec.Application.CRUD.Interfaces;
 using DentRec.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -55,7 +55,7 @@ namespace DentRec.Infrastructure
             {
                 if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
                 {
-                    entry.Entity.CalculatedAdjustedFee();
+                    entry.Entity.CalculateAdjustedFee();
                 }
             }
 
