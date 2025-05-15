@@ -1,6 +1,6 @@
 using DentRec.API.Middleware;
-using DentRec.Application.Interfaces;
-using DentRec.Application.Services;
+using DentRec.Application.CRUD.Interfaces;
+using DentRec.Application.CRUD.Services;
 using DentRec.Domain.Entities;
 using DentRec.Infrastructure;
 using DentRec.Infrastructure.Repositories;
@@ -19,6 +19,10 @@ Log.Logger = new LoggerConfiguration()
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddMediatR(configuration =>
+{
+    configuration.RegisterServicesFromAssembly(typeof(DentRec.Application.CQRS.AssemblyReference).Assembly);
 });
 
 builder.Services.AddCors();
