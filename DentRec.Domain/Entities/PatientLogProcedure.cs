@@ -1,4 +1,6 @@
-﻿namespace DentRec.Domain.Entities
+﻿using DentRec.Domain.Enums;
+
+namespace DentRec.Domain.Entities
 {
     public class PatientLogProcedure : BaseEntity
     {

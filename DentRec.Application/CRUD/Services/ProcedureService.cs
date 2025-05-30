@@ -2,6 +2,7 @@
 using DentRec.Application.CRUD.Extensions;
 using DentRec.Application.CRUD.Interfaces;
 using DentRec.Domain.Entities;
+using DentRec.Domain.Enums;
 using Gridify;
 
 namespace DentRec.Application.CRUD.Services
