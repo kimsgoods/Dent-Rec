@@ -1,6 +1,6 @@
 ﻿using DentRec.Application.CRUD.DTOs.Dentist;
+using DentRec.Application.CRUD.Extensions;
 using DentRec.Application.CRUD.Interfaces;
-using DentRec.Application.Extensions;
 using DentRec.Domain.Entities;
 using Gridify;
 

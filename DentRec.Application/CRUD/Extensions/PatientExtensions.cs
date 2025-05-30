@@ -1,7 +1,7 @@
 ﻿using DentRec.Application.CRUD.DTOs.Patient;
 using DentRec.Domain.Entities;
 
-namespace DentRec.Application.Extensions
+namespace DentRec.Application.CRUD.Extensions
 {
     public static class PatientExtensions
     {

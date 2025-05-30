@@ -1,6 +1,4 @@
-﻿using DentRec.Application.CRUD.DTOs;
-
-namespace DentRec.Application.CRUD.DTOs.Procedure
+﻿namespace DentRec.Application.CRUD.DTOs.Procedure
 {
     public class GetProcedureDto : AuditFields
     {

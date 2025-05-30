@@ -1,6 +1,4 @@
-﻿using DentRec.Application.CRUD.DTOs;
-
-namespace DentRec.Application.CRUD.DTOs.Dentist
+﻿namespace DentRec.Application.CRUD.DTOs.Dentist
 {
     public class GetDentistDto : AuditFields
     {
