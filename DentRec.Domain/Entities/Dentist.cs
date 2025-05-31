@@ -8,6 +8,7 @@
         public string? Email { get; set; }
 
         public ICollection<PatientLog>? PatientLogs { get; set; }
+        public ICollection<Appointment>? Appointments { get; set; }
         public ICollection<PatientPrescription>? PatientPrescriptions { get; set; }
     }
 }

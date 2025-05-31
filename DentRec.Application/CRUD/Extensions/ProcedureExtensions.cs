@@ -1,7 +1,8 @@
 ﻿using DentRec.Application.CRUD.DTOs.Procedure;
 using DentRec.Domain.Entities;
+using DentRec.Domain.Enums;
 
-namespace DentRec.Application.Extensions
+namespace DentRec.Application.CRUD.Extensions
 {
     public static class ProcedureExtensions
     {

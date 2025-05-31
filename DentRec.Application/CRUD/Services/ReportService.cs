@@ -1,6 +1,7 @@
 ﻿using DentRec.Application.CRUD.DTOs.Report;
 using DentRec.Application.CRUD.Interfaces;
 using DentRec.Domain.Entities;
+using DentRec.Domain.Enums;
 using Gridify;
 
 namespace DentRec.Application.CRUD.Services

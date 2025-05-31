@@ -1,4 +1,6 @@
-﻿namespace DentRec.Domain.Entities
+﻿using DentRec.Domain.Enums;
+
+namespace DentRec.Domain.Entities
 {
     public class Payment : BaseEntity
     {
@@ -10,11 +12,5 @@
 
         public Patient? Patient { get; set; }
         public PatientLog? PatientLog { get; set; }
-    }
-
-    public enum PaymentMethod
-    {
-        Cash,
-        GCash
     }
 }

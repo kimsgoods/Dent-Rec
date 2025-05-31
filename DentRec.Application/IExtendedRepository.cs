@@ -2,7 +2,7 @@
 using DentRec.Domain.Entities;
 using Gridify;
 
-namespace DentRec.Application.CRUD.Interfaces
+namespace DentRec.Application
 {
     public interface IExtendedRepository<T> : IGenericRepository<T> where T : BaseEntity
     {

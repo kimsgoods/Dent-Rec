@@ -1,12 +1,6 @@
-﻿using DentRec.Application.CRUD.Interfaces;
-using DentRec.Domain.Entities;
+﻿using DentRec.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DentRec.Application.CQRS.PatientLogs.Commands.CreatePatientLog
 {
@@ -26,14 +20,14 @@ namespace DentRec.Application.CQRS.PatientLogs.Commands.CreatePatientLog
             var patient = await patientRepository.GetByIdAsync(request.PatientId);
             if (patient is null)
             {
-                logger.LogError("Patient with Id {PatientId} does not exist", request.PatientId);
+                logger.LogWarning("Patient with Id {PatientId} does not exist", request.PatientId);
                 throw new KeyNotFoundException($"Patient with Id {request.PatientId} does not exist.");
             }
 
             var dentistExists = await dentistRepository.ExistsAsync(request.DentistId);
             if (!dentistExists)
             {
-                logger.LogError("Dentist with Id {DentistId} does not exist.", request.DentistId);
+                logger.LogWarning("Dentist with Id {DentistId} does not exist.", request.DentistId);
                 throw new KeyNotFoundException($"Dentist with Id {request.DentistId} does not exist.");
             }
 

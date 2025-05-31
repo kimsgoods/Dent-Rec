@@ -1,5 +1,4 @@
-﻿using DentRec.Application.CRUD.DTOs;
-using DentRec.Application.CRUD.DTOs.Payment;
+﻿using DentRec.Application.CRUD.DTOs.Payment;
 
 namespace DentRec.Application.CRUD.DTOs.PatientLog
 {

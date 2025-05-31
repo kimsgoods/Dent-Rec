@@ -1,4 +1,6 @@
-﻿namespace DentRec.Domain.Entities
+﻿using DentRec.Domain.Enums;
+
+namespace DentRec.Domain.Entities
 {
     public class Procedure : BaseEntity
     {
@@ -9,11 +11,5 @@
 
         // Many-to-Many Relationship with PatientLog
         public ICollection<PatientLogProcedure> PatientLogProcedures { get; set; } = new List<PatientLogProcedure>();
-    }
-
-    public enum PricingType
-    {
-        Fixed,
-        PerTooth
     }
 }

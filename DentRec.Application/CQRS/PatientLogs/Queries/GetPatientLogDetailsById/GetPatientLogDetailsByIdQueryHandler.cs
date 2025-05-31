@@ -1,5 +1,4 @@
-﻿using DentRec.Application.CRUD.Interfaces;
-using DentRec.Application.Extensions;
+﻿using DentRec.Application.CRUD.Extensions;
 using DentRec.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +24,7 @@ namespace DentRec.Application.CQRS.PatientLogs.Queries.GetPatientLogDetailsById
                 var patientLog = await repository.GetByIdAsync(request.Id, includes);
                 if (patientLog is null)
                 {
-                    logger.LogError("Could not find PatientLog with Id:{PatientLogId}", request.Id);
+                    logger.LogWarning("Could not find PatientLog with Id:{PatientLogId}", request.Id);
                     throw new KeyNotFoundException($"Could not find PatientLog with Id: {request.Id}");
                 }
 

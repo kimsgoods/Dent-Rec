@@ -95,6 +95,64 @@ namespace DentRec.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("DentRec.Domain.Entities.Appointment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AppointmentDateTime")
+                        .HasColumnType("datetime2(3)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<int>("DentistId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DentistId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Appointments");
+                });
+
             modelBuilder.Entity("DentRec.Domain.Entities.Dentist", b =>
                 {
                     b.Property<int>("Id")
@@ -689,6 +747,25 @@ namespace DentRec.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("DentRec.Domain.Entities.Appointment", b =>
+                {
+                    b.HasOne("DentRec.Domain.Entities.Dentist", "Dentist")
+                        .WithMany("Appointments")
+                        .HasForeignKey("DentistId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DentRec.Domain.Entities.Patient", "Patient")
+                        .WithMany("Appointments")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Dentist");
+
+                    b.Navigation("Patient");
+                });
+
             modelBuilder.Entity("DentRec.Domain.Entities.PatientLog", b =>
                 {
                     b.HasOne("DentRec.Domain.Entities.Dentist", "Dentist")
@@ -826,6 +903,8 @@ namespace DentRec.Infrastructure.Migrations
 
             modelBuilder.Entity("DentRec.Domain.Entities.Dentist", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("PatientLogs");
 
                     b.Navigation("PatientPrescriptions");
@@ -833,6 +912,8 @@ namespace DentRec.Infrastructure.Migrations
 
             modelBuilder.Entity("DentRec.Domain.Entities.Patient", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("PatientLogs");
 
                     b.Navigation("PatientPrescriptions");

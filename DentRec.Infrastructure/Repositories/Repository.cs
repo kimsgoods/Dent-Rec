@@ -1,4 +1,4 @@
-﻿using DentRec.Application.CRUD.Interfaces;
+﻿using DentRec.Application;
 using DentRec.Domain.Entities;
 using Gridify;
 using Gridify.EntityFramework;
