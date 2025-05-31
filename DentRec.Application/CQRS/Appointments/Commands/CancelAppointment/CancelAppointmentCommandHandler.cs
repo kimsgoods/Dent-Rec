@@ -22,7 +22,7 @@ namespace DentRec.Application.CQRS.Appointments.Commands.CancelAppointment
 
             var result = await appointmentRepository.SaveAsync(appointment);
 
-            logger.LogInformation("Handled CancelAppointmentCommand. Cancelled appointment with Id: {Id}", result);
+            logger.LogInformation("Handled CancelAppointmentCommand. Cancelled appointment with Id: {Id}", request.Id);
 
             return result;
 

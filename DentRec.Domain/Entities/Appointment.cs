@@ -11,6 +11,7 @@ namespace DentRec.Domain.Entities
         public AppointmentStatus Status { get; private set; }
 
         public Patient Patient { get; set; } = null!;
+        public Dentist Dentist { get; set; } = null!;
 
 
         public Appointment() { }

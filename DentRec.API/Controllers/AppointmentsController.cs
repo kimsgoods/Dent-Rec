@@ -3,6 +3,9 @@ using DentRec.Application.CQRS.Appointments.Commands.CompleteAppointment;
 using DentRec.Application.CQRS.Appointments.Commands.CreateAppointment;
 using DentRec.Application.CQRS.Appointments.Commands.RescheduleAppointment;
 using DentRec.Application.CQRS.Appointments.Commands.UpdateAppointment;
+using DentRec.Application.CQRS.Appointments.Queries.GetAppointmentById;
+using DentRec.Application.CQRS.Appointments.Queries.GetAppointments;
+using Gridify;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,17 +34,31 @@ namespace DentRec.API.Controllers
             return result;
         }
 
-        [HttpPut("{id}/reschedule")]
-        public async Task<ActionResult<int>> RescheduleAppointment(int id, DateTime appointmentDateTime)
+        [HttpPut("reschedule")]
+        public async Task<ActionResult<int>> RescheduleAppointment(RescheduleAppointmentCommand command)
         {
-            var result = await sender.Send(new RescheduleAppointmentCommand { Id = id, NewAppointmentDateTime = appointmentDateTime });
+            var result = await sender.Send(command);
             return result;
         }
 
-        [HttpPut("{id}/notes")]
-        public async Task<ActionResult<int>> UpdateAppointmentNotes(int id, string notes)
+        [HttpPut("notes")]
+        public async Task<ActionResult<int>> UpdateAppointmentNotes(UpdateAppointmentNotesCommand command)
         {
-            var result = await sender.Send(new UpdateAppointmentNotesCommand { Id = id, Notes = notes });
+            var result = await sender.Send(command);
+            return result;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetAppointmentByIdQueryResult>> GetAppointmentDetails(int id)
+        {
+            var result = await sender.Send(new GetAppointmentByIdQuery { Id = id});
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<Paging<GetAppointmentsQueryResult>>> GetAppointments([FromQuery] GridifyQuery gridifyQuery)
+        {
+            var result = await sender.Send(new GetAppointmentsQuery(gridifyQuery));
             return result;
         }
 

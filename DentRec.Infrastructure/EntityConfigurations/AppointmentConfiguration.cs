@@ -33,6 +33,11 @@ namespace DentRec.Infrastructure.EntityConfigurations
                 .HasForeignKey(i => i.PatientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasOne(i => i.Dentist)
+                .WithMany(p => p.Appointments)
+                .HasForeignKey(i => i.DentistId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.AddAuditFields();
 
         }
