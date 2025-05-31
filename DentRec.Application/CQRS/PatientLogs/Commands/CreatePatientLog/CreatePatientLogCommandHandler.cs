@@ -1,5 +1,4 @@
-﻿using DentRec.Application.CRUD.Interfaces;
-using DentRec.Domain.Entities;
+﻿using DentRec.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

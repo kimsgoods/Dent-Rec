@@ -1,5 +1,6 @@
 ﻿using DentRec.Application.CRUD.DTOs.Procedure;
 using DentRec.Domain.Entities;
+using DentRec.Domain.Enums;
 
 namespace DentRec.Application.CRUD.Extensions
 {

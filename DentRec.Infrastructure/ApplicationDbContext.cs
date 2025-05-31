@@ -15,6 +15,7 @@ namespace DentRec.Infrastructure
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Procedure> Procedures { get; set; }
         public DbSet<PatientLogProcedure> PatientLogProcedures { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

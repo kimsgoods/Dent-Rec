@@ -1,4 +1,5 @@
 using DentRec.API.Middleware;
+using DentRec.Application;
 using DentRec.Application.CRUD.Interfaces;
 using DentRec.Application.CRUD.Services;
 using DentRec.Domain.Entities;
@@ -16,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
+
+builder.Host.UseSerilog();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));

@@ -1,5 +1,4 @@
 ﻿using DentRec.Application.CQRS.PatientLogs.Commands.CreatePatientLog;
-using DentRec.Application.CRUD.Interfaces;
 using DentRec.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;

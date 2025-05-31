@@ -1,5 +1,4 @@
 ﻿using DentRec.Application.CRUD.Extensions;
-using DentRec.Application.CRUD.Interfaces;
 using DentRec.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

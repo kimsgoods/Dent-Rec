@@ -13,5 +13,6 @@
         public ICollection<PatientLog> PatientLogs { get; set; } = new List<PatientLog>();
         public ICollection<PatientPrescription> PatientPrescriptions { get; set; } = new List<PatientPrescription>();
         public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+        public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
     }
 }
