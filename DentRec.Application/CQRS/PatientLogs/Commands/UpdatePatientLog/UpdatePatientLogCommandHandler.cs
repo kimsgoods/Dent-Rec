@@ -27,7 +27,7 @@ namespace DentRec.Application.CQRS.PatientLogs.Commands.UpdatePatientLog
                 var patientExists = await patientRepository.ExistsAsync(request.PatientId.Value);
                 if (!patientExists)
                 {
-                    logger.LogError("Patient with Id: {PatientId} does not exist", request.PatientId.Value);
+                    logger.LogWarning("Patient with Id: {PatientId} does not exist", request.PatientId.Value);
                     throw new KeyNotFoundException($"Patient with Id {request.PatientId.Value} does not exist.");
                 }
                 patientLog.PatientId = request.PatientId.Value;
@@ -37,7 +37,7 @@ namespace DentRec.Application.CQRS.PatientLogs.Commands.UpdatePatientLog
                 var dentistExists = await dentistRepository.ExistsAsync(request.DentistId.Value);
                 if (!dentistExists)
                 {
-                    logger.LogError("Dentist with Id: {DentistId} does not exist", request.DentistId.Value);
+                    logger.LogWarning("Dentist with Id: {DentistId} does not exist", request.DentistId.Value);
                     throw new KeyNotFoundException($"Dentist with Id {request.DentistId.Value} does not exist.");
                 }
                 patientLog.DentistId = request.DentistId.Value;

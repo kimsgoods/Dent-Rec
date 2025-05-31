@@ -17,14 +17,14 @@ namespace DentRec.Application.CQRS.Appointments.Commands.CreateAppointment
             var patient = await patientRepository.GetByIdAsync(request.PatientId);
             if (patient is null)
             {
-                logger.LogError("Patient with Id {PatientId} does not exist", request.PatientId);
+                logger.LogWarning("Patient with Id {PatientId} does not exist", request.PatientId);
                 throw new KeyNotFoundException($"Patient with Id {request.PatientId} does not exist.");
             }
 
             var dentistExists = await dentistRepository.ExistsAsync(request.DentistId);
             if (!dentistExists)
             {
-                logger.LogError("Dentist with Id {DentistId} does not exist.", request.DentistId);
+                logger.LogWarning("Dentist with Id {DentistId} does not exist.", request.DentistId);
                 throw new KeyNotFoundException($"Dentist with Id {request.DentistId} does not exist.");
             }
 
@@ -37,6 +37,7 @@ namespace DentRec.Application.CQRS.Appointments.Commands.CreateAppointment
                 var result = await appointmentRepository.SaveAsync(appointment);
 
                 logger.LogInformation("Handled CreateAppointmentCommand. Created new appointment with Id: {Id}", result);
+
                 return result;
             }
             catch (Exception ex)
